@@ -1,8 +1,9 @@
 import React from 'react'
 import Urunler from "../../Main/Urunler";
 import {Row,Col} from "reactstrap";
-import {Header} from "semantic-ui-react";
-import {Menu,Button,Popover} from 'evergreen-ui'
+import {Header,Label} from "semantic-ui-react";
+import {Button,SelectMenu} from 'evergreen-ui'
+
 
 class Kategoriler extends React.Component{
   constructor(props){
@@ -34,35 +35,37 @@ class Kategoriler extends React.Component{
   render() {
     return(
 
-    <div>
-      <Header color="olive" dividing>
-        <span className="h3 text-left">
-          <Popover
-            position="left"
-            content={
-              <Menu>
-                {this.props.kategoriler.map(kategori =>
-                  <Menu.Item onSelect={() => this.props.kategoriSec(kategori)}>
-                    {kategori.ad}
-                  </Menu.Item>
-                )}
-              </Menu>
-            }
-          >
-              < Button marginRight={16}>{this.props.kategori}</Button>
-          </Popover>
-        </span>
-        <span className="h3 float-right">{this.state.urunler.length} ürün</span>
-      </Header>
-      <Row>
-        {this.state.urunler.map(urun=>
-          <Col xs="6" lg="3" md="4">
-            <Urunler {...this.props} urun={urun}/>
-          </Col>
-        )}
+    <Row>
 
-      </Row>
-    </div>
+      <Col xs="12">
+        <Header dividing>
+
+        <span className="h3 text-left">
+              <SelectMenu
+                title="Kagetori Seç"
+                options={this.props.kategoriler.map(label =>({label:label.ad,value:label,}))}
+                selected={this.props.kategori}
+                onSelect={item => this.props.kategoriSec(item.value)}
+                filterPlaceholder={"Filtrele..."}
+              >
+                < Button iconAfter="caret-down" marginRight={16}>{this.props.kategori || 'Kategori seç...'}</Button>
+              </SelectMenu>
+
+        </span>
+          <span className="float-right"><Label>{this.state.urunler.length} ürün</Label></span>
+        </Header>
+      </Col>
+      <Col xs="12">
+        <Row className="kategori">
+          {this.state.urunler.map(urun=>
+            <Col xs="6" lg="3" md="4">
+              <Urunler {...this.props} urun={urun}/>
+            </Col>
+          )}
+
+        </Row>
+      </Col>
+    </Row>
 
     )
   }

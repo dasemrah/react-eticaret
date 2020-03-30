@@ -40,7 +40,7 @@ export default props=>
 
       <div key={gorsel._id} className="slayt_iç">
         <img className="slayt" src={gorsel.link} />
-        <p className="text-uppercase display-4 slayt_text">{gorsel.text}</p>
+
       </div>
 
     )

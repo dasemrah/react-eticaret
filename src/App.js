@@ -9,19 +9,9 @@ const loading = () =><Spinner style={{ width: '3rem', height: '3rem' }} type="gr
 const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
 
 class App extends Component {
-   constructor(props){
-    super(props)
-     this.state={
-      user:null
-     }
-     istek.get('/user').then((ynt)=>{
-       console.log('App: ',ynt.data.user)
-
-       this.setState({user:ynt.data.user});
-     });
+   constructor(props) {
+     super(props)
    }
-
-
   render() {
     return (
       <HashRouter>

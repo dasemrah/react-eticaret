@@ -3,12 +3,11 @@ import Urunler from "./Urunler";
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
 import Slayt from "./Slayt";
-import {Image, Label, Header} from 'semantic-ui-react'
+import {Image, Loader, Header} from 'semantic-ui-react'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ReklamGoster from "../Parcalar/ReklamGoster";
 import Istatistik from "../Parcalar/Istatistik";
-
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -52,6 +51,7 @@ class Main extends React.Component{
   }
 
 
+
   componentWillReceiveProps(nextProps, nextContext) {
     console.log('ana menu---->',nextProps)
     this.setState({
@@ -64,47 +64,51 @@ class Main extends React.Component{
   componentWillUpdate(nextProps, nextState, nextContext) {
     console.log('ana state',nextState)
   }
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return(nextProps.kategoriler.length>0)
+  }
 
   render() {
 
-
+  const Yukleyici=()=> <Loader size="big" active inline='centered' />
     return(
 
       <div className="ana_sayfa">
         <Row>
              <Col xs="12">
-              <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
+               <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
              </Col>
               <Col xs="12">
                 <Istatistik/>
               </Col>
               <Col xs="12">
-                <ReklamGoster/>
+                <br/>
+                <ReklamGoster {...this.props}/>
               </Col>
               <Col xs="12">
                 <br/><br/>
-                <Header color="olive" dividing>
-                  {this.state.kategori}
+                <Header className="kategori_adi" dividing>
+                  En Popüler Ürünler
                 </Header>
-                <br/><br/>
-                        <Carousel
-                          swipeable={true}
-                          draggable={true}
-                          showDots={true}
-                          responsive={responsive}
-                          ssr={true} // means to render carousel on server-side.
-                          infinite={true}
-                          containerClass="kaydırak"
-                        >
-                        {this.state.urunler.map(urun=>
-                         <div key={urun._id}>
+                   <br/><br/>
+                  <Carousel
+                  swipeable={true}
+                  draggable={true}
+                  showDots={true}
+                  responsive={responsive}
+                  ssr={true} // means to render carousel on server-side.
+                  infinite={true}
+                  containerClass="kaydırak"
+                  >
+                  {this.state.urunler.map(urun=>
+                    <div key={urun._id}>
 
-                             <Urunler sepeteEkle={this.props.sepeteEkle} urunAç={this.props.urunAç} urun={urun}/>
+                      <Urunler sepeteEkle={this.props.sepeteEkle} urunAç={this.props.urunAç} urun={urun}/>
 
-                         </div>
+                    </div>
 
-                        )}
-                        </Carousel>
+                  )}
+                  </Carousel>
               </Col>
          </Row>
       </div>

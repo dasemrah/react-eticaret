@@ -17,11 +17,14 @@ class Urun extends Component{
 
   }
   componentWillReceiveProps(nextProps, nextContext) {
+    console.log('ürün sayfası',nextProps)
     var nesne = {
+      _id:nextProps.seciliUrun._id ,
       ad: nextProps.seciliUrun.title ? nextProps.seciliUrun.title : nextProps.seciliUrun.ad,
       aciklama: nextProps.seciliUrun.description ? nextProps.seciliUrun.description : nextProps.seciliUrun.aciklama,
       img: nextProps.seciliUrun.image ? nextProps.seciliUrun.image : nextProps.seciliUrun.img,
-      fiyat: nextProps.seciliUrun.price ? parseInt(nextProps.seciliUrun.price) : nextProps.seciliUrun.fiyat
+      fiyat: nextProps.seciliUrun.price ? parseInt(nextProps.seciliUrun.price) : nextProps.seciliUrun.fiyat,
+      net: nextProps.seciliUrun.net,
     }
     this.setState({
       urun:nesne,
@@ -63,7 +66,7 @@ class Urun extends Component{
               <Divider/>
               <br/>
 
-              <Header color="olive" dividing >
+              <Header dividing >
                 Birlikte tercih edilenler
               </Header>
               <br/>
@@ -72,20 +75,20 @@ class Urun extends Component{
                 {
                   this.state.tercih.map(e=>
                     <Col key={e._id}  xs="6" lg="3" md="4">
-                     <Urunler urun={e} {...this.props}/>
+                      <Urunler urun={e} {...this.props}/>
                     </Col>
                   )
                 }
               </Row>
             </Col>
 
-          :null
+            :null
           }
           {this.state.benzer.length>0 ?
             <Col xs="12">
-              <Divider/>
+
               <br/><br/>
-              <Header color="teal" dividing >
+              <Header dividing >
                 Benzer Ürünler
               </Header>
               <br/>
@@ -100,7 +103,7 @@ class Urun extends Component{
                 }
               </Row>
             </Col>
-          :null}
+            :null}
         </Row>
       </>
     )

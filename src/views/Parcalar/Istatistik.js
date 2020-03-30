@@ -7,21 +7,21 @@ const Istatistik = () => (
       <Statistic.Value text>
         <img src="https://img.icons8.com/color/64/000000/flour-in-paper-packaging.png"/>
       </Statistic.Value>
-      <Statistic.Label>Tamamen Organik</Statistic.Label>
+      <Statistic.Label><span className="text-light">Tamamen Organİk</span></Statistic.Label>
     </Statistic>
 
     <Statistic size="mini">
       <Statistic.Value>
         <img src="https://img.icons8.com/bubbles/100/000000/girl-with-glasses-shopping-cart.png"/>
       </Statistic.Value>
-      <Statistic.Label>Kolay Alışveriş</Statistic.Label>
+      <Statistic.Label><span className="text-light">Kolay Alışveriş</span></Statistic.Label>
     </Statistic>
 
     <Statistic size="tiny">
       <Statistic.Value>
         <img src="https://img.icons8.com/nolan/64/packaging.png"/>
       </Statistic.Value>
-      <Statistic.Label>Sağlam Paketleme</Statistic.Label>
+      <Statistic.Label><span className="text-light">Sağlam Paketleme</span></Statistic.Label>
     </Statistic>
 
 
@@ -29,7 +29,7 @@ const Istatistik = () => (
       <Statistic.Value>
         <img src="https://img.icons8.com/nolan/96/shipped.png"/>
       </Statistic.Value>
-      <Statistic.Label>Anında Kargoda</Statistic.Label>
+      <Statistic.Label><span className="text-light">Anında Kargoda</span></Statistic.Label>
     </Statistic>
 
   </Statistic.Group>

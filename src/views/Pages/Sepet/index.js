@@ -42,14 +42,15 @@ const Sepet =props=>{
                          <Col xs="4">
                            <img className="sepet_urun_gorsel" src={urun.img} alt=""/></Col>
                          <Col xs="4">
-                           <h4 className="h4 text-uppercase text-muted text-left">{urun.ad}</h4>
-                           <h4 className="h5 text-dark text-center">Ürün adedi: {urun.miktar}</h4>
+                           <h4 className="h4 text-uppercase text-dark text-left">{urun.ad}</h4>
+                           <h4 className="h6 text-muted text-left">{urun.net}</h4>
+
                          </Col>
                          <Col xs="4">
                            <Row>
                              <Col xs="12">
-                               <div className="align-content-lg-end text-center">
-                                 <i className="icon-close h4" onClick={()=>urunÇıkart(urun)}> </i>
+                               <div className="text-right">
+                                 <i className="icon-close h4 text-danger" onClick={()=>urunÇıkart(urun)}> </i>
                                </div>
                              </Col>
                              <Col xs="12">
@@ -58,9 +59,10 @@ const Sepet =props=>{
                                </div>
                              </Col>
                              <Col xs="12">
-                                 <div color="dark urun_miktar_seçke">
-                                   <i onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)} className="icon-minus h3 text-left"> </i>
-                                   <i onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} className="icon-plus h3 text-right"> </i>
+                                 <div className="urun_miktar_seçke">
+                                   <img  onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)} src="https://img.icons8.com/android/24/000000/minus.png"/>
+                                   <span className="text-dark h2 text-center floated">{urun.miktar}</span>
+                                   <img onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} src="https://img.icons8.com/android/24/000000/plus.png"/>
                                  </div>
                              </Col>
                            </Row>
@@ -79,7 +81,7 @@ const Sepet =props=>{
             {props.sepet.length>0 ?
               <Col xs="12">
                 <div className="sepet_alt_kısım align-items-center text-center">
-                  <h3 color="warning"> <span className="h4 text-uppercase text-muted"> Toplam {props.toplam} Ürün</span></h3>
+                  <h3 color="warning"> <span className="h4 text-uppercase text-muted"> Toplam {props.sepet.length} Ürün</span></h3>
                   <Button onClick={()=>devam()} className="btn-warning btn align-items-center">Siparişi Tamamla</Button>
                 </div>
               </Col>

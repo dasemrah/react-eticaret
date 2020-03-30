@@ -25,13 +25,17 @@ class Login extends Component {
       .then((resolve)=>{
         if(resolve.data.status===1){
           this.setState({olay:true})
-          data.user=resolve.data.user
+          this.props.login(resolve.data.user)
           console.log('Kullanıcı',data.user)
         }
         console.log(resolve)
       })
       .catch((err)=>console.log(err))
   }
+  componentDidMount() {
+    console.log('login props-->',this.props)
+  }
+
   render() {
     return (
       <div>

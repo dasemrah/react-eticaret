@@ -1,21 +1,10 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
-import {Button, Container, Spinner} from 'reactstrap';
-import {List, Placeholder,Label,Header} from 'semantic-ui-react'
+import { Container, Spinner} from 'reactstrap';
+import {List, Divider,Button,Label,Header} from 'semantic-ui-react'
 import '../../style.css'
-import {
-  AppAside,
-  AppFooter,
-  AppHeader,
-  AppSidebar,
-  AppSidebarFooter,
-  AppSidebarForm,
-  AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppBreadcrumb2 as AppBreadcrumb,
-  AppSidebarNav2 as AppSidebarNav,
-} from '@coreui/react';
+import {AppFooter, AppHeader, AppSidebar, AppSidebarFooter, AppSidebarForm, AppSidebarHeader, AppSidebarMinimizer, AppBreadcrumb2 as AppBreadcrumb, AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
 import admin_nav from '../../admin_nav';
@@ -27,6 +16,7 @@ import istek from "../../istek";
 import adminRoutes from "../../adminRoutes";
 import {Pill, SideSheet, toaster,Icon} from "evergreen-ui";
 import Sepet from "../../views/Pages/Sepet";
+import Disk from 'o.disk'
 
 const data = require('../../data')
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -52,19 +42,19 @@ class DefaultLayout extends Component {
       seciliUrun:[],
       sonuc:[],
       urunler:[],
-      yanMenu:false
+      yanMenu:false,
+      urunGoster:false
 
     }
     console.log('Layout user bilgisi',data.user)
     console.log('layout-->',this.props)
-    data.props=this.props
   }
 
-
-  componentWillUpdate(nextProps, nextState, nextContext) {
-    console.log('sepet üst',nextState)
-  }
   componentDidMount() {
+    this.setState({
+      user:Disk.kullanıcı
+    })
+    console.log('layout user:-->',this.props)
     istek.get('/urunler').then((ynt)=>{
       console.log(ynt.data)
       this.setState({
@@ -75,12 +65,18 @@ class DefaultLayout extends Component {
       })
     }).catch((err)=>console.log(err));
   }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return(nextState.kategoriler.length>0)
+  }
+
   yanMenuAcKapa=()=>{
     this.setState({
       yanMenu:!this.state.yanMenu
     })
   }
-  kategoriSec=(secim)=>{
+  kategoriSec=secim=>{
+    console.log('seçim',secim)
     this.setState({
       kategori:secim.ad,
       urunler:secim.urunler,
@@ -90,22 +86,34 @@ class DefaultLayout extends Component {
     this.props.history.push('/kategori')
   }
 
-  siparisDevam=(seçili)=>{
-
+  giris=()=>{
     this.setState({
-      ekran:seçili,
-      sepetSeçke:false
+      yanMenu:false
     })
-  }
-  signOut(e) {
-    e.preventDefault()
     this.props.history.push('/login')
   }
-
-  sepetButon=()=>{
+  ÇıkışYap=()=>{
+    Disk.kullanıcı=null
     this.setState({
-      sepetSeçke:true
+      user:null
     })
+    istek.get('/signout').then(ynt=>{
+      console.log(ynt.data.user,ynt.data.msg)
+    })
+    this.props.history.push('/login')
+  }
+  sorgula=()=>{
+    this.setState({
+      yanMenu:false
+    })
+    this.props.history.push('/sorgula')
+  }
+  login=user=>{
+    this.setState({
+      user:user
+    })
+    Disk.kullanıcı=user
+    console.log(user.username,' giriş yaptı')
   }
   sepetMiktar=(veri)=>{
     this.setState({sepetMiktar:veri})
@@ -127,6 +135,11 @@ class DefaultLayout extends Component {
     })
     console.log('sepet boşandı',this.state.sepet)
   }
+  urunKapat=()=>{
+    this.setState({
+      urunGoster:false,
+    })
+  }
   urunAç=(urun)=>{
     let {kategori} = urun
     istek
@@ -137,7 +150,7 @@ class DefaultLayout extends Component {
         this.setState({
            benzer:benzer,
            tercih:tercih,
-           seciliUrun:urun
+           seciliUrun:urun,
         })
       })
     this.props.history.push('/urun')
@@ -149,11 +162,16 @@ class DefaultLayout extends Component {
     this.setState({
       sepetSeçke:true
     })
-    this.state.sepet.indexOf(urun)===-1 ?
+    let urun_id=urun._id
+    const index= this.state.sepet.findIndex(p => p._id === urun_id)
+    if(index === -1){
       this.setState({
         sepet:[...this.state.sepet,urun],
         toplam:urun.miktar+this.state.toplam,
-      }):console.log('zaten eklenmiş')
+        urunGoster:false,
+      })
+    }else console.log('zaten eklenmiş')
+
     console.log('sepet içeriği',this.state.sepet)
    this.seçkeAçKapa()
 
@@ -193,11 +211,11 @@ class DefaultLayout extends Component {
     return (
        <>
         {
-          data.user!==null ?
+          this.state.user!==null ?
             <div className="app dashboard">
               <AppHeader fixed>
                 <Suspense >
-                  <AdminHeader onLogout={e=>this.signOut(e)}/>
+                  <AdminHeader ÇıkışYap={this.ÇıkışYap}/>
                 </Suspense>
               </AppHeader>
               <div className="app-body">
@@ -249,7 +267,7 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader {...this.props} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">
@@ -266,20 +284,29 @@ class DefaultLayout extends Component {
                    <Label circular color="danger" onClick={this.yanMenuAcKapa} className="float-right">
                      <Icon icon="cross" color="danger" />
                    </Label>
+                   <div className="yan_menu_giris">
+                     <Button.Group>
+                       <Button onClick={this.sorgula}>Sipariş Sorgula</Button>
+                       <Button.Or/>
+                      <Button positive onClick={this.giris}>Sisteme Giriş</Button>
+                     </Button.Group>
+                   </div>
                    <Arama yanMenuAcKapa={this.yanMenuAcKapa} aramaSonucu={this.urunAç} {...this.props}/>
                    <List animated className="kategori_listesi" selection verticalAlign='middle'>
                      {
                        this.state.kategoriler.map(kat=>
                          <List.Item selection={true}  key={kat._id} onClick={()=>this.kategoriSec(kat)}>
-                           <span></span>
                            <List.Content>
-                             <List.Header><span className="text-dark h3"><Header dividing> {kat.ad} </Header></span></List.Header>
+                             <List.Header><span className="h3"><Header dividing> <span className="text-dark">{kat.ad}</span> </Header></span></List.Header>
                            </List.Content>
                          </List.Item>
                        )
                      }
                    </List>
+
+
                  </div>
+
                 </SideSheet>
 
                 <main className="main">
@@ -329,9 +356,10 @@ class DefaultLayout extends Component {
                                     {...this.state}
                                     sepet={this.state.sepet}
                                     ekran={this.state.ekran}
-                                    ekranDegis={this.siparisDevam}
+                                    urunKapat={this.urunKapat}
                                     sepetiBosalt={this.sepetiBosalt}
                                     kategoriSec={this.kategoriSec}
+                                    login={this.login}
                                   />
                                 )} />
                             ) : (null);
@@ -346,7 +374,7 @@ class DefaultLayout extends Component {
               </div>
               <AppFooter>
                 <Suspense >
-                  <DefaultFooter />
+                  <DefaultFooter {...this.props} />
                 </Suspense>
               </AppFooter>
             </div>

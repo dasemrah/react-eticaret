@@ -61,9 +61,9 @@ class DefaultHeader extends Component {
         </Transition>
 
 
-        <AppNavbarBrand
-          full={{ src: logo, width: 90, height: 57, alt: 'Köyden Gelsin Logo' }}
-          minimized={{ src: sygnet, width: 45, height: 45, alt: 'Köyden Gelsi Logo' }}
+        <AppNavbarBrand onClick={()=>this.props.history.push('/')}
+          full={{ src: logo, width: 90, height: 57, alt: 'Sevgül Hanım' }}
+          minimized={{ src: sygnet, width: 45, height: 45, alt: 'Sevgül Hanım' }}
         />
 
 

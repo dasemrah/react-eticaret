@@ -1,20 +1,30 @@
 import React from 'react';
-const Login = React.lazy(()=>import('./views/Pages/Login'));
-const Kayıt = React.lazy(()=>import('./views/Pages/Register'));
-const Main = React.lazy(()=>import('./views/Main'));
-const Sorgula=React.lazy(()=>import('./views/Main/Sorgula'))
-const UrunSayfası =React.lazy(()=>import('./views/Main/Urunler/Urun'))
-const Siparis  = React.lazy(()=>import('./views/Pages/Sepet/Sipariş.js'))
-const Kategoriler=React.lazy(()=>import('./views/Pages/Kategoriler'))
-const routes = [
+const Login       =  React.lazy(()=>import('./views/Pages/Login'));
+const Kayıt       =  React.lazy(()=>import('./views/Pages/Register'));
+const Main        =  React.lazy(()=>import('./views/Main'));
+const Sorgula     =  React.lazy(()=>import('./views/Main/Sorgula'));
+const UrunSayfası =  React.lazy(()=>import('./views/Main/Urunler/Urun'));
+const Siparis     =  React.lazy(()=>import('./views/Pages/Sepet/Sipariş.js'));
+const Kategoriler =  React.lazy(()=>import('./views/Pages/Kategoriler'));
+const Nasıl       =  React.lazy(()=>import('./views/Ekler/Nasıl'));
+const Heybe       =  React.lazy(()=>import('./views/Ekler/Heybe'));
+const Paketleme   =  React.lazy(()=>import('./views/Ekler/Paketleme'));
+const Hikaye      =  React.lazy(()=>import('./views/Ekler/Hikayemiz'));
+const Gizlilik    =  React.lazy(()=>import('./views/Ekler/Gizlilik'));
+const routes      = [
 
-  { path: '/',            exact: true,            name: 'Ana Sayfa' , component: Main },
-  { path: '/sorgula',     exact: true,            name: 'Sorgula' ,   component: Sorgula },
-  { path: '/login',       name: 'Login',          component:  Login},
-  { path: '/kayit',       name: 'Kayıt',          component:  Kayıt},
-  { path: '/urun',        name: 'Urun Sayfası',   component:  UrunSayfası},
-  { path: '/siparis',     name: 'Yeni Sipariş',   component:  Siparis},
-  { path: '/kategori',    name: 'Kategori',       component:  Kategoriler},
+  { path: '/',              exact: true,            name: 'Ana Sayfa' , component: Main },
+  { path: '/sorgula',       exact: true,            name: 'Sorgula' ,   component: Sorgula },
+  { path: '/login',         name: 'Login',                              component:  Login},
+  { path: '/kayit',         name: 'Kayıt',                              component:  Kayıt},
+  { path: '/urun',          name: 'Urun Sayfası',                       component:  UrunSayfası},
+  { path: '/siparis',       name: 'Yeni Sipariş',                       component:  Siparis},
+  { path: '/kategori',      name: 'Kategori',                           component:  Kategoriler},
+  { path: '/nasil',         name: 'Nasıl Sipariş Verebilirim',          component:  Nasıl},
+  { path: '/heybe',         name: 'Şifa Dolu Heybe',                    component:  Heybe},
+  { path: '/paketleme',     name: 'Nasıl Paketleme Yapıyoruz?',         component:  Paketleme},
+  { path: '/hikaye',        name: 'Hikayemiz',                          component:  Hikaye},
+  { path: '/gizlilik',      name: 'Gizlilik ve Sözlleşme',              component:  Gizlilik},
 ];
 
 export default routes;

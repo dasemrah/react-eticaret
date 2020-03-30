@@ -19,18 +19,9 @@ class AdminHeader extends Component {
     this.state={
       olay:false
     }
-    this.logOut=this.logOut.bind(this)
 
   }
-  logOut(){
-    istek.get('/signout').then(res=>{
-      console.log(res)
-      this.setState({
-        olay:true
-      })
-      data.user=null
-    })
-  }
+
   render() {
 
     // eslint-disable-next-line
@@ -59,10 +50,10 @@ class AdminHeader extends Component {
 
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <i className="icon-user"> </i>
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={this.logOut}><i className="fa fa-lock"></i> Logout</DropdownItem>
+              <DropdownItem onClick={()=>this.props.ÇıkışYap()}><i className="fa fa-lock"></i>Çıkış Yap</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>

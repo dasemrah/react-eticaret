@@ -1,22 +1,23 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Jumbotron,Input,InputGroup,InputGroupAddon,InputGroupText} from 'reactstrap'
-import {Button} from 'semantic-ui-react'
+import {Button,Step,Icon} from 'semantic-ui-react'
 import {Alert,Table,Pill} from 'evergreen-ui'
 import api from "../../../istek";
-
+import SiparişTamam from "./SiparişTamam";
 const Sipariş =props=>{
-  const [ad, setAd] = useState("");
-  const [adres, setAdres] = useState("");
-  const [tel,setTel]=useState("")
-  const [olay,setOlay] = useState(false)
-  const [ücret,ÜcretDeğiş]=useState(0);
+  const [ad, setAd]         =useState("");
+  const [adres, setAdres]   =useState("");
+  const [tel,setTel]        =useState("")
+  const [olay,setOlay]      =useState(false);
+  const [ücret,ÜcretDeğiş]  =useState(0);
+  const [siparis,setSiparis]=useState([])
 
   useEffect(()=>{
       var toplam=0
       props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
       ÜcretDeğiş(toplam)
       console.log('sipariş sayfa props',props)
-  },[])
+  })
 
   const siparişTamamla=()=>{
     let veriler={
@@ -33,12 +34,13 @@ const Sipariş =props=>{
           telefon     :   veriler.tel,
           adres       :   veriler.adres,
           ucret       :   ucret,
-          urunler     :   this.props.sepet,
+          urunler     :   props.sepet,
         }
       })
       .then(ynt=>{
         console.log('yanıt',ynt.data)
        setOlay(true)
+        setSiparis(ynt.data.siparis)
         props.sepetiBosalt()
       })
       .catch(err=>console.log(err))
@@ -47,16 +49,15 @@ const Sipariş =props=>{
   return(
     <div className="sipariş_onay">
       {olay ?
-        <Alert
-          intent="success"
-          title="Siparişinizi Aldık!"
-          marginBottom={32}
-        />
+      <Alert intent="success" title="Siparişiniz Başarıyla Kaydedildi! Sipariş ayrıntıları ve ödeme bilgisi için telefonunuza gelen mesaja bakınız."/>
         :
         <Row>
           {
             props.sepet.length === 0 ?
               <>
+              {ad.length>0 && adres.length>0 && tel.length>0
+                ? null
+                :
                 <Col xs="12">
                   <Alert
                     intent="none"
@@ -64,9 +65,32 @@ const Sipariş =props=>{
                     marginBottom={32}
                   />
                 </Col>
+              }
               </>
               :
               <>
+                <Col xs="12">
+                  <Step.Group className="adım" unstackable>
+                    <Step  onClick={()=>props.history.push('/kategori')}>
+                      <Icon name='shopping basket' />
+                      <Step.Content>
+                        <Step.Description>Alışveriş yap</Step.Description>
+                      </Step.Content>
+                    </Step>
+                    <Step active>
+                      <Icon name='info circle' />
+                      <Step.Content>
+                        <Step.Description>Kargo bilgileri</Step.Description>
+                      </Step.Content>
+                    </Step>
+                    <Step disabled>
+                      <Icon name='dollar' />
+                      <Step.Content>
+                        <Step.Description>Siparişi tamamla</Step.Description>
+                      </Step.Content>
+                    </Step>
+                  </Step.Group>
+                </Col>
                 <Col xs="12">
                   <br/><br/>
                   <Alert
@@ -75,7 +99,7 @@ const Sipariş =props=>{
                     marginBottom={32}
                   />
                 </Col>
-                <Col xs="12">
+                <Col xs="12" lg="6" md="6">
                   <Jumbotron>
 
                     <InputGroup className="mb-3">
@@ -124,7 +148,7 @@ const Sipariş =props=>{
                             onClick={siparişTamamla} className="btn-success"/>
                   </Jumbotron>
                 </Col>
-                <Col xs="12">
+                <Col xs="12" lg="6" md="6">
                   <Jumbotron>
                   <span className="h5 text-uppercase text-muted">sİparİŞ Özetİ
                    <Pill display="inline-flex" margin={8} color="red" isSolid>{props.sepet.length} ürün</Pill>

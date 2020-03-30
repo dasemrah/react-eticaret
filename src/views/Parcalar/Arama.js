@@ -28,7 +28,9 @@ export default class Arama extends Component {
                 image: urun.img,
                 price: String(urun.fiyat),
                 key:urun._id,
-                kategori:urun.kategori
+                net:urun.net,
+                kategori:urun.kategori,
+                _id:urun._id
               }
               this.setState({
                 source:[...this.state.source,source]
@@ -67,7 +69,8 @@ export default class Arama extends Component {
     const { isLoading, value, results } = this.state
     return (
       <Grid className="arama">
-        <span className="h3 text-muted">Ne Aramıştınız?</span>
+
+        <span className="h3 text-dark">Ne Aramıştınız?</span>
         <Grid.Column width={12}>
 
             <Search

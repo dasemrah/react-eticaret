@@ -32,6 +32,7 @@ class Urunekle extends Component{
       ad:'',
       aciklama:'',
       fiyat:'',
+      net:  '',
       pictures:[],
       success : false,
       url : "",
@@ -287,6 +288,15 @@ fileSelectHandler =event=>{
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input name="ad" value={this.state.ad} onChange={this.handleChange} type="text" placeholder="Ürün Adı" autoComplete="text" />
+                      </InputGroup>
+
+                      <InputGroup className="mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-info"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input name="net" value={this.state.net} onChange={this.handleChange} type="text" placeholder="Ürün miktarı gram" autoComplete="text" />
                       </InputGroup>
 
                       <InputGroup className="mb-3">
