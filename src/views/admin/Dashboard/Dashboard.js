@@ -1,15 +1,14 @@
 import React, { Component, } from 'react';
 import {Link} from 'react-router-dom';
 import Widget01 from "../../components/Widgets/Widget01";
-import Widget04 from "../../components/Widgets/Widget04";
-import {Col, Row, Jumbotron, Spinner,Button,ButtonGroup} from 'reactstrap';
+import {Col, Row, Spinner} from 'reactstrap';
 import api from "../../../istek";
 import '../../../style.css';
 import _ from 'lodash'
-import Charts from "../../components/Charts";
 import KazancGrafik from "../KazancGrafik/KazancGrafik";
 import Grafik from "../KilogramGrafik";
 import AylikGrafik from "../AylikGrafik";
+import {Segment,Icon,Button} from 'semantic-ui-react'
 let tumsatınalım=[]
 class Dashboard extends Component {
   constructor(props){
@@ -117,13 +116,14 @@ componentDidMount() {
         <br/>
         <Row>
 
-        <Col xs="12" md="6" lg="3">
-          <Link to="/urunler">
-            <Widget01 className="vidget" mainText="Mağazadaki Ürünler" value={this.state.tumurunler.length} smallText="Güncel Durum"
-                      color="success" header={this.state.tumurunler.length}
-            />
-          </Link>
-        </Col>
+          <Col xs="12" md="6" lg="3">
+            <Link to="/urunler">
+              <Widget01 color="blue" className="vidget" mainText="Mağazadaki Ürünler" value={this.state.tumurunler.length} smallText="Güncel Durum"
+                        color="success" header={this.state.tumurunler.length}
+              />
+            </Link>
+            <br/>
+          </Col>
           <Col xs="12" md="6" lg="3">
             <Link to="/siparisler">
               <Widget01 className="vidget"
@@ -132,45 +132,51 @@ componentDidMount() {
                         color="warning" header={this.state.tumsiparisler.length}
               />
             </Link>
-
+            <br/>
           </Col>
 
 
+          {this.state.tumsiparisler.length>0 ?
 
-          <Col xs="12" md="12" lg="12">
-          <Jumbotron className="kac-defa-satilmis">
-            <p className="display-4 text-center">Kazanç Tablosu</p>
-            <p className="h2 text-muted text-center text-capitalize">Toplam Kazanç: {this.state.toplamkazanç} ₺</p>
-            {this.state.tumsiparisler.length>0 ?
+            <Col xs="12" md="12" lg="12">
               <Row>
                 <Col xs="12">
-                  <Row>
-                      <Col xs="12">
-                            <Button  color="success" onClick={()=>this.sonraki(1)} className="btn-primary float-left"> <i className="icon-arrow-left-circle"> </i></Button>
-                            <Button color="success" onClick={()=>this.sonraki(-1)} className="btn-primary float-right"> <i className="icon-arrow-right-circle"> </i></Button>
+                  <Segment color="green" className="aylik-grafik">
+                    <p className="p text-center">Kazanç Tablosu</p>
+                    <p className="h2 text-muted text-center text-capitalize">Toplam Kazanç: {this.state.toplamkazanç} ₺</p>
 
-                      </Col>
-                    <Col xs="12">
-                      <AylikGrafik data={this.state.sonbiray}/>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col lg="12">
-                  <Grafik
-                    data={this.state.satın_alım}
-                  />
+                    <Button
+                      icon
+                      onClick={()=>this.sonraki(1)}
+                      floated="left"
+                    >
+                      <Icon name="arrow alternate circle left outline"/>
+                    </Button>
+                    <Button
+                      icon
+                      onClick={()=>this.sonraki(-1)}
+                      floated="right"
+                    >
+                      <Icon name="arrow alternate circle right outline"/>
+                    </Button>
+                    <br/>
+                    <AylikGrafik data={this.state.sonbiray}/>
+
+                  </Segment>
+                  <br/>
                 </Col>
                 <Col xs="12">
-                  <KazancGrafik
-                    data={this.state.satın_alım}
-                  />
+                  <Grafik data={this.state.satın_alım}/>
+                  <br/>
+                </Col>
+                <Col xs="12">
+                  <br/>
+                  <KazancGrafik data={this.state.satın_alım}/>
                 </Col>
               </Row>
-              :
-              <Spinner style={{ width: '24rem', height: '24rem' }} type="grow" color="info" />
-            }
-          </Jumbotron>
-          </Col>
+            </Col>
+            :<Spinner/>
+          }
         </Row>
       </div>
     );

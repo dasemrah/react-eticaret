@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
-import {Button, Item, ItemExtra,Label,Card,Divider,Image,Header} from "semantic-ui-react";
+import {List,Divider,Header} from "semantic-ui-react";
 import {Row,Col} from 'reactstrap'
-import Urunler from "./Urunler";
+import {Button} from 'evergreen-ui'
+import Kaydırak from "../../Parcalar/Kaydırak";
 class Urun extends Component{
   constructor(props){
     super(props)
@@ -44,64 +45,56 @@ class Urun extends Component{
       <>
         <Row>
           <Col xs="12">
-            <Item.Group>
-              <Item>
-                <Item.Image size='tiny' src={this.state.urun.img} />
-                <Item.Content>
-                  <Item.Header as='a'>{this.state.urun.ad}</Item.Header>
-                  <Item.Description>
-                    {this.state.urun.aciklama}
-                  </Item.Description>
-                </Item.Content>
-                <ItemExtra>
-                  <Button size='mini' content='Sepete Ekle' icon='shopping bag' labelPosition='right'
-                          onClick={()=>console.log(this.props.sepeteEkle(this.state.urun))}/>
-                </ItemExtra>
-              </Item>
-            </Item.Group>
+            <div className="tek_urun">
+              <Row>
+                <Col xs="12" md="4" lg="4">
+                  <img className="tek_urun_gorsel" size='tiny' src={this.state.urun.img} />
+                </Col>
+                <Col xs="12" md="8" lg="8">
+                  <List>
+                    <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
+                    <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
+                    <List.Item><Header as='h4' textAlign='right' color='green' className="p"> <br/>{this.state.urun.fiyat} ₺</Header></List.Item>
+                    <br/>
+                    <List.Item>
+                      <Button
+                        intent='danger'
+                        iconAfter='shopping-cart'
+                        size={24}
+                        marginLeft={'35%'}
+                        onClick={()=>this.props.sepeteEkle(this.state.urun)}
+                      >
+                        Sepete Ekle
+                      </Button>
+                    </List.Item>
+
+                  </List>
+                </Col>
+
+              </Row>
+            </div>
           </Col>
 
           {this.state.tercih.length>0 ?
             <Col xs="12">
-              <Divider/>
-              <br/>
-
-              <Header dividing >
-                Birlikte tercih edilenler
-              </Header>
-              <br/>
-              <br/>
-              <Row>
-                {
-                  this.state.tercih.map(e=>
-                    <Col key={e._id}  xs="6" lg="3" md="4">
-                      <Urunler urun={e} {...this.props}/>
-                    </Col>
-                  )
-                }
-              </Row>
+          <div className="tercih">
+            <Header as='h2' textAlign='center'>
+              Birlikte tercih edilenler
+            </Header>
+            <Kaydırak {...this.props} urunler={this.state.tercih}/>
+          </div>
             </Col>
 
             :null
           }
           {this.state.benzer.length>0 ?
             <Col xs="12">
-
-              <br/><br/>
-              <Header dividing >
-                Benzer Ürünler
-              </Header>
-              <br/>
-              <br/>
-              <Row>
-                {
-                  this.state.benzer.map(e=>
-                    <Col key={e._id} xs="6" lg="3" md="4">
-                      <Urunler urun={e} {...this.props}/>
-                    </Col>
-                  )
-                }
-              </Row>
+           <div className="benzer">
+             <Header as='h2' textAlign='center'>
+               Benzer Ürünler
+             </Header>
+             <Kaydırak {...this.props} urunler={this.state.benzer}/>
+           </div>
             </Col>
             :null}
         </Row>

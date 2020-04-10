@@ -3,7 +3,7 @@ import Urunler from "../../Main/Urunler";
 import {Row,Col} from "reactstrap";
 import {Header,Label} from "semantic-ui-react";
 import {Button,SelectMenu} from 'evergreen-ui'
-
+import Kaydırak from "../../Parcalar/Kaydırak";
 
 class Kategoriler extends React.Component{
   constructor(props){
@@ -56,14 +56,7 @@ class Kategoriler extends React.Component{
         </Header>
       </Col>
       <Col xs="12">
-        <Row className="kategori">
-          {this.state.urunler.map(urun=>
-            <Col xs="6" lg="3" md="4">
-              <Urunler {...this.props} urun={urun}/>
-            </Col>
-          )}
-
-        </Row>
+      <Kaydırak {...this.props} urunler={this.state.urunler} />
       </Col>
     </Row>
 

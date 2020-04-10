@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
 import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
-import {Card, Badge, CardBody, CardHeader, Spinner} from "reactstrap";
+import {Card,Spinner} from "reactstrap";
 import {Line} from "react-chartjs-2";
-import Urun from "../Urunler/Urun";
-import api from "../../../istek";
+import {List,Label} from 'semantic-ui-react'
 
 
 const options = {
@@ -73,25 +72,37 @@ class AylikGrafik extends Component{
   }
   render() {
     return(
-      <div className="animated fadeIn">
+      <>
+        <List horizontal>
+          <List.Item>
+            <Label as='a'>
+              Ay:
+              <Label.Detail> {this.state.grafikayı}</Label.Detail>
+            </Label>
+          </List.Item>
 
-        <Card className="aylik-grafik">
+          <List.Item>
+            <Label as='a' color="black">
+              Toplam:
+              <Label.Detail> {this.state.aylıktoplam} ₺</Label.Detail>
+            </Label>
+          </List.Item>
 
-                <CardHeader>
-                  <h3 className="text-center">
-                    <Badge color="danger">Ay: {this.state.grafikayı}</Badge>
-                    <Badge color="warning">Toplam: {this.state.aylıktoplam} ₺</Badge>
-                    <Badge color="light">Günlük Ortalama: {parseInt(this.state.aylıktoplam/this.state.veri.labels.length)} ₺</Badge>
-                  </h3>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-wrapper">
-                    <Line data={this.state.veri} options={options} />
-                  </div>
-                </CardBody>
-
+          <List.Item>
+            <Label size="tiny" as='a' color="orange">
+              Günlük Ortalama:
+              <Label.Detail>
+                {parseInt(this.state.aylıktoplam/this.state.veri.labels.length)} ₺
+              </Label.Detail>
+            </Label>
+          </List.Item>
+        </List>
+        <Card>
+          <div className="chart-wrapper">
+            <Line data={this.state.veri} options={options} />
+          </div>
         </Card>
-      </div>
+      </>
     )
   }
 

@@ -33,6 +33,7 @@ class DefaultLayout extends Component {
       kategoriler:[],
       kategori:'',
       sepet:[],
+      populer:[],
       toplam:0,
       sepetSeçke:false,
       ucret:0,
@@ -64,6 +65,9 @@ class DefaultLayout extends Component {
         kategori:ynt.data.foundUrun[1].ad
       })
     }).catch((err)=>console.log(err));
+    istek.get('/populer').then(ynt=>{
+      console.log('popüler',ynt.data)
+    })
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -311,24 +315,34 @@ class DefaultLayout extends Component {
 
                 <main className="main">
                   <AppBreadcrumb appRoutes={routes} router={router}/>
-                  <Container fluid>
+                  <>
                     <SideSheet
                       position={'right'}
                       isShown={this.state.sepetSeçke}
+                      containerProps={{
+                        display: 'flex',
+                        flex: '1',
+                        flexDirection: 'column',
+                      }}
+                      width={400}
+                      preventBodyScrolling
                       onCloseComplete={() => this.seçkeAçKapa}
-                      width={400} className="yan_seçke bg-clr_black">
+                    >
 
-                      <Sepet
-                        seçkeAçKapa={this.seçkeAçKapa}
-                        sepet={this.state.sepet}
-                        miktarDeğiştir={this.mikarDeğiştir}
-                        toplam={this.state.toplam}
-                        urunÇıkart={this.urunÇıkart}
-                        devam={this.siparisDevam}
-                        {...this.props}
+                   <>
+                     <br/><br/><br/>
+                     <Sepet
+                       seçkeAçKapa={this.seçkeAçKapa}
+                       sepet={this.state.sepet}
+                       miktarDeğiştir={this.mikarDeğiştir}
+                       toplam={this.state.toplam}
+                       urunÇıkart={this.urunÇıkart}
+                       devam={this.siparisDevam}
+                       {...this.props}
 
 
-                      />
+                     />
+                   </>
                     </SideSheet>
                     <Suspense fallback={this.loading()}>
                       <Switch>
@@ -368,7 +382,7 @@ class DefaultLayout extends Component {
                         <Redirect to="/" />
                       </Switch>
                     </Suspense>
-                  </Container>
+                  </>
                 </main>
 
               </div>

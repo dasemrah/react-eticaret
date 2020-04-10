@@ -1,9 +1,8 @@
 import React,{useState,useEffect} from "react";
-import {Row,Col,Jumbotron,Input,InputGroup,InputGroupAddon,InputGroupText} from 'reactstrap'
-import {Button,Step,Icon} from 'semantic-ui-react'
-import {Alert,Table,Pill} from 'evergreen-ui'
+import {Row,Col} from 'reactstrap'
+import {Button,Step,Icon,Segment,Input ,Header,Label} from 'semantic-ui-react'
+import {Alert,Table} from 'evergreen-ui'
 import api from "../../../istek";
-import SiparişTamam from "./SiparişTamam";
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
   const [adres, setAdres]   =useState("");
@@ -100,59 +99,11 @@ const Sipariş =props=>{
                   />
                 </Col>
                 <Col xs="12" lg="6" md="6">
-                  <Jumbotron>
-
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType={"prepend"}>
-                        <InputGroupText>
-                          <i className="icon-user text-success"> </i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        value={ad}
-                        onChange={e => setAd(e.target.value)}
-                        placeholder="Ad Soyad"
-                        type="text"
-                        required
-                      />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType={"prepend"}>
-                        <InputGroupText>
-                          <i className="icon-location-pin text-warning"> </i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        value={adres}
-                        onChange={e => setAdres(e.target.value)}
-                        placeholder="Adres"
-                        type="text"
-                        required
-                      />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType={"prepend"}>
-                        <InputGroupText>
-                          <i className="icon-phone text-info"> </i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        value={tel}
-                        onChange={e => setTel(e.target.value)}
-                        placeholder="Telefon"
-                        type="phone"
-                        required
-                      />
-                    </InputGroup>
-                    <Button positive content='Siparişi Onayla' icon='right arrow' labelPosition='right'
-                            onClick={siparişTamamla} className="btn-success"/>
-                  </Jumbotron>
-                </Col>
-                <Col xs="12" lg="6" md="6">
-                  <Jumbotron>
-                  <span className="h5 text-uppercase text-muted">sİparİŞ Özetİ
-                   <Pill display="inline-flex" margin={8} color="red" isSolid>{props.sepet.length} ürün</Pill>
-                  </span>
+                  <br/>
+                  <Segment color="pink">
+                    <Header as='h3' textAlign='center'>
+                      Sipariş Özeti   <Label circular color='black'> {props.sepet.length}</Label> ürün
+                    </Header>
                     <Table>
                       <Table.Head>
                         <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
@@ -173,7 +124,51 @@ const Sipariş =props=>{
 
                     </Table>
                     <span className="text-center text-uppercase text-muted h4">toplam ücret: {ücret} ₺</span>
-                  </Jumbotron>
+                  </Segment>
+                  <br/>
+                </Col>
+                <Col xs="12" lg="6" md="6">
+                  <br/>
+                  <Segment color="orange">
+                    <Header as='h3' textAlign='center'>Müşteri Bilgileri</Header>
+                    <Input
+                      fluid
+                      label={{ icon: 'user',color:'teal' }}
+                      labelPosition='left corner'
+                      value={ad}
+                      onChange={e => setAd(e.target.value)}
+                      placeholder="Ad Soyad"
+                      type="text"
+                      required
+                    />
+                    <br/>
+                    <Input
+                      fluid
+                      label={{ icon: 'location arrow' ,color:'orange'}}
+                      labelPosition='left corner'
+                      value={adres}
+                      onChange={e => setAdres(e.target.value)}
+                      placeholder="Adres"
+                      type="text"
+                      required
+                    />
+                    <br/>
+                    <Input
+                      fluid
+                      label={{ icon: 'phone' ,color:'blue' }}
+                      labelPosition='left corner'
+                      value={tel}
+                      onChange={e => setTel(e.target.value)}
+                      placeholder="Telefon"
+                      type="phone"
+                      required
+                    />
+
+                    <br/>
+                    <Button positive content='Siparişi Onayla' icon='right arrow' labelPosition='right'
+                            onClick={siparişTamamla} className="btn-success"/>
+                  </Segment>
+                  <br/>
                 </Col>
               </>
           }

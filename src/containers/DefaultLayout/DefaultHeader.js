@@ -6,6 +6,7 @@ import { AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 import {Transition,Label} from "semantic-ui-react";
+import {Icon} from 'evergreen-ui'
 
 const propTypes = {
   children: PropTypes.node,
@@ -57,7 +58,7 @@ class DefaultHeader extends Component {
           duration={500}
           visible={this.state.yanMenu}
         >
-          <img onClick={this.yanMenuAçkapa} src="https://img.icons8.com/color/48/000000/menu.png"/>
+          <Icon size={24} marginLeft={10}  onClick={this.yanMenuAçkapa} icon="menu" color="selected" marginRight={16} />
         </Transition>
 
 
@@ -76,7 +77,7 @@ class DefaultHeader extends Component {
             duration={duration}
             visible={visible}
           >
-            <img onClick={this.sepetAçKapa} src="https://img.icons8.com/bubbles/58/000000/indian-girl-shopping-basket.png"/>
+           <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
           </Transition>
           {
             this.props.sepet.length>0 ?

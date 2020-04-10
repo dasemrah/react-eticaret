@@ -1,37 +1,39 @@
 import React from 'react';
 import {Alert,Col } from 'reactstrap';
-import { Card, Image,Grid,List ,Button} from 'semantic-ui-react'
+import {Button} from 'evergreen-ui'
+import {Image ,Icon,Card} from 'semantic-ui-react'
 const Urunler =props=>{
+  const extra = (
+   <>
+     {
+       props.aktif ===false ?
+         <>
+           <Alert color="danger">Bu ürün stokta yoktur!</Alert>
+         </>
+         :
+         <Button height={24} intent={'danger'} iconAfter="shopping-cart" onClick={()=>props.sepeteEkle(props.urun)}>
+           Sepete At
+         </Button>
+
+
+
+     }
+    </>
+
+  )
   return(
-    <Col>
-      <div className="urun_card text-center" >
-        <div onClick={()=>props.urunAç(props.urun)}>
-          <img className="urun_gorsel" src={props.urun.img} />
-          <List horizontal>
-            <List.Item><span className="h2 text-dark  "> {props.urun.fiyat} ₺</span></List.Item>
-            <List.Item><span className="h5 text-dark"> {props.urun.net}</span></List.Item>
-          </List>
-         <List>
-           <List.Item>
-             <span className="text-dark text-uppercase h5">{props.urun.ad}</span>
-           </List.Item>
-         </List>
+    <Col xs="12">
+      <Card>
+        <Image src={props.urun.img} wrapped ui={false} />
+        <Card.Content   onClick={()=>props.urunAç(props.urun)}>
+          <Card.Header>{props.urun.ad}</Card.Header>
+          <Card.Meta>{props.urun.net}   {props.urun.fiyat} ₺</Card.Meta>
 
-        </div>
-        {
-          props.aktif ===false ?
-            <>
-              <Alert color="danger">Bu ürün stokta yoktur!</Alert>
-            </>
-            :
-            <div className="sepete_at">
-              <button onClick={()=>props.sepeteEkle(props.urun)}>Sepete At</button>
-            </div>
-
-
-        }
-      </div>
-
+        </Card.Content>
+        <Card.Content extra>
+          {extra}
+        </Card.Content>
+      </Card>
     </Col>
   )
 }

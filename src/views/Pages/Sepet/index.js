@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react'
-import {Button,Row,Col} from 'reactstrap'
 import {Alert, Icon} from 'evergreen-ui'
-import {Label, Transition} from "semantic-ui-react";
+import {Label, Header, Grid, Image, Divider,Segment} from "semantic-ui-react";
+import {Button} from 'evergreen-ui'
 const Sepet =props=>{
   const [visible,setVisible] = useState(true)
   useEffect(()=>{
@@ -22,85 +22,63 @@ const Sepet =props=>{
       return(
         <>
 
-          <Row className="sepet_iç_katman">
-            <Col xs="12">
-              <Label circular color="danger" onClick={props.seçkeAçKapa} className="">
-                <Icon icon="cross" color="danger" />
-              </Label>
+          <Header as='h2' textAlign='center'>
+            <Icon icon="cross" color="danger" marginRight={16} onClick={props.seçkeAçKapa}/>
+            Sepetim
+          </Header>
+          <br/>
+          <Grid>
+            {props.sepet.map(urun=>
+             <Segment inverted>
+               <Grid>
+                 <Grid.Row key={urun._id}>
+                   <Grid.Column width={4}>
+                     <Image src={urun.img}  />
+                   </Grid.Column>
+                   <Grid.Column width={9}>
+                     <h4 className="h4 text-uppercase text-dark text-left">{urun.ad}</h4>
+                     <br/>
+                     <p className="text-dark"> {urun.net}</p>
+                     <br/>
+                     Adet:
+                     <Icon icon="minus" color="muted" marginRight={16} onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)}/>
+                     <span className="text-dark h2 text-center floated">{urun.miktar}</span>
+                     <Icon icon="plus" color="muted" marginLeft={16} onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} />
+                     <br/>
+                     <span className="text-dark">Ücret: {urun.miktar*urun.fiyat} ₺</span>
+                   </Grid.Column>
+                   <Grid.Column width={3}>
+                     <Icon icon="ban-circle" color="danger" marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
+                   </Grid.Column>
+                 </Grid.Row>
+               </Grid>
+             </Segment>
+            )}
 
-              <h3 className="text-center text-uppercase text-muted h3"> Sepetim    <img src="https://img.icons8.com/bubbles/100/000000/buy.png"/></h3>
+          </Grid>
+          <br/>
+          {props.sepet.length>0 ?
+              <div className="align-items-center text-center">
+                <Header>
+                  Toplam <Label color="black" circular>{props.sepet.length}</Label> Ürün
+                </Header>
+                <Button onClick={()=>devam()} intent={'success'} height={25} iconAfter="arrow-right">
+                  Siparişi Onayla
+                </Button>
 
-            </Col>
-             <Col xs="12">
-               <Row>
-                 {
-                   props.sepet.map(urun=>
-                     <div key={urun._id}>
-                   <Transition visible={visible} animation='vertical flip' duration={100}>
-                     <Col xs="12 sepet_eleman">
-                       <Row>
-                         <Col xs="4">
-                           <img className="sepet_urun_gorsel" src={urun.img} alt=""/></Col>
-                         <Col xs="4">
-                           <h4 className="h4 text-uppercase text-dark text-left">{urun.ad}</h4>
-                           <h4 className="h6 text-muted text-left">{urun.net}</h4>
-
-                         </Col>
-                         <Col xs="4">
-                           <Row>
-                             <Col xs="12">
-                               <div className="text-right">
-                                 <i className="icon-close h4 text-danger" onClick={()=>urunÇıkart(urun)}> </i>
-                               </div>
-                             </Col>
-                             <Col xs="12">
-                               <div className="align-self-xs-auto text-left text-muted h3">
-                                 ₺ {urun.miktar*urun.fiyat}
-                               </div>
-                             </Col>
-                             <Col xs="12">
-                                 <div className="urun_miktar_seçke">
-                                   <img  onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)} src="https://img.icons8.com/android/24/000000/minus.png"/>
-                                   <span className="text-dark h2 text-center floated">{urun.miktar}</span>
-                                   <img onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} src="https://img.icons8.com/android/24/000000/plus.png"/>
-                                 </div>
-                             </Col>
-                           </Row>
-                         </Col>
-                       </Row>
-                     </Col>
-                       </Transition>
-                     </div>
-                     )
-                 }
-               </Row>
-             </Col>
-            <Col xs="12">
-
-            </Col>
-            {props.sepet.length>0 ?
-              <Col xs="12">
-                <div className="sepet_alt_kısım align-items-center text-center">
-                  <h3 color="warning"> <span className="h4 text-uppercase text-muted"> Toplam {props.sepet.length} Ürün</span></h3>
-                  <Button onClick={()=>devam()} className="btn-warning btn align-items-center">Siparişi Tamamla</Button>
-                </div>
-              </Col>
+              </div>
             :
-              <Alert
-                intent="warning"
-                title="Sepetiniz boş"
-                marginBottom={32}
-                style={{width:'100%'}}
-              />
-            }
-          </Row>
+            <Alert
+              intent="warning"
+              title="Sepetiniz boş"
+              marginBottom={32}
+              style={{width:'100%'}}
+            />
+          }
+          <br/><br/><br/>
          </>
       )
   }
-  return(
-    <div className="sepet-dış-katman">
-      <ÜrünleriGöster/>
-    </div>
-  )
+  return(<ÜrünleriGöster/>)
 }
 export default Sepet;
