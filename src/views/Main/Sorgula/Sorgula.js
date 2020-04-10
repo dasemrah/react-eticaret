@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {Input,Row,Col,Spinner,Button,Alert,Jumbotron,} from 'reactstrap';
+import {Input,Row,Col,Spinner} from 'reactstrap';
+import {Segment, Header, Container, List, Icon} from "semantic-ui-react";
+import {Alert, Button, Table} from 'evergreen-ui'
 import istek from '../../../istek'
 import '../../../style.css'
 class Sorgula extends Component{
@@ -36,129 +38,136 @@ class Sorgula extends Component{
        const seviyeVer =(e)=>(
          <>
            {e.durum === 0 ?
-           <span>Siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
+             <span>Siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
              : e.durum ===1 ?
-               <span>Ödemenizi aldık. Ürünü hazırlayıp önümüzdeki kargo gününde adresinize göndereceğiz.
-                 Ürününüzü kargoya verdiğimizde size haber verip kargo takip numarasını da sizinle paylaşacağız.</span>
+               <span>Ödemeniz alınmıştır.</span>
                :e.durum === 2 ?
-                 <span>Siparişinizi hazırladık. Önümüzdeki kargo gününde kargo ile adresinize göndereceğiz.</span>
+                 <span>Siparişiniz hazırlanıyor.</span>
                  :e.durum === 3 ?
-                   <span>Siparişinizi kargoya verdik. Size gönderdiğimiz kargo takip numarasından kargonuzu takip edebilirsiniz.</span>
-                  : e.durum === 4 ?
-                     <span>Bu ürünü teslim almışsınız. Eğer kargo ile ilgili bir sorun yaşadıysanız lütfen bizimle irtibata geçiniz.</span>
-                     :<span>Önceden vermiş olduğunuz bir sipariş.</span>
+                   <span>Siparişiniz hazırlandı.</span>
+                   : e.durum === 4 ?
+                     <span>Siparişiniz hazırlandı. Önümüzdeki kargo günü kargoya verilecektir.</span>
+                     :e.durum===5 ?
+                       <span>Siparişiz kargoya verilmiştir. </span>
+                       :e.durum===6 ?
+                         <span>Siparişiniz teslim edilmiştir.</span>
+                         :null
            }
          </>
        )
        const siparisView =this.state.sonuc.map((sip)=>
          <Col md="12" lg="12" xs="12">
-           <Jumbotron className="danger">
+           <br/>
+           <Segment>
               <Row>
                 <Col xs="12">
-                  <h4 className="text-center text-dark">Sipariş Durumu</h4>
-                  <Alert color="warning"><h3 className="text-dark">{seviyeVer(sip)}</h3></Alert>
+                  <Header as='h3' textAlign='center'>
+                    {sip.tarih.substring(0,10)} tarihli siparişiniz
+                  </Header>
+                  <br/>
+                  <Alert
+                    intent="success"
+                    title={seviyeVer(sip)}
+                  />
+                  <br/>
                 </Col>
                 <Col xs="12" lg="6" md="6">
                   <br/>
-                  <h4 className="text-center text-dark">Bilgileriniz</h4>
-                  <h3><i className="icon-user">  {sip.ad} </i> </h3>
-                  <h4><i className="icon-location-pin">  {sip.adres} </i></h4>
-
-                  <h4> <i className="icon-phone">            {sip.telefon} </i> </h4>
-                  <h4><i className="icon-clock">             {sip.tarih.slice(0,10)}   </i> </h4>
-                  <h4> <i className="icon-social-instagram"> {sip.userid}  </i> </h4>
-                  <h4><i className="icon-pencil">            {sip.detay}   </i> </h4>
+                  <Segment color="purple">
+                    <Header as='h4' textAlign='center' dividing>
+                      Bilgileriniz
+                    </Header>
+                    <List>
+                      <List.Item><Icon name="user"/> {sip.ad}</List.Item>
+                      <List.Item><Icon name='location arrow'/> {sip.adres} </List.Item>
+                      <List.Item><Icon name='phone'/> {sip.telefon} </List.Item>
+                      <List.Item><Icon name='clock outline'/> {sip.tarih.substring(0,10)}  </List.Item>
+                      <List.Item><Icon name='tag'/> {sip.detay} </List.Item>
+                    </List>
+                  </Segment>
                 </Col>
                 <Col xs="12" md="6" lg="6">
                   <br/>
-                  <h4 className="text-center text-dark">Ürünler</h4>
-                  <Row>
-                    {
-                      sip.Urunler.map(elemet=>
-                        <Col lg="12" md="12" xs="12">
-                          <div key={elemet._id}>
-                            <Row>
-                              <Col>
-                                <p> {elemet.urun.ad}</p>
-                              </Col>
-                              <Col>
-                                <p className="text-center">   {elemet.kg}KG</p>
-                              </Col>
-                            </Row>
-
-
-                          </div>
-                        </Col>
-                      )
-                    }
-                  </Row>
+                  <Segment color="orange">
+                    <Header as='h4' textAlign='center' dividing>
+                      Ürünler
+                    </Header>
+                    <Table>
+                      <Table.Head>
+                        <Table.TextHeaderCell>
+                          Ürün
+                        </Table.TextHeaderCell>
+                        <Table.TextHeaderCell>
+                          Miktar
+                        </Table.TextHeaderCell>
+                      </Table.Head>
+                      <Table.Body>
+                        {sip.Urunler.map(urun => (
+                          <Table.Row height='auto' key={urun._id} isSelectable>
+                            <Table.TextCell>{urun.ad}</Table.TextCell>
+                            <Table.TextCell isNumber>{urun.miktar}</Table.TextCell>
+                          </Table.Row>
+                        ))}
+                      </Table.Body>
+                    </Table>
+                  </Segment>
                 </Col>
-
               </Row>
-           </Jumbotron>
+           </Segment>
+           <br/>
          </Col>
        )
        return(
-
-         <Row>
-           {
-             this.state.olay===1 ?
-               <Col xs="12" className="align-items-center align-content-center"> <Spinner color="success"/></Col>
-
-               : this.state.olay===2 ?
-                   <></>
-                   :
-                   <Col xs="12" md="12" lg="12">
-                     <Jumbotron>
-                       <h3>Telefon numarası ile sipariş sorgula</h3>
-                       {
-                         this.state.olay === 0 ?
-                           <Alert color="info">Aşağıdaki kutucuğa telefon numaranızı yazıp "Sorgula" butonuna basınız.</Alert>
-                           :
-                           <></>
-                       }
-
-
-                       <Input type="text" value={this.state.numara} placeholder="telefon numaranızı girin" onChange={this.onChange}/>
-                       <br/>
-                       {
-                         this.state.numara.length >=10 ?
-                           <Button onClick={this.sorgula} className="btn-success" >
-                             {
-                               this.state.olay===0 ?
-                                 <h4 className="text-light">Sorgula</h4>
-                                 :<></>
-                             }
-                           </Button>
-                           :<></>
-                       }
-                     </Jumbotron>
-
-                   </Col>
-
-               }
-             <Col xs="12" md="12" lg="12">
+         <Container>
+           <Row>
              {
-               this.state.olay === 2 ?
+               this.state.olay===1 ?
+                 <Col xs="12" className="align-items-center align-content-center"> <Spinner color="success"/></Col>
+                 : this.state.olay===2 ?
                  this.state.sonuc.length >0 ?
-                   <>
-                     <Alert color="success"><span className="display-4 text-dark">Toplam {this.state.sonuc.length} siparişiniz bulundu!</span></Alert>
-                   </>
-                   :
-                   <>
-                     <Alert className="danger"><h3>Hiç sipariş vermemişsiniz!</h3></Alert>
-                   </>
+                   <Alert intent="success" title={'Toplam '+ this.state.sonuc.length+' siparişiniz bulundu...'} marginBottom={32}/>
+                   : <Alert intent="warning" title="Hiç sipariş vermemişsiniz..." marginBottom={32}/>
                  :
-                 <>
-                 </>
-             }
-             <Row>
+                 <Col xs="12" md="12" lg="12">
+                   <Segment>
+                     <Header as='h3' textAlign='center'>
+                       Telefon numarası ile sipariş sorgula
+                     </Header>
+                     {
+                       this.state.olay === 0 ?
+                         <Alert
+                           intent="none"
+                           title='Aşağıdaki kutucuğa telefon numaranızı yazıp "Sorgula" butonuna basınız.'
+                           marginBottom={32}
+                         />
+                         :null
+                     }
 
-             { siparisView }
-             </Row>
+
+                     <Input type="text" value={this.state.numara} placeholder="telefon numaranızı girin" onChange={this.onChange}/>
+                     <br/>
+                     {
+                       this.state.numara.length >=10 ?
+                         <Button height={24} onClick={this.sorgula} iconAfter="search" intent='warning'>
+                           Sorgula
+                         </Button>
+                         :null
+                     }
+                   </Segment>
+
+                 </Col>
+
+             }
+             <Col xs="12" md="12" lg="12">
+
+               <Row>
+
+                 { siparisView }
+               </Row>
              </Col>
 
-         </Row>
+           </Row>
+         </Container>
        )
      }
 }

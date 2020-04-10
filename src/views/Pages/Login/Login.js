@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button,Jumbotron, Input, InputGroup, InputGroupAddon, InputGroupText, Alert } from 'reactstrap';
+import {Container, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import {Segment} from "semantic-ui-react";
+import {Button, Alert} from 'evergreen-ui'
 import api from "../../../istek";
 const data=require('../../../data')
 class Login extends Component {
@@ -9,7 +11,8 @@ class Login extends Component {
     this.state={
       username:'',
       password:'',
-      olay:false
+      olay:false,
+      hata:false
     }
     this.handleChange=this.handleChange.bind(this);
     this.submit=this.submit.bind(this);
@@ -24,9 +27,11 @@ class Login extends Component {
     api.post('/signin',this.state)
       .then((resolve)=>{
         if(resolve.data.status===1){
-          this.setState({olay:true})
           this.props.login(resolve.data.user)
           console.log('Kullanıcı',data.user)
+          this.props.history.push('/')
+        }else if(resolve.data.status===0){
+          this.setState({hata:true})
         }
         console.log(resolve)
       })
@@ -39,15 +44,19 @@ class Login extends Component {
   render() {
     return (
       <div>
-        {
-          this.state.olay ?
-            <Redirect to="/"/>
-            :<></>
-        }
-
-              <Jumbotron>
-                <Alert color="warning"><h5 className="text-dark text-capitalize">bu sayfa sadece yöneticiler İçindir</h5></Alert>
-
+            <Container>
+              <Segment color="orange">
+                {this.state.hata ?
+                  <Alert
+                    intent="danger"
+                    title="Kullanıcı adı veya şifre hatalı girildi"
+                  />
+                  :
+                  <Alert
+                    intent="warning"
+                    title="Bu sayfa sadece yöneticiler içindir"
+                    marginBottom={32}
+                  />}
                 <InputGroup className="mb-3">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -64,8 +73,12 @@ class Login extends Component {
                   </InputGroupAddon>
                   <Input type="password" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" autoComplete="current-password" />
                 </InputGroup>
-                <Button onClick={this.submit} color="primary" className="px-4 btn-primary"><i className="icon-login"></i></Button>
-              </Jumbotron>
+                <Button onClick={this.submit} intent="success" height={24} iconAfter="arrow-right">
+                  Giriş Yap
+                </Button>
+
+              </Segment>
+            </Container>
 
       </div>
     );

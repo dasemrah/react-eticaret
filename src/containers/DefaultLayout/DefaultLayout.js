@@ -128,6 +128,11 @@ class DefaultLayout extends Component {
       salla:!this.state.salla
     })
   }
+  seçkeKapa=()=>{
+    this.setState({
+      yanMenu:false
+    })
+  }
   aramaSonucu=(result)=>{
     this.setState({
       seciliUrun:result
@@ -271,14 +276,14 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader {...this.props} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">
                 <SideSheet
                   position={'left'}
                   isShown={this.state.yanMenu}
-                  onCloseComplete={()=>this.yanMenuAcKapa}
+                  onCloseComplete={()=>this.seçkeKapa()}
                   width={300}
 
                 >
@@ -291,17 +296,18 @@ class DefaultLayout extends Component {
                    <div className="yan_menu_giris">
                      <Button.Group>
                        <Button onClick={this.sorgula}>Sipariş Sorgula</Button>
-                       <Button.Or/>
+                       <Button.Or text=" "/>
                       <Button positive onClick={this.giris}>Sisteme Giriş</Button>
                      </Button.Group>
                    </div>
-                   <Arama yanMenuAcKapa={this.yanMenuAcKapa} aramaSonucu={this.urunAç} {...this.props}/>
+
+                   <Arama seçkeKapa={this.seçkeKapa} aramaSonucu={this.urunAç} {...this.props}/>
                    <List animated className="kategori_listesi" selection verticalAlign='middle'>
                      {
                        this.state.kategoriler.map(kat=>
                          <List.Item selection={true}  key={kat._id} onClick={()=>this.kategoriSec(kat)}>
                            <List.Content>
-                             <List.Header><span className="h3"><Header dividing> <span className="text-dark">{kat.ad}</span> </Header></span></List.Header>
+                             <List.Header><span className="h5"><Header dividing> <span className="text-light">{kat.ad}</span> </Header></span></List.Header>
                            </List.Content>
                          </List.Item>
                        )
@@ -326,11 +332,11 @@ class DefaultLayout extends Component {
                       }}
                       width={400}
                       preventBodyScrolling
-                      onCloseComplete={() => this.seçkeAçKapa}
+                      onCloseComplete={() => this.setState({sepetSeçke:false})}
                     >
 
                    <>
-                     <br/><br/><br/>
+                     <br/><br/>
                      <Sepet
                        seçkeAçKapa={this.seçkeAçKapa}
                        sepet={this.state.sepet}

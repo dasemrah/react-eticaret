@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from "react";
-import {Row,Col} from 'reactstrap'
-import {Button,Step,Icon,Segment,Input ,Header,Label} from 'semantic-ui-react'
+import {Row,Col,Container} from 'reactstrap'
+import {Button,Step,Icon,Segment,Input ,Header,Label,TextArea} from 'semantic-ui-react'
 import {Alert,Table} from 'evergreen-ui'
 import api from "../../../istek";
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
   const [adres, setAdres]   =useState("");
   const [tel,setTel]        =useState("")
+  const [detay,setDetay]    =useState("")
   const [olay,setOlay]      =useState(false);
   const [ücret,ÜcretDeğiş]  =useState(0);
   const [siparis,setSiparis]=useState([])
@@ -46,7 +47,7 @@ const Sipariş =props=>{
   }
 
   return(
-    <div className="sipariş_onay">
+    <Container className="sipariş_onay">
       {olay ?
       <Alert intent="success" title="Siparişiniz Başarıyla Kaydedildi! Sipariş ayrıntıları ve ödeme bilgisi için telefonunuza gelen mesaja bakınız."/>
         :
@@ -163,7 +164,12 @@ const Sipariş =props=>{
                       type="phone"
                       required
                     />
-
+                    <br/>
+                    <TextArea
+                      onChange={e=>setDetay(e.target.value)}
+                      value={detay}
+                      placeholder='Sipariş detayı...'
+                    />
                     <br/>
                     <Button positive content='Siparişi Onayla' icon='right arrow' labelPosition='right'
                             onClick={siparişTamamla} className="btn-success"/>
@@ -173,7 +179,7 @@ const Sipariş =props=>{
               </>
           }
         </Row>}
-    </div>
+    </Container>
   )
 }
 

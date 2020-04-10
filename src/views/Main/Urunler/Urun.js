@@ -78,7 +78,7 @@ class Urun extends Component{
           {this.state.tercih.length>0 ?
             <Col xs="12">
           <div className="tercih">
-            <Header as='h2' textAlign='center'>
+            <Header color="yellow" as='h2' textAlign='center'>
               Birlikte tercih edilenler
             </Header>
             <Kaydırak {...this.props} urunler={this.state.tercih}/>
@@ -90,7 +90,7 @@ class Urun extends Component{
           {this.state.benzer.length>0 ?
             <Col xs="12">
            <div className="benzer">
-             <Header as='h2' textAlign='center'>
+             <Header color="green" as='h2' textAlign='center'>
                Benzer Ürünler
              </Header>
              <Kaydırak {...this.props} urunler={this.state.benzer}/>

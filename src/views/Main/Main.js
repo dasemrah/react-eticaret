@@ -63,22 +63,18 @@ class Main extends React.Component{
                <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
              </Col>
               <Col xs="12">
-                <br/>
                 <Istatistik/>
               </Col>
               <Col xs="12">
-
-             <div className="soru_bolumu">
-               <ReklamGoster {...this.props}/>
-             </div>
+                <div className="soru_bolumu">
+                  <ReklamGoster {...this.props}/>
+                </div>
               </Col>
               <Col xs="12">
               <div className="en_populer">
-                <br/>
                 <Header className="kategori_adi">
                   En Popüler Ürünler
                 </Header>
-                <br/><br/>
                 <Kaydırak
                   urunler={this.state.urunler}
                   {...this.props}/>

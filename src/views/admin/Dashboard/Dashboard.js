@@ -43,9 +43,7 @@ componentDidMount() {
     var kazanç=0
     var miktar=0
     this.state.tumurunler.map(e=>{
-      console.log('statedeki ürünler--->',e)
      ynt.data.siparis.map(s => {
-      console.log('dönen her sipariş--->',s)
        s.Urunler.map(u=>{
          if(e._id===u._id&&u.miktar!==null){
            miktar+=u.miktar
@@ -56,7 +54,6 @@ componentDidMount() {
       miktar=0
     })
     this.state.satın_alım.map(e=>{
-      console.log('satın alım:',e)
       this.setState({
         toplamkazanç:this.state.toplamkazanç+(e.miktar*e.urun.fiyat)
       })
@@ -93,7 +90,6 @@ componentDidMount() {
         bulunan._id=i._id
         _.map(gunluk.data, (o) => {
           if (o.tarih.slice(0, 10) === i.tarih.slice(0, 10)) {
-            console.log('her gün--->',o)
             bulunan.aradizi.push(o);
           }
         })

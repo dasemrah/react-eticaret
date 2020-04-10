@@ -46,7 +46,7 @@ export default class Arama extends Component {
     this.setState({ value: result.title })
     this.props.history.push('/urun')
     this.props.aramaSonucu(result)
-    this.props.yanMenuAcKapa()
+    this.props.seçkeKapa()
   }
 
   handleSearchChange = (e, { value }) => {
@@ -69,11 +69,10 @@ export default class Arama extends Component {
     const { isLoading, value, results } = this.state
     return (
       <Grid className="arama">
-
-        <span className="h3 text-dark">Ne Aramıştınız?</span>
         <Grid.Column width={12}>
 
             <Search
+              input={{ icon: 'search', iconPosition: 'left' ,placeholder:'Ne aramıştınız?'}}
               loading={isLoading}
               onResultSelect={this.handleResultSelect}
               onSearchChange={_.debounce(this.handleSearchChange, 500, {

@@ -17,7 +17,6 @@ class DefaultFooter extends Component {
     return (
 
       <Row>
-        <br/><br/><br/>
         <Col xs="12" className="text-center h2 text-uppercase">Nazlı Köy</Col>
         <Col xs="6">
           <List animated verticalAlign='middle'>
