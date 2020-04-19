@@ -3,25 +3,9 @@ import {Row, Col, ModalFooter,Modal,ModalBody,CardHeader,CardBody, ModalHeader,T
 import istek from '../../../istek';
 import axios from 'axios';
 import ImageUploader from 'react-images-upload';
-import {Alert,Pane,Popover,Menu} from "evergreen-ui";
-import {Dropdown,Label} from "semantic-ui-react";
+import {Alert,Popover,Menu} from "evergreen-ui";
+import {Label} from "semantic-ui-react";
 
-const renkler = [
-  { key: 'red',     text: 'red',      value: 'red'    },
-  { key: 'orange',  text: 'orange',   value: 'orange' },
-  { key: 'yellow',  text: 'yellow',   value: 'yellow' },
-  { key: 'olive',   text: 'olive',    value: 'olive'  },
-  { key: 'green',   text: 'green',    value: 'green'  },
-  { key: 'teal',    text: 'teal',     value: 'teal'   },
-  { key: 'teal',    text: 'teal',     value: 'teal'   },
-  { key: 'blue',    text: 'blue',     value: 'blue'   },
-  { key: 'violet',  text: 'violet',   value: 'violet' },
-  { key: 'purple',  text: 'purple',   value: 'purple' },
-  { key: 'brown',   text: 'brown',    value: 'brown'  },
-  { key: 'grey',    text: 'grey',     value: 'grey'   },
-  { key: 'black',   text: 'black',    value: 'black'  },
-
-]
 
 
 class Urunekle extends Component{
@@ -45,7 +29,6 @@ class Urunekle extends Component{
       loading:0,
       modal:false,
       yeni_urun:'',
-      renk:''
     };
     this.handleChange=this.handleChange.bind(this);
 
@@ -157,7 +140,7 @@ fileSelectHandler =event=>{
     })
   }
   kategoriEkle=()=>{
-    istek.post('/yenikategori',{ad:this.state.yenikategori,renk:this.state.renk}).then(ynt=>{
+    istek.post('/yenikategori',{ad:this.state.yenikategori}).then(ynt=>{
       console.log(ynt.data)
       this.state.kategoriler.push(ynt.data)
       this.setState({
@@ -213,26 +196,9 @@ fileSelectHandler =event=>{
                 </InputGroupAddon>
                 <Input value={this.state.yenikategori} placeholder="ad gir" type="text" onChange={this.kategoriChange}/>
               </InputGroup>
-                <Pane background="tint1" padding={24} marginBottom={16} style={{backgroundColor:this.state.renk}}>
-                    <h3 className="text-uppercase text-muted">Renk Seç</h3>
-
-                    <Dropdown
-                      button
-                      className='icon'
-                      floating
-                      labeled
-                      icon='world'
-                      options={renkler}
-                      search
-                      text={this.state.renk}
-                      onChange={(evet,{value})=>this.setState({renk:value})}
-                    />
-
-                </Pane>
-
           </ModalBody>
           <ModalFooter>
-            {this.state.renk.length>0 ?
+            {this.state.yenikategori.length>0 ?
               <Button color="primary" onClick={this.kategoriEkle}><i className="icon-plus">Kategoriyi Kaydet</i></Button>
             :null}
             <Button color="danger" onClick={this.setModal}>İptal</Button>
@@ -245,7 +211,7 @@ fileSelectHandler =event=>{
                 :
                 <Col xs="12">
 
-                  <Card style={{backgroundColor:this.state.kategori.renk}}>
+                  <Card>
                     <ToastHeader>
                       <h1>Ürün Ekle</h1>
                     </ToastHeader>
@@ -320,7 +286,7 @@ fileSelectHandler =event=>{
                         withIcon={true}
                         buttonText='Görsel Seç'
                         onChange={this.gorselSec}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                        imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
                         label="Maksimum görsel boytu 5mb olmalı .jpg, .gif, .png, .gif"
                         withPreview={true}
                         maxFileSize={5242880}

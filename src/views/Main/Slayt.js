@@ -31,9 +31,8 @@ export default props=>
   autoPlay={true}
   autoPlaySpeed={1500}
   keyBoardControl={true}
-
   transitionDuration={0}
-
+  removeArrowOnDeviceType={["tablet", "mobile"]}
 >
   {
     props.gorseller.map(gorsel=>

@@ -28,8 +28,8 @@ const urunView =(urunler)=>(
 
 const SiparisKart=props=>(
 
-  <div key={props.siparis._id}>
-    <Col xs="12" md="3" lg="4">
+
+    <Col key={props.siparis._id} xs="12" md="3" lg="4">
       <Segment className="siparis-card" color="teal">
 
         <Button.Group attached="top">
@@ -68,6 +68,5 @@ const SiparisKart=props=>(
       </Segment>
       <br/><br/>
     </Col>
-  </div>
 )
 export default SiparisKart

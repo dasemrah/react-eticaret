@@ -1,20 +1,21 @@
 import React,{Component} from 'react'
-import {List,Divider,Header} from "semantic-ui-react";
+import {List,Button,Header,Segment,Container} from "semantic-ui-react";
 import {Row,Col} from 'reactstrap'
-import {Button} from 'evergreen-ui'
 import Kaydırak from "../../Parcalar/Kaydırak";
+import Disk from "o.disk/index";
 class Urun extends Component{
   constructor(props){
     super(props)
     this.state={
       urun:[],
       benzer:[],
-      tercih:[]
+      tercih:[],
+      beğenilmiş:false,
+      sepetteymiş:false
     }
 
   }
   componentDidMount() {
-
 
   }
   componentWillReceiveProps(nextProps, nextContext) {
@@ -27,19 +28,27 @@ class Urun extends Component{
       fiyat: nextProps.seciliUrun.price ? parseInt(nextProps.seciliUrun.price) : nextProps.seciliUrun.fiyat,
       net: nextProps.seciliUrun.net,
     }
+    var index=nextProps.begeni.findIndex(p=>p._id===nesne._id);
+    console.log('beğeni sırası--->',index)
+    if(index>-1){
+      this.setState({
+        beğenilmiş:true
+      })
+    }
+    var sepetsırası = nextProps.sepet.findIndex(p=>p._id===nesne._id);
+    console.log('sepet sırası--->',sepetsırası)
+    if(sepetsırası>-1){
+      this.setState({
+        sepetteymiş:true
+      })
+    }
     this.setState({
       urun:nesne,
       benzer:nextProps.benzer.urunler,
       tercih:nextProps.tercih
     })
+
   }
-
-  componentWillUpdate(nextProps, nextState, nextContext) {
-
-    console.log('props-->',nextProps)
-    console.log('state--->',nextState)
-  }
-
   render() {
     return(
       <>
@@ -51,24 +60,28 @@ class Urun extends Component{
                   <img className="tek_urun_gorsel" size='tiny' src={this.state.urun.img} />
                 </Col>
                 <Col xs="12" md="8" lg="8">
-                  <List>
-                    <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
-                    <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
-                    <List.Item><Header as='h4' textAlign='right' color='green' className="p"> <br/>{this.state.urun.fiyat} ₺</Header></List.Item>
-                    <br/>
-                    <List.Item>
-                      <Button
-                        intent='danger'
-                        iconAfter='shopping-cart'
-                        size={24}
-                        marginLeft={'35%'}
-                        onClick={()=>this.props.sepeteEkle(this.state.urun)}
-                      >
-                        Sepete Ekle
-                      </Button>
-                    </List.Item>
+                  <Segment inverted color='grey'>
+                    <List>
+                      <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
+                      <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
+                      <br/>
+                      <List.Item>
+                        <div className="align-items-center text-center center">
+                          <span className="h4 text-center"> <br/>{this.state.urun.net}</span><br/>
+                          <span className="sahte_fiyat p text-center">{this.state.urun.fiyat*2} ₺ </span><br/>
+                          <span className="text-danger h4 text-center"> {this.state.urun.fiyat} ₺ </span><br/>
+                          <Button.Group >
+                            <Button active={!this.state.beğenilmiş} onClick={()=>this.props.begen(this.state.urun)}>
+                              {!this.state.beğenilmiş ? <span>Beğen</span> : <span>Beğendin</span>}
+                            </Button>
+                            <Button.Or text=' ' />
+                            <Button color={!this.state.sepetteymiş ? 'green' : 'black'}   onClick={()=>this.props.sepeteEkle(this.state.urun)} >{!this.state.sepetteymiş ? <span>Sepete Ekle</span>: <span>Sepette</span>}</Button>
+                          </Button.Group>
+                        </div>
+                      </List.Item>
 
-                  </List>
+                    </List>
+                  </Segment>
                 </Col>
 
               </Row>
@@ -77,24 +90,26 @@ class Urun extends Component{
 
           {this.state.tercih.length>0 ?
             <Col xs="12">
-          <div className="tercih">
-            <Header color="yellow" as='h2' textAlign='center'>
-              Birlikte tercih edilenler
-            </Header>
-            <Kaydırak {...this.props} urunler={this.state.tercih}/>
-          </div>
+            <Container>
+              <br/>
+                <Header color="brown" as='h2' textAlign='center'  block dividing>
+                  Birlikte tercih edilenler
+                </Header>
+                <Kaydırak {...this.props} urunler={this.state.tercih}/>
+            </Container>
             </Col>
 
             :null
           }
           {this.state.benzer.length>0 ?
             <Col xs="12">
-           <div className="benzer">
-             <Header color="green" as='h2' textAlign='center'>
-               Benzer Ürünler
-             </Header>
-             <Kaydırak {...this.props} urunler={this.state.benzer}/>
-           </div>
+              <Container>
+                <br/>
+                  <Header block dividing color="pink" as='h2' textAlign='center'>
+                    Benzer Ürünler
+                  </Header>
+                  <Kaydırak {...this.props} urunler={this.state.benzer}/>
+              </Container>
             </Col>
             :null}
         </Row>

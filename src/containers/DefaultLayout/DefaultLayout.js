@@ -44,18 +44,23 @@ class DefaultLayout extends Component {
       sonuc:[],
       urunler:[],
       yanMenu:false,
-      urunGoster:false
+      urunGoster:false,
+      begeni:[]
 
     }
-    console.log('Layout user bilgisi',data.user)
-    console.log('layout-->',this.props)
   }
 
+
   componentDidMount() {
+    Disk.begeni.map(e=>{
+     console.log('yazdır ',e)
+      this.state.begeni.push(e)
+    })
     this.setState({
       user:Disk.kullanıcı
     })
-    console.log('layout user:-->',this.props)
+    console.log('layout beğeni:-->',this.state.begeni)
+    console.log('disk beğeni',Disk.begeni)
     istek.get('/urunler').then((ynt)=>{
       console.log(ynt.data)
       this.setState({
@@ -95,6 +100,28 @@ class DefaultLayout extends Component {
       yanMenu:false
     })
     this.props.history.push('/login')
+  }
+  begen=(urun)=>{
+    let index=this.state.begeni.findIndex(p=>p._id===urun._id)
+    if(index===-1)
+    {
+      this.state.begeni.push(urun)
+      this.setState(this.state)
+      Disk.begeni=this.state.begeni
+      console.log('begenilere eklendi-->',this.state.begeni)
+    }
+    else
+      {
+        console.log('zaten var')
+      }
+  }
+  beneniÇıkart=urun=>{
+    const index = this.state.begeni.findIndex(p => p._id === urun._id);
+    {
+      this.state.begeni.splice(index, 1);
+      this.setState(this.state)
+      Disk.begeni=this.state.begeni
+    }
   }
   ÇıkışYap=()=>{
     Disk.kullanıcı=null
@@ -154,7 +181,6 @@ class DefaultLayout extends Component {
     istek
       .post('/benzer', {kategori,urun})
       .then(ynt => {
-        console.log('tercih ürünler', ynt.data)
         let {benzer,tercih} = ynt.data
         this.setState({
            benzer:benzer,
@@ -173,37 +199,47 @@ class DefaultLayout extends Component {
     })
     let urun_id=urun._id
     const index= this.state.sepet.findIndex(p => p._id === urun_id)
-    if(index === -1){
+    if(index === -1)
+    {
       this.setState({
         sepet:[...this.state.sepet,urun],
         toplam:urun.miktar+this.state.toplam,
         urunGoster:false,
       })
-    }else console.log('zaten eklenmiş')
+    }
+    else
+      {
+      this.mikarDeğiştir(1,this.state.sepet.indexOf(urun),urun)
+      }
+    this.seçkeAçKapa()
+  }
 
-    console.log('sepet içeriği',this.state.sepet)
-   this.seçkeAçKapa()
-
+  ucret=()=> {
+    var toplam=0
+    this.state.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
+    this.setState({ucret:toplam})
   }
 
   urunÇıkart = urun => {
     let urun_id=urun._id
     const index = this.state.sepet.findIndex(p => p._id === urun_id);
-    if (index >= 0) {
+    if (index >= 0)
+    {
       this.state.sepet.splice(index, 1);
       this.setState(this.state)
       this.toplamHesapla()
     }
     this.sepetMiktar(this.state.sepet.length)
+
   };
   mikarDeğiştir=(girdi,urunIndex,urun)=>{
     console.log('gelen veriler:--->Girdi:',girdi,' İndex: ',urunIndex)
     this.state.sepet[urunIndex].miktar+=girdi;
-    if(this.state.sepet[urunIndex].miktar===0){
+    if(this.state.sepet[urunIndex].miktar===0)
+    {
       this.urunÇıkart(urun)
     }
     this.setState(this.state);
-    console.log('değişen değer',this.state.sepet[urunIndex])
     this.toplamHesapla();
 
   }
@@ -276,7 +312,7 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader {...this.state} aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">
@@ -290,7 +326,7 @@ class DefaultLayout extends Component {
 
                  <div className="yan_menu">
                    <br/><br/>
-                   <Label circular color="danger" onClick={this.yanMenuAcKapa} className="float-right">
+                   <Label circular color="red" onClick={this.yanMenuAcKapa} className="float-right">
                      <Icon icon="cross" color="danger" />
                    </Label>
                    <div className="yan_menu_giris">
@@ -342,6 +378,7 @@ class DefaultLayout extends Component {
                        sepet={this.state.sepet}
                        miktarDeğiştir={this.mikarDeğiştir}
                        toplam={this.state.toplam}
+                       ucret={this.state.ucret}
                        urunÇıkart={this.urunÇıkart}
                        devam={this.siparisDevam}
                        {...this.props}
@@ -380,6 +417,8 @@ class DefaultLayout extends Component {
                                     sepetiBosalt={this.sepetiBosalt}
                                     kategoriSec={this.kategoriSec}
                                     login={this.login}
+                                    begen={this.begen}
+                                    beneniÇıkart={this.beneniÇıkart}
                                   />
                                 )} />
                             ) : (null);

@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import {Nav} from 'reactstrap';
-import PropTypes from 'prop-types';
 
-import { AppNavbarBrand } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
-import {Transition,Label,Menu,Segment} from "semantic-ui-react";
+import {Transition, Label, List} from "semantic-ui-react";
 import {Icon} from 'evergreen-ui'
 import Arama from "../../views/Parcalar/Arama";
-
-const propTypes = {
-  children: PropTypes.node,
-};
-
-const defaultProps = {};
+import {node} from "prop-types";
 
 class DefaultHeader extends Component {
   constructor(props){
@@ -23,10 +13,16 @@ class DefaultHeader extends Component {
       visible: true,
       yanMenu:true,
       activeItem:false,
+      aramaGörünürlük:false
+
     }
   }
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
+  aramaAçKapa=()=>{
+    this.setState({
+      aramaGörünürlük:!this.state.aramaGörünürlük
+    })
+}
   sepetAçKapa=()=>{
     console.log('tıklandı');
     this.props.sepetAçKapa(true)
@@ -48,7 +44,7 @@ class DefaultHeader extends Component {
   }
 
   render() {
-    const { activeItem, duration, visible } = this.state;
+    const { activeItem, duration, visible,aramaGörünürlük } = this.state;
     return (
       <>
       <nav className="navbar navbar-expand-sm  navbar-light">
@@ -57,20 +53,29 @@ class DefaultHeader extends Component {
             duration={500}
             visible={this.state.yanMenu}
           >
-            <Icon className="yan_menu_iconu" size={24} marginLeft={10}  onClick={this.yanMenuAçkapa} icon="menu" marginRight={16} />
+            <Icon className="yan_menu_iconu" size={24} marginLeft={10} onClick={this.yanMenuAçkapa}  icon="menu" marginRight={16} />
           </Transition>
         <a className="navbar-brand" href="#">Nazlı Köy</a>
         <div className="sepet_dar_ekran">
-          <Transition
-            animation='tada'
-            duration={duration}
-            visible={visible}
-          >
-            <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
-          </Transition>
+
+         <List horizontal>
+           <List.Item>
+              <Icon icon='search' onClick={this.aramaAçKapa} size={24} marginBottom={15}/>
+           </List.Item>
+           <List.Item>
+             <i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i>
+             <Label size='mini' circular color='purple'>
+               {this.props.begeni.length}
+             </Label>
+           </List.Item>
+           <List.Item>
+             <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
+           </List.Item>
+         </List>
+
           {
             this.props.sepet.length>0 ?
-              <Label color='red' circular>
+              <Label size='mini' color='red' circular>
                 {this.props.sepet.length}
               </Label>
               :null
@@ -90,23 +95,24 @@ class DefaultHeader extends Component {
               <a className="nav-link " href="#/login">Giriş</a>
             </li>
           </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <Arama {...this.props} />
-          </form>
-          <Transition
-            animation='tada'
-            duration={duration}
-            visible={visible}
-          >
-            <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
-          </Transition>
-          {
-            this.props.sepet.length>0 ?
-              <Label color='red' circular>
-                {this.props.sepet.length}
-              </Label>
-              :null
-          }
+          <List horizontal>
+            <List.Item><i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i></List.Item>
+            <List.Item>
+              <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
+              {
+                this.props.sepet.length>0 ?
+                  <Label color='red' circular>
+                    {this.props.sepet.length}
+                  </Label>
+                  :null
+              }
+            </List.Item>
+          </List>
+
+
+        </div>
+        <div style={aramaGörünürlük ? {visibility:"visible",display:"inline"} : {visibility:"hidden",display:"none"}}>
+          <Arama {...this.props} />
         </div>
       </nav>
         </>
@@ -114,7 +120,5 @@ class DefaultHeader extends Component {
   }
 }
 
-DefaultHeader.propTypes = propTypes;
-DefaultHeader.defaultProps = defaultProps;
 
 export default DefaultHeader;

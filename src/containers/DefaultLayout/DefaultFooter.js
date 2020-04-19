@@ -15,8 +15,10 @@ class DefaultFooter extends Component {
     const { children, ...attributes } = this.props;
 
     return (
-
+<>
+  <br/><br/>
       <Row>
+
         <Col xs="12" className="text-center h2 text-uppercase">Nazlı Köy</Col>
         <Col xs="6">
           <List animated verticalAlign='middle'>
@@ -34,7 +36,7 @@ class DefaultFooter extends Component {
         </Col>
       </Row>
 
-
+</>
     );
   }
 }

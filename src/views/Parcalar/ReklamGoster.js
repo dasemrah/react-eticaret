@@ -62,15 +62,17 @@ const ReklamGoster=props=>{
          itemClass="carousel-item-padding-40-px"
        >
          {veri.map(e=>
-           <List divided verticalAlign="middle">
-             <List.Item onClick={()=>props.history.push(e.link)}>
-               <Image className="nasıl" centered src={e.img}/>
-               <List.Content className="text-block">
-                 <List.Header as="a"><span className="text-light text-uppercase">{e.başlık}</span></List.Header>
-                 <p className="text-light text-uppercase">{e.açıklama}</p>
-               </List.Content>
-             </List.Item>
-           </List>
+          <div key={e._id}>
+            <List divided verticalAlign="middle">
+              <List.Item onClick={()=>props.history.push(e.link)}>
+                <Image className="nasıl" centered src={e.img}/>
+                <List.Content className="text-block">
+                  <List.Header as="a"><span className="text-light text-uppercase">{e.başlık}</span></List.Header>
+                  <p className="text-light text-uppercase">{e.açıklama}</p>
+                </List.Content>
+              </List.Item>
+            </List>
+          </div>
          )}
 
        </Carousel>

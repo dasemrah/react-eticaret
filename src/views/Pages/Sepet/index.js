@@ -1,12 +1,15 @@
 import React, {useState,useEffect} from 'react'
-import {Alert, Icon} from 'evergreen-ui'
-import {Label, Header, Grid, Image, Divider,Segment} from "semantic-ui-react";
-import {Button} from 'evergreen-ui'
+import {Alert, Icon} from 'evergreen-ui';
+import {List, Header, Grid, Image, Button, Divider} from "semantic-ui-react";
 const Sepet =props=>{
   const [visible,setVisible] = useState(true)
+  const [ucret,setUcret] = useState(0)
   useEffect(()=>{
     console.log('Sepet Sayfası:-_->',props)
     setVisible(props.visible)
+    var toplam=0
+    props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
+    setUcret(toplam)
   })
   function urunÇıkart(urun) {
     setVisible(!visible);
@@ -20,50 +23,56 @@ const Sepet =props=>{
   const ÜrünleriGöster =()=>{
 
       return(
-        <Segment inverted color="yellow">
+        <div className="sepet_arka">
 
           <Header as='h2' textAlign='center'>
-            <Icon icon="cross" color="danger" marginRight={'100%'} size={24} onClick={()=>props.seçkeAçKapa()}/>
+            <Icon icon="arrow-left" marginTop={20}  marginRight={'100%'} size={24} onClick={()=>props.seçkeAçKapa()}/>
             Sepetim
           </Header>
           <br/>
           <Grid>
             {props.sepet.map(urun=>
-             <Segment inverted color="yellow">
+             <div key={urun._id} className="sepet_eleman">
                <Grid>
-                 <Grid.Row key={urun._id}>
+                 <Grid.Row>
                    <Grid.Column width={4}>
-                     <Image src={urun.img}  />
+                     <Image className="sepet_urun_gorsel" src={urun.img}  />
                    </Grid.Column>
                    <Grid.Column width={9}>
                      <h4 className="h4 text-uppercase text-dark text-left">{urun.ad}</h4>
                      <p className="text-dark"> {urun.net}</p>
-                     <Icon icon="minus" color="muted" marginRight={16} onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)}/>
-                     <span className="text-dark text-center floated">{urun.miktar} adet</span>
-                     <Icon icon="plus" color="muted" marginLeft={16} onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} />
-                     <br/>
-                     <span className="text-light h3">Ücret: {urun.miktar*urun.fiyat} ₺</span>
+                      <span className="sepet_miktar">
+                        <Icon icon="minus" color="muted" marginRight={16} onClick={()=>props.miktarDeğiştir(-1,props.sepet.indexOf(urun),urun)}/>
+                        <span className="text-dark text-center floated">{urun.miktar} adet</span>
+                        <Icon icon="plus" color="muted" marginLeft={16} onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} />
+                      </span>
+                     <span className="text-warning p"> {urun.miktar*urun.fiyat} ₺</span>
                    </Grid.Column>
                    <Grid.Column width={3}>
-                     <Icon icon="ban-circle" color="danger" marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
+                     <Icon icon="ban-circle"  marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
                    </Grid.Column>
                  </Grid.Row>
                </Grid>
-               <Divider/>
-             </Segment>
+               <Divider />
+             </div>
             )}
 
           </Grid>
           <br/>
           {props.sepet.length>0 ?
-              <div className="align-items-center text-center">
-                <Header>
-                  Toplam <Label color="green" circular>{props.sepet.length}</Label> ürün
-                </Header>
-                <Button onClick={()=>devam()} intent={'success'} height={25} iconAfter="arrow-right">
-                  Siparişi Onayla
-                </Button>
+              <div className=" text-center sepet_onay">
+                <br/>
+               <List horizontal>
+                 <List.Item>
+                   Ücret:{ucret}
+                 </List.Item>
+                 <List.Item>
+                   <Button color='orange' onClick={()=>devam()}>
+                     Sepeti Onayla
+                   </Button>
 
+                 </List.Item>
+               </List>
               </div>
             :
             <Alert
@@ -74,7 +83,7 @@ const Sepet =props=>{
             />
           }
           <br/><br/><br/>
-         </Segment>
+         </div>
       )
   }
   return(<ÜrünleriGöster/>)

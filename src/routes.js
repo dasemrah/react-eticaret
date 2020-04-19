@@ -11,6 +11,7 @@ const Heybe       =  React.lazy(()=>import('./views/Ekler/Heybe'));
 const Paketleme   =  React.lazy(()=>import('./views/Ekler/Paketleme'));
 const Hikaye      =  React.lazy(()=>import('./views/Ekler/Hikayemiz'));
 const Gizlilik    =  React.lazy(()=>import('./views/Ekler/Gizlilik'));
+const BegeniSayfası    =  React.lazy(()=>import('./views/Pages/Begeni'));
 const routes      = [
 
   { path: '/',              exact: true,            name: 'Ana Sayfa' , component: Main },
@@ -25,6 +26,7 @@ const routes      = [
   { path: '/paketleme',     name: 'Nasıl Paketleme Yapıyoruz?',         component:  Paketleme},
   { path: '/hikaye',        name: 'Hikayemiz',                          component:  Hikaye},
   { path: '/gizlilik',      name: 'Gizlilik ve Sözlleşme',              component:  Gizlilik},
+  { path: '/begen',        name: 'Beğendiklerim',                      component:  BegeniSayfası},
 ];
 
 export default routes;

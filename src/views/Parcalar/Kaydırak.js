@@ -15,8 +15,8 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 2,
-    slidesToSlide: 2, // optional, default to 1.
+    items: 1,
+    slidesToSlide: 1, // optional, default to 1.
   },
 };
 const Kaydırak=props=>(
@@ -32,7 +32,7 @@ const Kaydırak=props=>(
     {props.urunler.map(urun=>
       <div key={urun._id}>
 
-        <Urunler sepeteEkle={props.sepeteEkle} urunAç={props.urunAç} urun={urun}/>
+        <Urunler {...props} sepeteEkle={props.sepeteEkle} urunAç={props.urunAç} urun={urun}/>
 
       </div>
 

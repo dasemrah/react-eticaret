@@ -3,7 +3,7 @@ import Urunler from "./Urunler";
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
 import Slayt from "./Slayt";
-import { Divider, Loader, Header} from 'semantic-ui-react'
+import { Container, Segment,  Loader, Header} from 'semantic-ui-react'
 
 import "react-multi-carousel/lib/styles.css";
 import ReklamGoster from "../Parcalar/ReklamGoster";
@@ -63,22 +63,22 @@ class Main extends React.Component{
                <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
              </Col>
               <Col xs="12">
-                <Istatistik/>
-              </Col>
-              <Col xs="12">
                 <div className="soru_bolumu">
                   <ReklamGoster {...this.props}/>
                 </div>
               </Col>
               <Col xs="12">
-              <div className="en_populer">
-                <Header className="kategori_adi">
-                  En Popüler Ürünler
-                </Header>
-                <Kaydırak
-                  urunler={this.state.urunler}
-                  {...this.props}/>
-              </div>
+
+                <br/>
+                <Segment inverted color="green">
+                  <Header as='h2' textAlign='center' block color='violet' dividing>
+                    En Popüler Ürünler
+                  </Header>
+                  <Kaydırak
+                    urunler={this.state.urunler}
+                    {...this.props}/>
+                </Segment>
+
               </Col>
          </Row>
       </div>

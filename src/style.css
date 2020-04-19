@@ -8,12 +8,25 @@
 
   margin-bottom: -40px !important;
 }
-
+.sahte_fiyat{
+  text-decoration:line-through grey;
+}
+.urun_buton{
+  width: 100% !important;
+}
 .ust{
   width: 100% !important;
   position: fixed;
   z-index: 1;
   top:0;
+}
+.begeni_icon{
+  position: absolute;
+  right: 0;
+  top:0;
+  box-shadow: 0px 6px 13px -6px rgba(0,0,0,0.75);
+  z-index: 1;
+  border-radius: 25% !important;
 }
 .yan_menu_iconu{
   position: absolute;
@@ -22,7 +35,6 @@
 }
 .soru_bolumu{
   margin-bottom: -20% !important;
-  margin-top: 30px;
 }
 .tek_urun{
   background-color: white !important;
@@ -41,7 +53,7 @@
 }
 .en_populer{
   background-color: #1B3D2F !important;
-  margin-bottom: -80px;
+  height: 100%;
 }
 
 .sayfa{
@@ -60,7 +72,31 @@
  width: 100% !important;
   background-color:  #e3f2fd;
 }
-
+.sepet_urun_gorsel{
+  width: 100%;
+  height: 75px !important;
+  object-fit: cover;
+  object-position: 20% 0;
+}
+.sepet_eleman{
+  margin-top: 5px;
+}
+.sepet_miktar{
+  border-radius: 8px;
+  padding: 5px 0;
+  margin-right: 5px;
+  box-shadow: -1px 4px 15px -12px rgba(0,0,0,0.75);
+}
+.sepet_onay{
+  position: fixed;
+  bottom: 0;
+  background-color: whitesmoke;
+  width: 100%;
+  height: 75px;
+}
+  .sepet_arka{
+  width: 100%;
+  }
 .sepet_dar_ekran{
   position: absolute;
   right: 5%;
@@ -69,6 +105,9 @@
 .sidebar{
   background: coral !important;
   color: black !important;
+}
+.app-body{
+  overflow: hidden !important;
 }
 .app-footer{
   padding-top: 10px;
@@ -388,9 +427,9 @@ html{
   }
 
   .urun_gorsel{
-    height: 125px;
-    width: 110% !important;
-    margin-left: -5%;
+    height: 240px !important;
+    object-fit: cover;
+    object-position: 20% 0;
   }
   .tek_urun_gorsel{
     height: 350px;
@@ -533,9 +572,7 @@ html{
   width: 200px;
   text-align: center;
 }
-.kategori_adi{
-  color: white !important;
-}
+
 .reklam{
  margin-left: -20% !important;
 }
