@@ -52,10 +52,12 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-    Disk.begeni.map(e=>{
-     console.log('yazdır ',e)
-      this.state.begeni.push(e)
-    })
+   if(Disk.begeni!==null){
+     Disk.begeni.map(e=>{
+       console.log('yazdır ',e)
+       this.state.begeni.push(e)
+     })
+   }
     this.setState({
       user:Disk.kullanıcı
     })
@@ -66,8 +68,8 @@ class DefaultLayout extends Component {
       this.setState({
         kategoriler:ynt.data.foundUrun,
         olay:1,
-        urunler:ynt.data.foundUrun[1].urunler,
-        kategori:ynt.data.foundUrun[1].ad
+        urunler:ynt.data.foundUrun[0].urunler,
+        kategori:ynt.data.foundUrun[0].ad
       })
     }).catch((err)=>console.log(err));
     istek.get('/populer').then(ynt=>{
@@ -75,9 +77,7 @@ class DefaultLayout extends Component {
     })
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextState.kategoriler.length>0)
-  }
+
 
   yanMenuAcKapa=()=>{
     this.setState({

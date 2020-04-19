@@ -54,11 +54,7 @@ class Urunekle extends Component{
       yenikategori:''
     });
   }
-fileSelectHandler =event=>{
-   this.setState({
-     pictures:event.target.files[0]
-   })
-}
+
 
   gorselSec=(picture)=>{
     this.state.pictures.push(picture[0]);
@@ -128,11 +124,7 @@ fileSelectHandler =event=>{
 
 
   }
-  renkSeç=(evet,{value})=>{
-    console.log('value',value)
-    this.setState({renk:value})
-    console.log('seçilen renk',this.state.renk)
-  }
+
   kategorisec=(id,kategori)=>{
     this.setState({
       kategori:kategori,
@@ -184,10 +176,10 @@ fileSelectHandler =event=>{
         <Modal isOpen={this.state.modal} modalTransition={{ timeout: 700 }} backdropTransition={{ timeout: 1300 }}
                toggle={this.setModal} className="modal-warning">
           <ModalHeader toggle={this.setModal}>Yeni Kategori Ekle</ModalHeader>
-          <ModalBody style={{backgroundColor:this.state.renk}}>
+          <ModalBody>
             <Alert
               intent="none"
-              title="Kategori adını girip renk seçiniz"
+              title="Kategori adını yazıp ekleyiniz"
               marginBottom={32}
             />
               <InputGroup>
@@ -223,27 +215,27 @@ fileSelectHandler =event=>{
                       />
                       <InputGroup>
                         <Popover
-                          position={'Position.BOTTOM_LEFT'}
                           content={
                             <Menu>
                               <Menu.Group>
                                 {this.state.kategoriler.map(kategori=>
                                   <Menu.Item onSelect={()=>this.kategorisec(kategori._id,kategori.ad)}>{kategori.ad}
-                                    <Label circular color={kategori.renk} key={kategori._id}>
+                                    <Label circular key={kategori._id}>
                                       {kategori.urunler.length}
-                                    </Label></Menu.Item>
+                                    </Label>
+                                  </Menu.Item>
                                 )}
                               </Menu.Group>
                               <Menu.Divider />
                               <Menu.Group>
-                                <Menu.Item icon="plus" intent="orange" onSelect={this.setModal}>
+                                <Menu.Item icon="plus" intent="warning" onSelect={this.setModal}>
                                   Kategori Ekle...
                                 </Menu.Item>
                               </Menu.Group>
                             </Menu>
                           }
                         >
-                          <Button marginRight={16}>{this.state.kategori.length>0 ? <span>{this.state.kategori}</span>:  <span>Kategori Seç</span>}</Button>
+                          <Button>{this.state.kategori.length>0 ? <span>{this.state.kategori}</span>:  <span>Kategori Seç</span>}</Button>
                         </Popover>
                       </InputGroup>
                       <br/>
@@ -287,7 +279,7 @@ fileSelectHandler =event=>{
                         buttonText='Görsel Seç'
                         onChange={this.gorselSec}
                         imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
-                        label="Maksimum görsel boytu 5mb olmalı .jpg, .gif, .png, .gif"
+                        label="Maksimum görsel boytu 5 megabayt."
                         withPreview={true}
                         maxFileSize={5242880}
                         withLabel={true}
