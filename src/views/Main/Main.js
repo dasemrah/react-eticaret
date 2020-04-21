@@ -63,15 +63,13 @@ class Main extends React.Component{
                <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
              </Col>
               <Col xs="12">
-                <div className="soru_bolumu">
                   <ReklamGoster {...this.props}/>
-                </div>
               </Col>
               <Col xs="12">
 
                 <br/>
                 <Segment inverted color="green">
-                  <Header as='h2' textAlign='center' block color='violet' dividing>
+                  <Header as='h2' textAlign='center' dividing>
                     En Popüler Ürünler
                   </Header>
                   <Kaydırak

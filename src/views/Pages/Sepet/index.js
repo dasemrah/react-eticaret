@@ -49,7 +49,7 @@ const Sepet =props=>{
                      <span className="text-warning p"> {urun.miktar*urun.fiyat} ₺</span>
                    </Grid.Column>
                    <Grid.Column width={3}>
-                     <Icon icon="ban-circle"  marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
+                     <Icon icon="cross" color='warning'  marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
                    </Grid.Column>
                  </Grid.Row>
                </Grid>
@@ -64,7 +64,7 @@ const Sepet =props=>{
                 <br/>
                <List horizontal>
                  <List.Item>
-                   Ücret:{ucret}
+                   Ücret:{ucret} ₺
                  </List.Item>
                  <List.Item>
                    <Button color='orange' onClick={()=>devam()}>

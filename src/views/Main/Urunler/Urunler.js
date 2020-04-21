@@ -42,7 +42,6 @@ const Urunler =props=>{
           <Card.Header><span className="text-center floated h6 text-uppercase"> {props.urun.ad} </span></Card.Header>
           <Card.Meta><span className="text-dark h5 text-left floated">{props.urun.net}  </span>
             <span className="text-right floated">
-              <span className="sahte_fiyat p">{props.urun.fiyat*2} ₺ </span>
             <span className="text-danger h4"> {props.urun.fiyat} ₺ </span>
             </span>
           </Card.Meta>

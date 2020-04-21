@@ -94,6 +94,7 @@ class DefaultHeader extends Component {
             <li className="nav-item">
               <a className="nav-link " href="#/login">Giriş</a>
             </li>
+
           </ul>
           <List horizontal>
             <List.Item><i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i></List.Item>
@@ -106,6 +107,9 @@ class DefaultHeader extends Component {
                   </Label>
                   :null
               }
+            </List.Item>
+            <List.Item>
+              <Arama {...this.props} />
             </List.Item>
           </List>
 

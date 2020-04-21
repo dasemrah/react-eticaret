@@ -27,7 +27,6 @@ const BegeniSayfası=props=>{
                       <List.Item>
                         <List horizontal>
                           <List.Item>
-                            <Header sub><span className="sahte_fiyat p">{e.fiyat*2} ₺ </span></Header>
                             <span className="text-danger h4"> {e.fiyat} ₺ </span>
                           </List.Item>
                           <List.Item>

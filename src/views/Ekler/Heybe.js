@@ -19,7 +19,7 @@ class Heybe extends React.Component{
         <Container>
           <Row>
             {this.props.urunler.map(urun=>
-              <Col xs="6" lg="3" md="4">
+              <Col xs="12" lg="3" md="4">
                 <Urunler
                   urun={urun}
                   {...this.props}

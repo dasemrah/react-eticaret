@@ -24,12 +24,16 @@ export default class Arama extends Component {
           kategori.urunler.map(urun=>{
               var source={
                 title: urun.ad,
-                description: urun.aciklama,
+                description:urun.net,
                 image: urun.img,
-                price: String(urun.fiyat),
+                price: String(urun.fiyat+' ₺'),
                 key:urun._id,
                 net:urun.net,
                 kategori:urun.kategori,
+                ad:urun.ad,
+                img:urun.img,
+                fiyat:urun.fiyat,
+                aciklama:urun.aciklama,
                 _id:urun._id
               }
               this.setState({
@@ -69,7 +73,7 @@ export default class Arama extends Component {
     const { isLoading, value, results } = this.state
     return (
       <Grid className="arama">
-        <Grid.Column width={12}>
+        <Grid.Column width={16}>
 
             <Search
               input={{ icon: 'search', iconPosition: 'left' ,placeholder:'Ne aramıştınız?'}}

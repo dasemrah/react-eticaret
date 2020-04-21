@@ -15,35 +15,26 @@ class Urun extends Component{
     }
 
   }
-  componentDidMount() {
 
-  }
   componentWillReceiveProps(nextProps, nextContext) {
     console.log('ürün sayfası',nextProps)
-    var nesne = {
-      _id:nextProps.seciliUrun._id ,
-      ad: nextProps.seciliUrun.title ? nextProps.seciliUrun.title : nextProps.seciliUrun.ad,
-      aciklama: nextProps.seciliUrun.description ? nextProps.seciliUrun.description : nextProps.seciliUrun.aciklama,
-      img: nextProps.seciliUrun.image ? nextProps.seciliUrun.image : nextProps.seciliUrun.img,
-      fiyat: nextProps.seciliUrun.price ? parseInt(nextProps.seciliUrun.price) : nextProps.seciliUrun.fiyat,
-      net: nextProps.seciliUrun.net,
-    }
-    var index=nextProps.begeni.findIndex(p=>p._id===nesne._id);
-    console.log('beğeni sırası--->',index)
+  if ( nextProps.seciliUrun.length === 0 ) {
+      this.props.history.push('/')
+  }
+    var index=nextProps.begeni.findIndex(p=>p._id===nextProps.seciliUrun._id);
     if(index>-1){
       this.setState({
         beğenilmiş:true
       })
     }
-    var sepetsırası = nextProps.sepet.findIndex(p=>p._id===nesne._id);
-    console.log('sepet sırası--->',sepetsırası)
+    var sepetsırası = nextProps.sepet.findIndex(p=>p._id===nextProps.seciliUrun._id);
     if(sepetsırası>-1){
       this.setState({
         sepetteymiş:true
       })
     }
     this.setState({
-      urun:nesne,
+      urun:nextProps.seciliUrun,
       benzer:nextProps.benzer.urunler,
       tercih:nextProps.tercih
     })
@@ -60,16 +51,18 @@ class Urun extends Component{
                   <img className="tek_urun_gorsel" size='tiny' src={this.state.urun.img} />
                 </Col>
                 <Col xs="12" md="8" lg="8">
-                  <Segment inverted color='grey'>
+                  <Segment color='yellow' style={{height:'100%'}}>
                     <List>
                       <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
                       <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
                       <br/>
                       <List.Item>
                         <div className="align-items-center text-center center">
+                          <br/>
                           <span className="h4 text-center"> <br/>{this.state.urun.net}</span><br/>
-                          <span className="sahte_fiyat p text-center">{this.state.urun.fiyat*2} ₺ </span><br/>
+                          <br/>
                           <span className="text-danger h4 text-center"> {this.state.urun.fiyat} ₺ </span><br/>
+                          <br/>
                           <Button.Group >
                             <Button active={!this.state.beğenilmiş} onClick={()=>this.props.begen(this.state.urun)}>
                               {!this.state.beğenilmiş ? <span>Beğen</span> : <span>Beğendin</span>}
