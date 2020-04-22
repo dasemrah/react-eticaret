@@ -13,13 +13,10 @@ export default class Arama extends Component {
       value: '',
       source:[]
     }
-    console.log('propslar:--->',this.props
-    )
   }
   componentDidMount() {
     istek.get('/urunler')
       .then(ynt=>{
-        console.log('gelen veriler:-->',ynt.data.foundUrun);
         ynt.data.foundUrun.map(kategori=>{
           kategori.urunler.map(urun=>{
               var source={

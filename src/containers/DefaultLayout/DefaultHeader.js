@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-
 import {Transition, Label, List} from "semantic-ui-react";
-import {Icon} from 'evergreen-ui'
+import {Icon, Menu, Popover, Button,toaster } from 'evergreen-ui'
 import Arama from "../../views/Parcalar/Arama";
-import {node} from "prop-types";
 
 class DefaultHeader extends Component {
   constructor(props){
@@ -13,7 +11,8 @@ class DefaultHeader extends Component {
       visible: true,
       yanMenu:true,
       activeItem:false,
-      aramaGörünürlük:false
+      aramaGörünürlük:false,
+      kategoriler:[]
 
     }
   }
@@ -37,10 +36,10 @@ class DefaultHeader extends Component {
     })
   }
   componentWillReceiveProps(nextProps, nextContext) {
-    this.setState({
-      visible:nextProps.salla
-    })
-    console.log('salla değişti',nextProps)
+        this.setState({
+          kategoriler:nextProps.kategoriler
+        })
+    console.log('header props-->',nextProps)
   }
 
   render() {
@@ -94,7 +93,41 @@ class DefaultHeader extends Component {
             <li className="nav-item">
               <a className="nav-link " href="#/login">Giriş</a>
             </li>
+            <li>
+              <Popover
+                content={
+                  <Menu>
+                    <Menu.Group>
+                      {
+                        this.state.kategoriler.map(e=>
 
+                        <Menu.Item key={e._id}
+                          secondaryText={<>{e.urunler.length} <Icon icon='caret-right'/> </>}>
+                          <Popover
+                            content={
+                              <Menu>
+                                <Menu.Group>
+                                  {e.urunler.map(u=>
+                                    <Menu.Item key={u._id} onSelect={()=>this.props.urunAç(u)}>
+                                      {u.ad}
+                                    </Menu.Item>
+                                  )}
+                                </Menu.Group>
+                              </Menu>
+                            }
+                          >
+                            <Button width='100%' appearance='minimal' marginRight={16}>{e.ad}</Button>
+                          </Popover>
+                        </Menu.Item>
+
+                      )}
+                    </Menu.Group>
+                  </Menu>
+                }
+              >
+                <Button appearance='minimal' iconAfter='caret-down' >Ürünler</Button>
+              </Popover>
+            </li>
           </ul>
           <List horizontal>
             <List.Item><i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i></List.Item>

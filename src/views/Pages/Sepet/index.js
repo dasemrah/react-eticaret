@@ -5,16 +5,14 @@ const Sepet =props=>{
   const [visible,setVisible] = useState(true)
   const [ucret,setUcret] = useState(0)
   useEffect(()=>{
-    console.log('Sepet Sayfası:-_->',props)
     setVisible(props.visible)
     var toplam=0
     props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
     setUcret(toplam)
   })
-  function urunÇıkart(urun) {
+  const urunÇıkart =(urun) =>{
     setVisible(!visible);
     props.urunÇıkart(urun)
-    console.log('dsadsa')
   }
   function devam() {
     props.seçkeAçKapa()
@@ -26,8 +24,14 @@ const Sepet =props=>{
         <div className="sepet_arka">
 
           <Header as='h2' textAlign='center'>
+            <br/>
             <Icon icon="arrow-left" marginTop={20}  marginRight={'100%'} size={24} onClick={()=>props.seçkeAçKapa()}/>
-            Sepetim
+            <Header as='h2' textAlign='center' dividing>
+              Sepetim
+              <Header.Subheader>
+                {props.sepet.length} ürün
+              </Header.Subheader>
+            </Header>
           </Header>
           <br/>
           <Grid>
@@ -46,7 +50,7 @@ const Sepet =props=>{
                         <span className="text-dark text-center floated">{urun.miktar} adet</span>
                         <Icon icon="plus" color="muted" marginLeft={16} onClick={()=>props.miktarDeğiştir(1,props.sepet.indexOf(urun))} />
                       </span>
-                     <span className="text-warning p"> {urun.miktar*urun.fiyat} ₺</span>
+                     <span className="text-warning text-right floated h4"> {urun.miktar*urun.fiyat} ₺</span>
                    </Grid.Column>
                    <Grid.Column width={3}>
                      <Icon icon="cross" color='warning'  marginLeft={16}  onClick={()=>urunÇıkart(urun)}/>
@@ -64,7 +68,7 @@ const Sepet =props=>{
                 <br/>
                <List horizontal>
                  <List.Item>
-                   Ücret:{ucret} ₺
+                   <span className="text-uppercase text-dark">Ücret: {ucret} ₺</span>
                  </List.Item>
                  <List.Item>
                    <Button color='orange' onClick={()=>devam()}>

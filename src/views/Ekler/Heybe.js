@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React from "react";
 import {Jumbotron,Container,Col,Row} from 'reactstrap'
 import Urunler from "../Main/Urunler";
 class Heybe extends React.Component{

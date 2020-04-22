@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {List,Button,Header,Segment,Container} from "semantic-ui-react";
+import {List,Button,Header,Segment,Container,Image} from "semantic-ui-react";
 import {Row,Col} from 'reactstrap'
 import Kaydırak from "../../Parcalar/Kaydırak";
 import Disk from "o.disk/index";
@@ -45,23 +45,24 @@ class Urun extends Component{
       <>
         <Row>
           <Col xs="12">
-            <div className="tek_urun">
+            <Segment className="tek_urun">
               <Row>
-                <Col xs="12" md="4" lg="4">
+                <Col xs="12" md='6' lg='6'>
                   <img className="tek_urun_gorsel" size='tiny' src={this.state.urun.img} />
                 </Col>
-                <Col xs="12" md="8" lg="8">
-                  <Segment color='yellow' style={{height:'100%'}}>
+                <Col xs="12" md='6' lg='6' >
+                  <>
                     <List>
                       <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
                       <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
                       <br/>
                       <List.Item>
+                      <div className="align-items-center text-center center">
+                        <span className="text-uppercase"> {this.state.urun.net} {this.state.urun.fiyat} ₺</span>
+                      </div>
+                      </List.Item>
+                      <List.Item>
                         <div className="align-items-center text-center center">
-                          <br/>
-                          <span className="h4 text-center"> <br/>{this.state.urun.net}</span><br/>
-                          <br/>
-                          <span className="text-danger h4 text-center"> {this.state.urun.fiyat} ₺ </span><br/>
                           <br/>
                           <Button.Group >
                             <Button active={!this.state.beğenilmiş} onClick={()=>this.props.begen(this.state.urun)}>
@@ -74,35 +75,33 @@ class Urun extends Component{
                       </List.Item>
 
                     </List>
-                  </Segment>
+                  </>
                 </Col>
 
               </Row>
-            </div>
+            </Segment>
           </Col>
 
           {this.state.tercih.length>0 ?
             <Col xs="12">
-            <Container>
+
               <br/>
                 <Header color="brown" as='h2' textAlign='center'  block dividing>
                   Birlikte tercih edilenler
                 </Header>
                 <Kaydırak {...this.props} urunler={this.state.tercih}/>
-            </Container>
+
             </Col>
 
             :null
           }
           {this.state.benzer.length>0 ?
             <Col xs="12">
-              <Container>
                 <br/>
-                  <Header block dividing color="pink" as='h2' textAlign='center'>
+                  <Header  dividing color="black" as='h2' textAlign='center'>
                     Benzer Ürünler
                   </Header>
                   <Kaydırak {...this.props} urunler={this.state.benzer}/>
-              </Container>
             </Col>
             :null}
         </Row>

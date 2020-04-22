@@ -9,7 +9,7 @@ import KazancGrafik from "../KazancGrafik/KazancGrafik";
 import Grafik from "../KilogramGrafik";
 import AylikGrafik from "../AylikGrafik";
 import {Segment,Icon,Button} from 'semantic-ui-react'
-let tumsatınalım=[]
+
 class Dashboard extends Component {
   constructor(props){
     super(props)

@@ -41,6 +41,7 @@ const Sipariş =props=>{
         console.log('yanıt',ynt.data)
        setOlay(true)
         setSiparis(ynt.data.siparis)
+        console.log('sipariş oluştu',siparis)
         props.sepetiBosalt()
       })
       .catch(err=>console.log(err))

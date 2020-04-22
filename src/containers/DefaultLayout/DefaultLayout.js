@@ -54,17 +54,13 @@ class DefaultLayout extends Component {
   componentDidMount() {
    if(Disk.begeni!==null){
      Disk.begeni.map(e=>{
-       console.log('yazdır ',e)
        this.state.begeni.push(e)
      })
    }
     this.setState({
       user:Disk.kullanıcı
     })
-    console.log('layout beğeni:-->',this.state.begeni)
-    console.log('disk beğeni',Disk.begeni)
     istek.get('/urunler').then((ynt)=>{
-      console.log(ynt.data)
       this.setState({
         kategoriler:ynt.data.foundUrun,
         olay:1,
@@ -233,7 +229,6 @@ class DefaultLayout extends Component {
 
   };
   mikarDeğiştir=(girdi,urunIndex,urun)=>{
-    console.log('gelen veriler:--->Girdi:',girdi,' İndex: ',urunIndex)
     this.state.sepet[urunIndex].miktar+=girdi;
     if(this.state.sepet[urunIndex].miktar===0)
     {
@@ -312,7 +307,7 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader {...this.state} aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader urunAç={this.urunAç}  {...this.state} aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Image, Statistic } from 'semantic-ui-react'
+import { Statistic } from 'semantic-ui-react'
 
 const Istatistik = () => (
   <Statistic.Group widths='two' className="istatistik" >

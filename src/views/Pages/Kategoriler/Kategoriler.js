@@ -1,8 +1,8 @@
 import React from 'react'
-import Urunler from "../../Main/Urunler";
+
 import {Row,Col} from "reactstrap";
-import {Header,Label} from "semantic-ui-react";
-import {Button,SelectMenu} from 'evergreen-ui'
+import {Header ,Label} from "semantic-ui-react";
+import {SelectMenu, Icon, Button} from 'evergreen-ui'
 import Kaydırak from "../../Parcalar/Kaydırak";
 
 class Kategoriler extends React.Component{
@@ -42,13 +42,13 @@ class Kategoriler extends React.Component{
 
         <span className="h3 text-left">
               <SelectMenu
-                title="Kagetori Seç"
+                title={<>Kagetori Seç <Icon marginLeft='75%' icon='caret-right' /></>}
                 options={this.props.kategoriler.map(label =>({label:label.ad,value:label,}))}
                 selected={this.props.kategori}
                 onSelect={item => this.props.kategoriSec(item.value)}
                 filterPlaceholder={"Filtrele..."}
               >
-                < Button iconAfter="caret-down" marginRight={16}>{this.props.kategori || 'Kategori seç...'}</Button>
+                < Button appearance='minimal' iconAfter="caret-down" marginRight={16}>{this.props.kategori || 'Kategori seç...'}</Button>
               </SelectMenu>
 
         </span>

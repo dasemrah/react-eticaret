@@ -1,7 +1,7 @@
 import React from 'react'
 
-import {List,Label, Grid} from "semantic-ui-react";
-import Carousel from 'react-multi-carousel';
+import { Grid} from "semantic-ui-react";
+
 
   const veri=[
     {
@@ -35,7 +35,7 @@ const ReklamGoster=props=>{
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row columns={1}>
+        <Grid.Row className='reklam_iskelet'  columns={1}>
           <Grid.Column onClick={()=>props.history.push(veri[2].link)}>
             <img className="reklam_gorsel" src={veri[2].img} />
             <span className="reklam_cumle">{veri[2].açıklama}</span>

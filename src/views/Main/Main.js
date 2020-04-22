@@ -19,8 +19,6 @@ class Main extends React.Component{
       kategoriler:[],
       urunler:[]
     }
-    console.log('ana sayfa verileri',this.props)
-    console.log('ana sayfa path',window.location.pathname)
   }
 
 
@@ -37,7 +35,6 @@ class Main extends React.Component{
 
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log('ana menu---->',nextProps)
     this.setState({
       kategoriler:nextProps.kategoriler,
       kategori:nextProps.kategori,
@@ -66,16 +63,16 @@ class Main extends React.Component{
                   <ReklamGoster {...this.props}/>
               </Col>
               <Col xs="12">
-
                 <br/>
-                <Segment inverted color="green">
+                <br/>
+                <>
                   <Header as='h2' textAlign='center' dividing>
                     En Popüler Ürünler
                   </Header>
                   <Kaydırak
                     urunler={this.state.urunler}
                     {...this.props}/>
-                </Segment>
+                </>
 
               </Col>
          </Row>

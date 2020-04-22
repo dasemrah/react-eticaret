@@ -7,12 +7,10 @@ const Urunler =props=>{
   const [sepetteymiş,setSepette]       = useState(false)
   useEffect(()=>{
     var index=props.begeni.findIndex(p=>p._id===props.urun._id);
-    console.log('beğeni sırası--->',index)
     if(index>-1){
       setBeğenilmiş(true)
     }
     var sepetsırası = props.sepet.findIndex(p=>p._id===props.urun._id);
-    console.log('sepet sırası--->',sepetsırası)
     if(sepetsırası>-1){
       setSepette(true)
     }
@@ -25,10 +23,10 @@ const Urunler =props=>{
            <Alert color="danger">Bu ürün stokta yoktur!</Alert>
          </>
          :
-         <Button.Group  size='small'>
-           <Button color={!beğenilmiş ? 'pink' : 'grey'} active={!beğenilmiş} onClick={()=>props.begen(props.urun)}><Icon name='heart outline'/></Button>
+         <Button.Group className="alışveriş_butonları"  size='mini'>
+           <Button size='mini' color={!beğenilmiş ? 'pink' : 'grey'} active={!beğenilmiş} onClick={()=>props.begen(props.urun)}><Icon name='heart outline'/></Button>
            <Button.Or text=' ' />
-           <Button    onClick={()=>props.sepeteEkle(props.urun)} color={!sepetteymiş ? 'green' : 'black'}>{!sepetteymiş ? <span>Sepete Ekle</span>: <span>Sepette</span>}</Button>
+           <Button size='mini'   onClick={()=>props.sepeteEkle(props.urun)} color={!sepetteymiş ? 'green' : 'black'}>{!sepetteymiş ? <span>Sepete Ekle</span>: <span>Sepette</span>}</Button>
          </Button.Group>
      }
     </div>
@@ -36,7 +34,7 @@ const Urunler =props=>{
   )
   return(
     <Col xs="12">
-      <Card>
+      <Card className="urun_card">
        <img className="urun_gorsel" src={props.urun.img}></img>
         <Card.Content   onClick={()=>props.urunAç(props.urun)}>
           <Card.Header><span className="text-center floated h6 text-uppercase"> {props.urun.ad} </span></Card.Header>
