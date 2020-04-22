@@ -583,12 +583,19 @@ html{
 .css-nill{
   margin-top: 200px !important;
 }
-
+.kategori_urunler{
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.kateori_kapsam{
+  margin-left: 5%;
+  margin-right: 5%;
+}
 .yan_menu{
-  background-color: #1B3D2F;
+  background-color: white;
   margin-top: 10%;
-  height: 100%;
   overflow: hidden;
+  padding-bottom: 10% !important;
 }
 .yan_menu_giris{
   margin-left: 4%;
@@ -636,3 +643,4 @@ html{
    width:120% ;
    margin-left: -10%;
  }
+

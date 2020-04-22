@@ -1,9 +1,10 @@
 import React from 'react'
 
 import {Row,Col} from "reactstrap";
-import {Header ,Label} from "semantic-ui-react";
+import {Header ,Label,Container} from "semantic-ui-react";
 import {SelectMenu, Icon, Button} from 'evergreen-ui'
 import Kaydırak from "../../Parcalar/Kaydırak";
+import Urunler from "../../Main/Urunler";
 
 class Kategoriler extends React.Component{
   constructor(props){
@@ -54,9 +55,20 @@ class Kategoriler extends React.Component{
         </span>
           <span className="float-right"><Label>{this.state.urunler.length} ürün</Label></span>
         </Header>
+        <br/>
       </Col>
       <Col xs="12">
-      <Kaydırak {...this.props} urunler={this.state.urunler} />
+      <div className="kateori_kapsam">
+        <Row>
+          {
+            this.state.urunler.map(e=>
+              <Col className="kategori_urunler" key={e._id} xs='6' md='4' lg='3'>
+                <Urunler {...this.props} sepeteEkle={this.props.sepeteEkle} urunAç={this.props.urunAç} urun={e}/>
+              </Col>
+            )
+          }
+        </Row>
+      </div>
       </Col>
     </Row>
 

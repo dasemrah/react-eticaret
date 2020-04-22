@@ -2,19 +2,14 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container, Spinner} from 'reactstrap';
-import {List, Divider,Button,Label,Header} from 'semantic-ui-react'
+import {List, Divider,Header,Button,Label,Icon} from 'semantic-ui-react'
 import '../../style.css'
 import {AppFooter, AppHeader, AppSidebar, AppSidebarFooter, AppSidebarForm, AppSidebarHeader, AppSidebarMinimizer, AppBreadcrumb2 as AppBreadcrumb, AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
-// sidebar nav config
-import navigation from '../../_nav';
 import admin_nav from '../../admin_nav';
-import Arama from "../../views/Parcalar/Arama";
-import UrunMenu from "../../views/Parcalar/UrunMenu";
-// adminRoutes config
 import routes from '../../routes';
 import istek from "../../istek";
 import adminRoutes from "../../adminRoutes";
-import {Pill, SideSheet, toaster,Icon} from "evergreen-ui";
+import {Pill, SideSheet, toaster} from "evergreen-ui";
 import Sepet from "../../views/Pages/Sepet";
 import Disk from 'o.disk'
 
@@ -105,10 +100,14 @@ class DefaultLayout extends Component {
       this.setState(this.state)
       Disk.begeni=this.state.begeni
       console.log('begenilere eklendi-->',this.state.begeni)
+      toaster.success('Beğenilere Eklendi',{duration:1.5})
     }
     else
       {
         console.log('zaten var')
+        toaster.danger(
+          'Urun beğeniler bölümünde'
+        )
       }
   }
   beneniÇıkart=urun=>{
@@ -117,6 +116,10 @@ class DefaultLayout extends Component {
       this.state.begeni.splice(index, 1);
       this.setState(this.state)
       Disk.begeni=this.state.begeni
+      toaster.warning(
+        'Ürün beğenilerden çıkarıldı',
+        {duration:1}
+      )
     }
   }
   ÇıkışYap=()=>{
@@ -202,10 +205,11 @@ class DefaultLayout extends Component {
         toplam:urun.miktar+this.state.toplam,
         urunGoster:false,
       })
+      toaster.success('1 adet '+urun.net+' '+ urun.ad+' eklendi',{duration:1.7})
     }
     else
       {
-      this.mikarDeğiştir(1,this.state.sepet.indexOf(urun),urun)
+      this.mikarDeğiştir(+1,this.state.sepet.indexOf(urun),urun)
       }
     this.seçkeAçKapa()
   }
@@ -331,15 +335,15 @@ class DefaultLayout extends Component {
                       <Button positive onClick={this.giris}>Sisteme Giriş</Button>
                      </Button.Group>
                    </div>
-
-                   <Arama seçkeKapa={this.seçkeKapa} aramaSonucu={this.urunAç} {...this.props}/>
                    <List animated className="kategori_listesi" selection verticalAlign='middle'>
                      {
                        this.state.kategoriler.map(kat=>
                          <List.Item selection={true}  key={kat._id} onClick={()=>this.kategoriSec(kat)}>
-                           <List.Content>
-                             <List.Header><span className="h5"><Header dividing> <span className="text-light">{kat.ad}</span> </Header></span></List.Header>
-                           </List.Content>
+                          <Header as='h6' dividing>
+                            <span className="text-dark text-uppercase text-left floated">{kat.ad}</span>
+                            <br/>
+                          </Header>
+
                          </List.Item>
                        )
                      }
