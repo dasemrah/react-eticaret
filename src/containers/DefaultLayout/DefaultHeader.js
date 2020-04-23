@@ -59,16 +59,16 @@ class DefaultHeader extends Component {
 
          <List horizontal>
            <List.Item>
-              <Icon icon='search' onClick={this.aramaAçKapa} size={24} marginBottom={15}/>
+              <Icon icon='search' onClick={this.aramaAçKapa} size={16} marginBottom={15}/>
            </List.Item>
            <List.Item>
-             <i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i>
+             <Icon icon='heart' size={16} marginBottom={15} onClick={()=>this.props.history.push('/begen')}/>
              <Label size='mini' circular color='purple'>
                {this.props.begeni.length}
              </Label>
            </List.Item>
            <List.Item>
-             <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
+             <Icon icon='shopping-cart' marginBottom={15} size={16} onClick={this.sepetAçKapa}/>
            </List.Item>
          </List>
 

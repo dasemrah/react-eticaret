@@ -149,7 +149,9 @@
 @media screen and (max-width: 600px){
   .navbar-brand{
     margin-top: -5%;
+    margin-left: -100px !important;
   }
+
   .📦w_400px{
     width: 100% !important;
   }
@@ -441,6 +443,17 @@ html{
   margin-bottom: 20%;
 }
 @media only screen and (max-width: 600px) {
+  .arama{
+    position: absolute;
+    top:48px;
+    width: 100% !important;
+    background-color: white;
+  }
+  .search .input{
+    width: 100% !important;
+
+
+  }
   .urun_card{
     height: 100% !important;
 
@@ -454,17 +467,8 @@ html{
     width: 100% !important;
     margin-left: -5% !important;
   }
-  .arama{
-    margin-top: 5% !important;
-    width: 100% !important;
-  }
-  .search
-  .arama .wide .search .input{
-    width: 130% !important;
-  }
-  .arama .wide {
-    width: 100% !important;
-  }
+
+
   .menu{
     width: 120% !important;
     margin-left: -10% !important;
