@@ -52,7 +52,7 @@ class Urun extends Component{
             <Segment className="tek_urun">
               <Row>
                 <Col xs="12" md='6' lg='6'>
-                  <img className="tek_urun_gorsel" size='tiny' src={this.state.urun.img} />
+                  <Image style={{width: '100%',height: '250px'}} size='medium' src={this.state.urun.img} />
                 </Col>
                 <Col xs="12" md='6' lg='6' >
                   <>

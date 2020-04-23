@@ -40,7 +40,7 @@ const Sepet =props=>{
                <Grid>
                  <Grid.Row>
                    <Grid.Column width={4}>
-                     <Image className="sepet_urun_gorsel" src={urun.img}  />
+                     <Image size='tiny' style={{width: '100%', height: '75px'}} src={urun.img}  />
                    </Grid.Column>
                    <Grid.Column width={9}>
                      <h4 className="h4 text-uppercase text-dark text-left">{urun.ad}</h4>
