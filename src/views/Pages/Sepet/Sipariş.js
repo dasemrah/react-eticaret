@@ -52,42 +52,7 @@ const Sipariş =props=>{
       })
       .catch(err=>console.log(err))
   }
-  const Bilgiler=()=>(
-    <Segment raised >
-      <Header as='h4' textAlign='center' dividing>Müşteri Bilgileri</Header>
-      <Input
-        fluid
-        label={{ icon: 'user',color:'teal' }}
-        labelPosition='left corner'
-        value={ad}
-        onChange={e => setAd(e.target.value)}
-        placeholder="Ad Soyad"
-        type="text"
-        required
-      />
-      <br/>
-      <Input
-        fluid
-        label={{ icon: 'phone' ,color:'blue' }}
-        labelPosition='left corner'
-        value={tel}
-        onChange={e => setTel(e.target.value)}
-        placeholder="Telefon"
-        type="phone"
-        required
-      />
-      <br/>
-      <TextArea
-        style={{width:'100%'}}
-        onChange={e=>setDetay(e.target.value)}
-        value={detay}
-        placeholder='Sipariş detayı...'
-      />
-      <br/>
-      <Button positive content='Adres için devam et' icon='location arrow' labelPosition='right'
-              onClick={()=>setEkran('adres')} className="btn-success"/>
-    </Segment>
-  )
+
   const Adımlar=()=>(
    <Col xs='12'>
      <Step.Group  size='mini' className="adım" unstackable>
@@ -157,22 +122,7 @@ const Sipariş =props=>{
       <br/>
     </Col>
   )
-  const AdresGirici=()=>(
-    <Segment raised>
-      <Header as='h3' textAlign='center'>Kargo Adresi</Header>
-      <Input fluid value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required/>
-      <Input fluid value={ilce} onChange={e => setIlce(e.target.value)} placeholder="İlçe" type="text" required/>
-      <Input fluid value={mahalle} onChange={e => setMahalle(e.target.value)} placeholder="Mahalle" type="text" required/>
-      <TextArea
-        style={{width:'100%'}}
-        onChange={e=>setTamAdres(e.target.value)}
-        value={tamAdres}
-        placeholder='cadde, sokak ve diğer bilgileri giriniz'
-      />
-      <Button positive content='Ödemeye  Devam Et' icon='shopping cart' labelPosition='right'
-              onClick={()=>setEkran('ödeme')} className="btn-success"/>
-    </Segment>
-  )
+
   const ÖdemeTamamla=()=>{
     console.log('sipariş bilgileri',ad,il,ilce,mahalle,tamAdres,ödemeYöntemi,props.sepet)
   }
@@ -223,9 +173,56 @@ const Sipariş =props=>{
                 <Col xs="12" lg="7" md="7">
                   {
                     ekran === 'bilgi' ?
-                      <Bilgiler/>
+                      <Segment raised >
+                        <Header as='h4' textAlign='center' dividing>Müşteri Bilgileri</Header>
+                        <Input
+                          fluid
+                          label={{ icon: 'user',color:'teal' }}
+                          labelPosition='left corner'
+                          value={ad}
+                          onChange={e => setAd(e.target.value)}
+                          placeholder="Ad Soyad"
+                          type="text"
+                          required
+                        />
+                        <br/>
+                        <Input
+                          fluid
+                          label={{ icon: 'phone' ,color:'blue' }}
+                          labelPosition='left corner'
+                          value={tel}
+                          onChange={e => setTel(e.target.value)}
+                          placeholder="Telefon"
+                          type="phone"
+                          required
+                        />
+                        <br/>
+                        <TextArea
+                          style={{width:'100%'}}
+                          onChange={e=>setDetay(e.target.value)}
+                          value={detay}
+                          placeholder='Sipariş detayı...'
+                        />
+                        <br/>
+                        <Button positive content='Adres için devam et' icon='location arrow' labelPosition='right'
+                                onClick={()=>setEkran('adres')} className="btn-success"/>
+                      </Segment>
+
                       :ekran === 'adres' ?
-                       <AdresGirici/>
+                      <Segment raised>
+                        <Header as='h3' textAlign='center'>Kargo Adresi</Header>
+                        <Input fluid value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required/>
+                        <Input fluid value={ilce} onChange={e => setIlce(e.target.value)} placeholder="İlçe" type="text" required/>
+                        <Input fluid value={mahalle} onChange={e => setMahalle(e.target.value)} placeholder="Mahalle" type="text" required/>
+                        <TextArea
+                          style={{width:'100%'}}
+                          onChange={e=>setTamAdres(e.target.value)}
+                          value={tamAdres}
+                          placeholder='cadde, sokak ve diğer bilgileri giriniz'
+                        />
+                        <Button positive content='Ödemeye  Devam Et' icon='shopping cart' labelPosition='right'
+                                onClick={()=>setEkran('ödeme')} className="btn-success"/>
+                      </Segment>
                        :ekran === 'ödeme' ?
                         ödendi ?
                           <ÖdendiEkranı/>
