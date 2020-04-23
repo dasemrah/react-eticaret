@@ -71,13 +71,7 @@
  width: 100% !important;
   background-color:  #e3f2fd;
 }
-.sepet_urun_gorsel{
-  width: 100%;
-  height: 80px !important;
-  object-fit: cover;
-  object-position: 55% 20%;
-  border-radius: 8px;
-}
+
 .sepet_eleman{
   margin-top: 5px;
   width: 90% !important;
@@ -442,6 +436,8 @@ html{
 .kaydırak{
   margin-bottom: 20%;
 }
+
+
 @media only screen and (max-width: 600px) {
   .arama{
     position: absolute;
@@ -456,13 +452,8 @@ html{
   }
   .urun_card{
     height: 100% !important;
+  }
 
-  }
-  .urun_gorsel{
-    height: 120px !important;
-    object-fit: cover;
-    object-position: 20% 0;
-  }
   .alışveriş_butonları{
     width: 100% !important;
     margin-left: -5% !important;
@@ -513,15 +504,14 @@ html{
 
 }
 @media only screen and (min-width: 1024px) {
-
+  .urun_card{
+    height: 100% !important;
+    margin: 2% 5% !important;
+  }
   .urun_gorsel{
     height: 350px;
   }
-  .tek_urun_gorsel{
-    height: 350px !important;
-    object-fit: cover;
-    object-position: 10% 20%;
-  }
+
 
   .nasıl{
     height: 300px;
@@ -529,7 +519,7 @@ html{
   .slayt{
     height: 650px;
     width: 100%;
-    object-fit: cover;
+
     object-position: 0 20%;
   }
 
@@ -562,7 +552,7 @@ html{
 
 .tek_urun_gorsel{
   width: 100%;
-  object-fit: cover;
+
 }
 .tek_urun_icerik{
   margin-top: 5%;
@@ -577,7 +567,6 @@ html{
 .urun_gorsel{
   width: 100%;
   border-radius: 0 0 0 0 !important;
-  object-fit: cover;
 
 }
 .sepete_at{
@@ -607,7 +596,7 @@ html{
 
 .nasıl{
   width: 200%;
-  object-fit: cover;
+
   object-position: 40% 50%;
   border-radius: 0px !important;
 }

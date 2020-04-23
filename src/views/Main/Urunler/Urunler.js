@@ -35,9 +35,9 @@ const Urunler =props=>{
   return(
     <>
 
-      <Segment raised color="teal">
+      <Segment className="urun_card">
         <Grid>
-          <Grid.Column width={16}> <Image src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
+          <Grid.Column width={16}> <Image className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
           <Grid.Column  width={16}>
             <List onClick={()=>props.urunAç(props.urun)}>
               <List.Item><span className="text-dark h6 text-uppercase text-center floated">{props.urun.ad}</span></List.Item>
