@@ -228,6 +228,7 @@ class DefaultLayout extends Component {
       this.state.sepet.splice(index, 1);
       this.setState(this.state)
       this.toplamHesapla()
+      toaster.warning(urun.ad+' çıkarıldı')
     }
     this.sepetMiktar(this.state.sepet.length)
 
