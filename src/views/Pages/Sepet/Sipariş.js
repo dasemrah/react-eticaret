@@ -1,14 +1,13 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
 import {Button, Step, Icon, Segment, Input ,Header, Label, TextArea} from 'semantic-ui-react'
-import {Alert, Table, Menu} from 'evergreen-ui'
+import {Alert, Table, Menu,toaster} from 'evergreen-ui'
 import api from "../../../istek";
+import SiparişTamam from "./SiparişTamam";
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
-  const [adres, setAdres]   =useState("");
   const [tel,setTel]        =useState("")
   const [detay,setDetay]    =useState("")
-  const [olay,setOlay]      =useState(false);
   const [ücret,ÜcretDeğiş]  =useState(0);
   const [siparis,setSiparis]=useState([])
   const [ekran, setEkran] = useState('bilgi')
@@ -28,8 +27,9 @@ const Sipariş =props=>{
   const siparişTamamla=()=>{
     let veriler={
       ad:   ad,
-      adres:adres,
-      tel:  tel
+      adres:il+' '+ilce+ ' '+mahalle+' '+tamAdres,
+      tel:  tel,
+      odeme_yontemi:ödemeYöntemi,
     }
     var ucret=0
     props.sepet.map(urun=>ucret+=urun.fiyat*urun.miktar)
@@ -40,15 +40,22 @@ const Sipariş =props=>{
           telefon     :   veriler.tel,
           adres       :   veriler.adres,
           ucret       :   ucret,
+          odeme_yontemi : veriler.odeme_yontemi,
           urunler     :   props.sepet,
         }
       })
       .then(ynt=>{
         console.log('yanıt',ynt.data)
-       setOlay(true)
-        setSiparis(ynt.data.siparis)
-        console.log('sipariş oluştu',siparis)
-        props.sepetiBosalt()
+        if(ynt.data.olay){
+          setÖdendi(true)
+          setSiparis(ynt.data.siparis)
+          console.log('sipariş oluştu',ynt.data.siparis)
+          toaster.success('Siparişiniz'+ynt.datasiparis.tarih+ ' tarihinde oluşturuldu')
+          props.sepetiBosalt()
+        }
+        else {
+          toaster.danger('Siparişiniz oluşturulamadı')
+        }
       })
       .catch(err=>console.log(err))
   }
@@ -123,13 +130,18 @@ const Sipariş =props=>{
     </Col>
   )
 
-  const ÖdemeTamamla=()=>{
-    console.log('sipariş bilgileri',ad,il,ilce,mahalle,tamAdres,ödemeYöntemi,props.sepet)
-  }
+  const Banka=()=>(
+    <>
+      <Header as='a' textAlign='center' dividing>
+        <Header.Subheader>
+          
+        </Header.Subheader>
+      </Header>
+    </>
+  )
   const Yöntem=(e)=>{
     setÖdemeYöntemi(e);
-    setÖdendi(true)
-    ÖdemeTamamla();
+    siparişTamamla();
   }
   const ÖdemeSeç=()=>(
     <>
@@ -159,10 +171,8 @@ const Sipariş =props=>{
     </>
   )
   return(
-    <div className="sipariş_onay">
-      {olay ?
-      <Alert intent="success" title="Siparişiniz Başarıyla Kaydedildi! Sipariş ayrıntıları ve ödeme bilgisi için telefonunuza gelen mesaja bakınız."/>
-        :
+    <div>
+
         <Row>
           {
             props.sepet.length === 0 ?
@@ -236,7 +246,7 @@ const Sipariş =props=>{
               <SiparişDetayı/>
               </>
           }
-        </Row>}
+        </Row>
     </div>
   )
 }
