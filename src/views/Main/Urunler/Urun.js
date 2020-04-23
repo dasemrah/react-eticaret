@@ -45,6 +45,10 @@ class Urun extends Component{
       <>
         <Row>
           <Col xs="12">
+
+
+
+
             <Segment className="tek_urun">
               <Row>
                 <Col xs="12" md='6' lg='6'>

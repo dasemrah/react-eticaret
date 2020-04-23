@@ -33,23 +33,32 @@ const Urunler =props=>{
 
   )
   return(
-    <Col xs="12">
-      <Card className="urun_card">
-       <img className="urun_gorsel" src={props.urun.img}></img>
-        <Card.Content   onClick={()=>props.urunAç(props.urun)}>
-          <Card.Header><span className="text-center floated h6 text-uppercase"> {props.urun.ad} </span></Card.Header>
-          <Card.Meta><span className="text-dark h5 text-left floated">{props.urun.net}  </span>
-            <span className="text-right floated">
-            <span className="text-danger h4"> {props.urun.fiyat} ₺ </span>
-            </span>
-          </Card.Meta>
+    <>
 
-        </Card.Content>
-        <Card.Content extra>
-          {extra}
-        </Card.Content>
-      </Card>
-    </Col>
+      <Segment raised color="teal">
+        <Grid>
+          <Grid.Column width={16}> <Image src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
+          <Grid.Column  width={16}>
+            <List onClick={()=>props.urunAç(props.urun)}>
+              <List.Item><span className="text-dark h6 text-uppercase text-center floated">{props.urun.ad}</span></List.Item>
+              <List.Item>
+                <List horizontal>
+                  <List.Item>
+                    <span className="text-danger h4">{props.urun.fiyat} ₺  </span>
+                  </List.Item>
+                  <List.Item>
+                    <span className="h4 text-uppercase">{props.urun.net} </span>
+                  </List.Item>
+                </List>
+              </List.Item>
+            </List>
+            <List>
+              {extra}
+            </List>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      </>
   )
 }
 export default Urunler;

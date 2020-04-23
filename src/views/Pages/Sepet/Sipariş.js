@@ -109,13 +109,15 @@ const Sipariş =props=>{
                     <Table>
                       <Table.Head>
                         <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
+                        <Table.TextHeaderCell> </Table.TextHeaderCell>
                         <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
                         <Table.TextHeaderCell>₺</Table.TextHeaderCell>
                       </Table.Head>
                       <Table.VirtualBody height={240}>
                         {props.sepet.map(urun => (
                           <Table.Row key={urun._id} isSelectable onSelect={() => props.açKapa()}>
-                            <Table.TextCell><img src={urun.img} style={{width: '55px'}} alt=""/>{urun.ad}</Table.TextCell>
+                            <Table.TextCell><img src={urun.img} style={{width: '55px'}} alt=""/></Table.TextCell>
+                            <Table.TextCell>{urun.ad}</Table.TextCell>
                             <Table.TextCell>{urun.miktar}</Table.TextCell>
                             <Table.TextCell isNumber>
                               {urun.miktar * urun.fiyat}
@@ -167,6 +169,7 @@ const Sipariş =props=>{
                     />
                     <br/>
                     <TextArea
+                      style={{width:'100%'}}
                       onChange={e=>setDetay(e.target.value)}
                       value={detay}
                       placeholder='Sipariş detayı...'

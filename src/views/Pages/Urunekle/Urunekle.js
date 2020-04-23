@@ -5,7 +5,7 @@ import axios from 'axios';
 import ImageUploader from 'react-images-upload';
 import {Alert,Popover,Menu} from "evergreen-ui";
 import {Label} from "semantic-ui-react";
-
+import Resizer from 'react-image-file-resizer';
 
 
 class Urunekle extends Component{
@@ -29,6 +29,7 @@ class Urunekle extends Component{
       loading:0,
       modal:false,
       yeni_urun:'',
+      resim:''
     };
     this.handleChange=this.handleChange.bind(this);
 
@@ -69,10 +70,12 @@ class Urunekle extends Component{
     })
     console.log('Resimler:---->',this.state.pictures);
     let file = this.state.pictures[0];
+
     // Split the filename to get the name and type
     let fileName = file.name;
     let fileType = file.type;
     console.log("Preparing the upload");
+
     istek.post('/sign',{
       fileName : fileName,
       fileType : fileType
@@ -102,6 +105,7 @@ class Urunekle extends Component{
               success: true,
               file_url:fileUrl
             });
+
             istek.post('/urunekle',this.state)
               .then(ynt=>{
                 console.log('ürün eklendi dönen yanıt:>>>>>>>>>',ynt.data)
@@ -111,15 +115,22 @@ class Urunekle extends Component{
                 console.log(ynt)
               })
               .catch(err=>console.log(err))
+
+
           })
 
           .catch(error => {
             console.log(error)
           })
+
+
+
+
       })
       .catch(error => {
         console.log(error)
       })
+
 
 
 
@@ -199,7 +210,8 @@ class Urunekle extends Component{
         <>
           <Row>
             {
-              this.state.success ? <SuccessMessage/>
+              this.state.success ?
+               <SuccessMessage/>
                 :
                 <Col xs="12">
 
