@@ -66,8 +66,9 @@ class Main extends React.Component{
                 <br/>
                 <br/>
                 <>
-                  <Header as='h2' textAlign='center' dividing>
-                    En Popüler Ürünler
+                  <Header as='h4' textAlign='center' dividing>
+                    En Çok Satan Ürünler
+                    <img src="https://img.icons8.com/cute-clipart/36/000000/flower-delivery.png"/>
                   </Header>
                   <Kaydırak
                     urunler={this.state.urunler}

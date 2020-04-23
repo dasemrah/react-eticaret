@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
-import {Button,Step,Icon,Segment,Input ,Header,Label,TextArea} from 'semantic-ui-react'
-import {Alert,Table} from 'evergreen-ui'
+import {Button, Step, Icon, Segment, Input ,Header, Label, TextArea} from 'semantic-ui-react'
+import {Alert, Table, Menu} from 'evergreen-ui'
 import api from "../../../istek";
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
@@ -11,7 +11,13 @@ const Sipariş =props=>{
   const [olay,setOlay]      =useState(false);
   const [ücret,ÜcretDeğiş]  =useState(0);
   const [siparis,setSiparis]=useState([])
-
+  const [ekran, setEkran] = useState('bilgi')
+  const [il, setIl] = useState('')
+  const [ilce, setIlce] = useState('')
+  const [mahalle, setMahalle] = useState('')
+  const [tamAdres, setTamAdres]=useState('');
+  const [ödemeYöntemi, setÖdemeYöntemi] = useState('');
+  const [ödendi, setÖdendi] = useState(false);
   useEffect(()=>{
       var toplam=0
       props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
@@ -46,144 +52,195 @@ const Sipariş =props=>{
       })
       .catch(err=>console.log(err))
   }
+  const Bilgiler=()=>(
+    <Segment raised >
+      <Header as='h4' textAlign='center' dividing>Müşteri Bilgileri</Header>
+      <Input
+        fluid
+        label={{ icon: 'user',color:'teal' }}
+        labelPosition='left corner'
+        value={ad}
+        onChange={e => setAd(e.target.value)}
+        placeholder="Ad Soyad"
+        type="text"
+        required
+      />
+      <br/>
+      <Input
+        fluid
+        label={{ icon: 'phone' ,color:'blue' }}
+        labelPosition='left corner'
+        value={tel}
+        onChange={e => setTel(e.target.value)}
+        placeholder="Telefon"
+        type="phone"
+        required
+      />
+      <br/>
+      <TextArea
+        style={{width:'100%'}}
+        onChange={e=>setDetay(e.target.value)}
+        value={detay}
+        placeholder='Sipariş detayı...'
+      />
+      <br/>
+      <Button positive content='Adres için devam et' icon='location arrow' labelPosition='right'
+              onClick={()=>setEkran('adres')} className="btn-success"/>
+    </Segment>
+  )
+  const Adımlar=()=>(
+   <Col xs='12'>
+     <Step.Group  size='mini' className="adım" unstackable>
+       <Step onClick={()=>setEkran('bilgi')} active={ekran==='bilgi'}>
+         <Icon color='blue' name='user' />
+         <Step.Content>
+           <Step.Description>Müşteri Bilgileri</Step.Description>
+         </Step.Content>
+       </Step>
+       <Step onClick={()=>setEkran('adres')} active={ekran==='adres'}>
+         <Icon color='orange' name='location arrow' />
+         <Step.Content>
+           <Step.Description>Adres</Step.Description>
+         </Step.Content>
+       </Step>
+       <Step onClick={()=>setEkran('ödeme')} active={ekran==='ödeme'}>
+         <Icon color='teal' name='shopping cart' />
+         <Step.Content>
+           <Step.Description>Ödeme</Step.Description>
+         </Step.Content>
+       </Step>
+     </Step.Group>
+     <br/><br/>
+   </Col>
+  )
+  const ÜrünYokUyarısı=()=>(
+    <Col xs="12">
+      <Alert intent="none" title="Sepette Hiç Ürün Yok." marginBottom={32}
+      />
+    </Col>
+  )
+  const SiparişDetayı=()=>(
+    <Col xs="12" lg="5" md="5">
+      <Segment raised>
 
+        <Header as='h4' textAlign='center' dividing>
+          Sipariş Özeti
+          <Header.Subheader>
+            {props.sepet.length} ürün
+          </Header.Subheader>
+        </Header>
+
+        <Table>
+          <Table.Head>
+            <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
+            <Table.TextHeaderCell> </Table.TextHeaderCell>
+            <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
+            <Table.TextHeaderCell>₺</Table.TextHeaderCell>
+          </Table.Head>
+          <Table.Body>
+            {props.sepet.map(urun => (
+              <Table.Row height="auto" key={urun._id} isSelectable onSelect={() => props.açKapa()}>
+                <Table.TextCell><img src={urun.img} style={{width: '55px'}} alt=""/></Table.TextCell>
+                <Table.TextCell>{urun.ad}</Table.TextCell>
+                <Table.TextCell>{urun.miktar}</Table.TextCell>
+                <Table.TextCell isNumber>
+                  {urun.miktar * urun.fiyat}
+                </Table.TextCell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+
+        </Table>
+        <br/>
+        <span className="text-center text-uppercase text-dark h4">toplam ücret: {ücret} ₺</span>
+      </Segment>
+      <br/>
+    </Col>
+  )
+  const AdresGirici=()=>(
+    <Segment raised>
+      <Header as='h3' textAlign='center'>Kargo Adresi</Header>
+      <Input fluid value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required/>
+      <Input fluid value={ilce} onChange={e => setIlce(e.target.value)} placeholder="İlçe" type="text" required/>
+      <Input fluid value={mahalle} onChange={e => setMahalle(e.target.value)} placeholder="Mahalle" type="text" required/>
+      <TextArea
+        style={{width:'100%'}}
+        onChange={e=>setTamAdres(e.target.value)}
+        value={tamAdres}
+        placeholder='cadde, sokak ve diğer bilgileri giriniz'
+      />
+      <Button positive content='Ödemeye  Devam Et' icon='shopping cart' labelPosition='right'
+              onClick={()=>setEkran('ödeme')} className="btn-success"/>
+    </Segment>
+  )
+  const ÖdemeTamamla=()=>{
+    console.log('sipariş bilgileri',ad,il,ilce,mahalle,tamAdres,ödemeYöntemi,props.sepet)
+  }
+  const Yöntem=(e)=>{
+    setÖdemeYöntemi(e);
+    setÖdendi(true)
+    ÖdemeTamamla();
+  }
+  const ÖdemeSeç=()=>(
+    <>
+      <Header as='h3' textAlign='center' dividing>
+        Ödeme Yöntemi Seçiniz
+      </Header>
+      <Menu>
+        <Menu.Group>
+          <Menu.Item icon='home' onSelect={() => Yöntem('kapıda')}>Kapıda ödeme ile sipariş vermek istiyorum</Menu.Item>
+          <Menu.Item icon='credit-card' onSelect={() => Yöntem('havale')}>EFT / Havale ile ödeme yapmak istiyorum</Menu.Item>
+        </Menu.Group>
+        <Menu.Divider />
+      </Menu>
+    </>
+  )
+  const ÖdendiEkranı=()=>(
+    <>
+      {
+        ödemeYöntemi=== 'kapıda' ?
+          <span>Sipariş Kapıda Ödenecek</span>
+          : ödemeYöntemi === 'havale' ?
+          <span>
+            Hesap Bilgileri
+          </span>
+          :null
+      }
+    </>
+  )
   return(
-    <Container className="sipariş_onay">
+    <div className="sipariş_onay">
       {olay ?
       <Alert intent="success" title="Siparişiniz Başarıyla Kaydedildi! Sipariş ayrıntıları ve ödeme bilgisi için telefonunuza gelen mesaja bakınız."/>
         :
         <Row>
           {
             props.sepet.length === 0 ?
-              <>
-              {ad.length>0 && adres.length>0 && tel.length>0
-                ? null
-                :
-                <Col xs="12">
-                  <Alert
-                    intent="none"
-                    title="Sepette Hiç Ürün Yok."
-                    marginBottom={32}
-                  />
-                </Col>
-              }
-              </>
+              <ÜrünYokUyarısı/>
               :
               <>
-                <Col xs="12">
-                  <Step.Group className="adım" unstackable>
-                    <Step  onClick={()=>props.history.push('/kategori')}>
-                      <Icon name='shopping basket' />
-                      <Step.Content>
-                        <Step.Description>Alışveriş yap</Step.Description>
-                      </Step.Content>
-                    </Step>
-                    <Step active>
-                      <Icon name='info circle' />
-                      <Step.Content>
-                        <Step.Description>Kargo bilgileri</Step.Description>
-                      </Step.Content>
-                    </Step>
-                    <Step disabled>
-                      <Icon name='dollar' />
-                      <Step.Content>
-                        <Step.Description>Siparişi tamamla</Step.Description>
-                      </Step.Content>
-                    </Step>
-                  </Step.Group>
-                </Col>
-                <Col xs="12">
-                  <br/><br/>
-                  <Alert
-                    intent="none"
-                    title="Aşağıdan Kargo Bilgilerini Giriniz."
-                    marginBottom={32}
-                  />
-                </Col>
-                <Col xs="12" lg="6" md="6">
-                  <br/>
-                  <Segment color="pink">
-                    <Header as='h3' textAlign='center'>
-                      Sipariş Özeti   <Label circular color='black'> {props.sepet.length}</Label> ürün
-                    </Header>
-                    <Table>
-                      <Table.Head>
-                        <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
-                        <Table.TextHeaderCell> </Table.TextHeaderCell>
-                        <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
-                        <Table.TextHeaderCell>₺</Table.TextHeaderCell>
-                      </Table.Head>
-                      <Table.VirtualBody height={240}>
-                        {props.sepet.map(urun => (
-                          <Table.Row key={urun._id} isSelectable onSelect={() => props.açKapa()}>
-                            <Table.TextCell><img src={urun.img} style={{width: '55px'}} alt=""/></Table.TextCell>
-                            <Table.TextCell>{urun.ad}</Table.TextCell>
-                            <Table.TextCell>{urun.miktar}</Table.TextCell>
-                            <Table.TextCell isNumber>
-                              {urun.miktar * urun.fiyat}
-                            </Table.TextCell>
-                          </Table.Row>
-                        ))}
-                      </Table.VirtualBody>
+                 <Adımlar/>
+                <Col xs="12" lg="7" md="7">
+                  {
+                    ekran === 'bilgi' ?
+                      <Bilgiler/>
+                      :ekran === 'adres' ?
+                       <AdresGirici/>
+                       :ekran === 'ödeme' ?
+                        ödendi ?
+                          <ÖdendiEkranı/>
+                          :
+                          <ÖdemeSeç/>
+                        :null
 
-                    </Table>
-                    <span className="text-center text-uppercase text-muted h4">toplam ücret: {ücret} ₺</span>
-                  </Segment>
+                  }
                   <br/>
                 </Col>
-                <Col xs="12" lg="6" md="6">
-                  <br/>
-                  <Segment color="orange">
-                    <Header as='h3' textAlign='center'>Müşteri Bilgileri</Header>
-                    <Input
-                      fluid
-                      label={{ icon: 'user',color:'teal' }}
-                      labelPosition='left corner'
-                      value={ad}
-                      onChange={e => setAd(e.target.value)}
-                      placeholder="Ad Soyad"
-                      type="text"
-                      required
-                    />
-                    <br/>
-                    <Input
-                      fluid
-                      label={{ icon: 'location arrow' ,color:'orange'}}
-                      labelPosition='left corner'
-                      value={adres}
-                      onChange={e => setAdres(e.target.value)}
-                      placeholder="Adres"
-                      type="text"
-                      required
-                    />
-                    <br/>
-                    <Input
-                      fluid
-                      label={{ icon: 'phone' ,color:'blue' }}
-                      labelPosition='left corner'
-                      value={tel}
-                      onChange={e => setTel(e.target.value)}
-                      placeholder="Telefon"
-                      type="phone"
-                      required
-                    />
-                    <br/>
-                    <TextArea
-                      style={{width:'100%'}}
-                      onChange={e=>setDetay(e.target.value)}
-                      value={detay}
-                      placeholder='Sipariş detayı...'
-                    />
-                    <br/>
-                    <Button positive content='Siparişi Onayla' icon='right arrow' labelPosition='right'
-                            onClick={siparişTamamla} className="btn-success"/>
-                  </Segment>
-                  <br/>
-                </Col>
+              <SiparişDetayı/>
               </>
           }
         </Row>}
-    </Container>
+    </div>
   )
 }
 

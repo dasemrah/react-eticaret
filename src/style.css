@@ -84,6 +84,10 @@
   margin-right: 5px;
   box-shadow: -1px 4px 15px -12px rgba(0,0,0,0.75);
 }
+.steps{
+  width: 80% !important;
+  margin-left: 10% !important;
+}
 .sepet_onay{
   position: fixed;
   bottom: 0;
