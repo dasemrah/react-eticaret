@@ -59,8 +59,8 @@ class DefaultLayout extends Component {
       this.setState({
         kategoriler:ynt.data.foundUrun,
         olay:1,
-        urunler:ynt.data.foundUrun[0].urunler,
-        kategori:ynt.data.foundUrun[0].ad
+        urunler:ynt.data.foundUrun[4].urunler,
+        kategori:ynt.data.foundUrun[4].ad
       })
     }).catch((err)=>console.log(err));
     istek.get('/populer').then(ynt=>{
@@ -325,15 +325,15 @@ class DefaultLayout extends Component {
                 >
 
                  <div className="yan_menu">
-                   <br/><br/>
+                   <br/><br/><br/>
                    <Icon name='close' color='red' onClick={this.yanMenuAcKapa} className="float-right"/>
 
                    <List animated className="kategori_listesi" selection verticalAlign='middle'>
                      {
                        this.state.kategoriler.map(kat=>
                          <List.Item selection={true}  key={kat._id} onClick={()=>this.kategoriSec(kat)}>
-                          <Header as='h6' dividing>
-                            <span className="text-dark text-uppercase text-left floated">{kat.ad}</span>
+                          <Header as='a' dividing>
+                            <span className="text-dark text-capitalize p text-left floated">{kat.ad}</span>
                             <br/>
                           </Header>
 

@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,200&display=swap');
 .main{
   background-color: whitesmoke;
 }
 *{
-  font-family: Roboto;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 .istatistik{
   background-color: #C86262;
