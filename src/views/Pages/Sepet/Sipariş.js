@@ -50,7 +50,7 @@ const Sipariş =props=>{
           setÖdendi(true)
           setSiparis(ynt.data.siparis)
           console.log('sipariş oluştu',ynt.data.siparis)
-          toaster.success('Siparişiniz'+ynt.datasiparis.tarih+ ' tarihinde oluşturuldu')
+          toaster.success('Siparişiniz '+ynt.data.siparis.tarih+' tarihinde oluşturuldu')
           props.sepetiBosalt()
         }
         else {
@@ -113,12 +113,31 @@ const Sipariş =props=>{
         <List>
          <List.Item>
           <Header as='h6' textAlign='center'>
-            {props.sepet.length} ürün
+            {
+              props.sepet.length>0 ?
+                <>
+                  {props.sepet.length} ürün
+                </>
+                :
+                <>
+                {siparis.Urunler.length} ürün
+                </>
+            }
           </Header>
          </List.Item>
           <List.Item>
             <Header as='h5' textAlign='center'>
-              Toplam: <span className="text-danger">{ücret} ₺</span>
+              Toplam: <span className="text-danger">
+              {props.sepet.length>0 ?
+              <>
+                {ücret} ₺
+              </>
+                :
+                <>
+                  {siparis.ucret} ₺
+               </>
+              }
+            </span>
             </Header>
           </List.Item>
         </List>
@@ -211,10 +230,7 @@ const Sipariş =props=>{
     <Container>
 
         <Row>
-          {
-            props.sepet.length === 0 ?
-              <ÜrünYokUyarısı/>
-              :
+
               <>
                  <Adımlar/>
                 <Col xs="12" lg="8" md="8">
@@ -310,7 +326,6 @@ const Sipariş =props=>{
                 </Col>
               <SiparişDetayı/>
               </>
-          }
         </Row>
     </Container>
   )
