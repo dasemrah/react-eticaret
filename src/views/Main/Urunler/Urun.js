@@ -69,7 +69,7 @@ class Urun extends Component{
                       </div>
                       </List.Item>
                       <List.Item>
-                        <div className="align-items-center text-center center">
+                        <div style={{marginTop:'10%'}} className="align-items-center text-center center">
                           <br/>
                           <Button.Group >
                             <Button active={!this.state.beğenilmiş} onClick={()=>this.props.begen(this.state.urun)}>
