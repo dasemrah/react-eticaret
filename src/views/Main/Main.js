@@ -1,10 +1,10 @@
 import React from 'react';
-import Urunler from "./Urunler";
+
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
 import Slayt from "./Slayt";
-import { Container, Segment,  Loader, Header} from 'semantic-ui-react'
-
+import { Container,  Loader} from 'semantic-ui-react'
+import { Placeholder } from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
 import ReklamGoster from "../Parcalar/ReklamGoster";
 import Istatistik from "../Parcalar/Istatistik";
@@ -45,32 +45,48 @@ class Main extends React.Component{
   componentWillUpdate(nextProps, nextState, nextContext) {
     console.log('ana state',nextState)
   }
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextProps.kategoriler.length>0)
-  }
+
 
   render() {
 
-  const Yukleyici=()=> <Loader size="big" active inline='centered' />
+    const { Paragraph } = Placeholder;
+    const YerTutucu = ()=><Paragraph style={{ marginTop: 30 }} rows={5} graph="image" active />
     return(
 
       <div className="ana_sayfa">
         <Row>
              <Col xs="12">
-               <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
+               {this.state.kategoriler.length>0 ?
+                 <div className="slayt_dış">
+                   <Slayt gorseller={this.state.items}/>
+                 </div>
+               :
+                 <YerTutucu/>
+                 }
              </Col>
               <Col xs="12">
               <Container>
-                <ReklamGoster {...this.props}/>
+                {
+                  this.state.urunler.length> 0 ?
+                  <ReklamGoster {...this.props}/>
+                :
+                  <YerTutucu/>
+                }
               </Container>
               </Col>
               <Col xs="12">
-
+br
                 <>
                   <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
-                  <Kaydırak
-                    urunler={this.state.urunler}
-                    {...this.props}/>
+                  <br/>
+                  {
+                    this.state.urunler.length>0 ?
+                      <Kaydırak
+                        urunler={this.state.urunler}
+                        {...this.props}/>
+                      :
+                      <YerTutucu/>
+                  }
                 </>
 
               </Col>
