@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
-import { Step, Icon, Segment, Input ,Header ,List} from 'semantic-ui-react'
+import {Step, Icon, Segment, Input, Header, List, Divider} from 'semantic-ui-react'
 import {Alert, Table, Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label} from 'evergreen-ui'
 import api from "../../../istek";
 import SiparişTamam from "./SiparişTamam";
@@ -59,7 +59,20 @@ const Sipariş =props=>{
       })
       .catch(err=>console.log(err))
   }
-
+  const adresEkranKontrol=()=>{
+    if(ad.length>0 && tel.length>0){
+      setEkran('adres')
+    }else {
+      toaster.warning('Ad ve Soyad bilgilerinizi tamamlayınız')
+    }
+  }
+  const ödemeEkranKontrol = () =>{
+    if(il.length>0,ilce.length>0,mahalle.length>0,tamAdres.length>0){
+      setEkran('ödeme')
+    }else {
+      toaster.warning('Lütfen adres bilgilerinizi tamamlayınız')
+    }
+  }
   const Adımlar=()=>(
    <Col xs='12'>
      <Step.Group  size='mini' className="adım" unstackable>
@@ -69,13 +82,13 @@ const Sipariş =props=>{
            <Step.Description>Müşteri Bilgileri</Step.Description>
          </Step.Content>
        </Step>
-       <Step onClick={()=>setEkran('adres')} active={ekran==='adres'}>
+       <Step onClick={()=>adresEkranKontrol()} active={ekran==='adres'}>
          <Icon color='orange' name='location arrow' />
          <Step.Content>
            <Step.Description>Adres</Step.Description>
          </Step.Content>
        </Step>
-       <Step onClick={()=>setEkran('ödeme')} active={ekran==='ödeme'}>
+       <Step onClick={()=>ödemeEkranKontrol()} active={ekran==='ödeme'}>
          <Icon color='teal' name='shopping cart' />
          <Step.Content>
            <Step.Description>Ödeme</Step.Description>
@@ -109,12 +122,21 @@ const Sipariş =props=>{
             </Header>
           </List.Item>
         </List>
-
+        <Divider/>
       </Segment>
       <br/>
     </Col>
   )
-
+  const Kapıda = () =>(
+    <Segment raised>
+      <Header as='h4' textAlign='center' color='orange'>
+        Kapıda Ödeme Seçildi
+      </Header>
+      <Header.Subheader>
+        Sipariş ücretini kapıda ürünü teslim aldıktan sonra nakit veya kartla ödeyebilirsiniz.
+      </Header.Subheader>
+    </Segment>
+  )
   const Banka=()=>(
     <Segment raised>
       <Header as='h4' textAlign='center' color='orange'>
@@ -162,7 +184,7 @@ const Sipariş =props=>{
   }
   const ÖdemeSeç=()=>(
     <Segment raised>
-      <Header as='h4' textAlign='center' dividing color='orange'>
+      <Header as='h4' textAlign='center' color='orange'>
         Ödeme Yöntemi Seçiniz
       </Header>
       <Menu>
@@ -177,9 +199,9 @@ const Sipariş =props=>{
   const ÖdendiEkranı=()=>(
     <>
       {
-        ödemeYöntemi=== 'kapıda' ?
-          <span>Sipariş Kapıda Ödenecek</span>
-          : ödemeYöntemi === 'havale' ?
+            ödemeYöntemi  === 'kapıda' ?
+          <Kapıda/>
+          : ödemeYöntemi  === 'havale' ?
           <Banka/>
           :null
       }
@@ -235,7 +257,7 @@ const Sipariş =props=>{
                         <br/>
                         <Button
                           height={24}
-                          onClick={()=>setEkran('adres')}
+                          onClick={()=>adresEkranKontrol()}
                           appearance="primary"
                           marginRight={16}
                           intent="warning"
@@ -266,7 +288,7 @@ const Sipariş =props=>{
 
                         <Button
                           height={24}
-                          onClick={()=>setEkran('ödeme')}
+                          onClick={()=>ödemeEkranKontrol()}
                           appearance="primary"
                           marginRight={16}
                           intent="warning"
