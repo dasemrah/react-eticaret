@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Transition, Label, List} from "semantic-ui-react";
-import {Icon, Menu, Popover, Button,toaster } from 'evergreen-ui'
+import {Transition, Label, List, Icon} from "semantic-ui-react";
+import { Menu, Popover, Button,toaster } from 'evergreen-ui'
 import Arama from "../../views/Parcalar/Arama";
 
 class DefaultHeader extends Component {
@@ -52,26 +52,25 @@ class DefaultHeader extends Component {
 
          <List horizontal>
            <List.Item>
-              <Icon icon='search' onClick={this.aramaAçKapa} size={22} marginBottom={15}/>
+            <Icon.Group>
+              <Icon circular color='grey' name='search'  size='large' onClick={this.aramaAçKapa}/>
+
+            </Icon.Group>
            </List.Item>
            <List.Item>
-             <Icon icon='heart' size={22} marginBottom={15} onClick={()=>this.props.history.push('/begen')}/>
-             <Label size='mini' circular color='purple'>
-               {this.props.begeni.length}
-             </Label>
+             <Icon.Group>
+               <Icon name='heart outline' circular color='grey' onClick={()=>this.props.history.push('/begen')} size='large'/>
+               {this.props.begeni.length>0 ?<Label floating circular color='pink' size='small' className="text-danger">{this.props.begeni.length}</Label>:null}
+             </Icon.Group>
            </List.Item>
            <List.Item>
-             <Icon icon='shopping-cart' marginBottom={15} size={22} onClick={this.sepetAçKapa}/>
-             {
-               this.props.sepet.length>0 ?
-                 <Label size='mini' color='red' circular>
-                   {this.props.sepet.length}
-                 </Label>
-                 :null
-             }
+             <Icon.Group>
+               <Icon circular name='shopping cart' color='grey' size='large' onClick={this.sepetAçKapa}/>
+               {this.props.sepet.length>0 ? <Label floating circular color='orange' size='small' className="text-danger">{this.props.sepet.length}</Label>:null}
+             </Icon.Group>
            </List.Item>
            <List.Item>
-             <Icon className="yan_menu_iconu" size={22} marginLeft={10} marginBottom={15} onClick={this.yanMenuAçkapa}  icon="menu" />
+             <Icon name='content' color='grey' circular size='large' onClick={this.yanMenuAçkapa} />
            </List.Item>
          </List>
 
