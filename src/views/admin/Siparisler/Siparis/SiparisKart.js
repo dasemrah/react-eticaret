@@ -37,7 +37,7 @@ const SiparisKart=props=>(
             positive>
             <a className="text-white" target="_blank" href={"https://api.whatsapp.com/send?phone="+props.siparis.telefon}>
               <Icon name="whatsapp"/>
-              {props.siparis.telefon.substring(3,13)}
+              {props.siparis.telefon}
             </a>
           </Button>
           <Button.Or text="."/>

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
-import {Button, Step, Icon, Segment, Input ,Header, Label, TextArea} from 'semantic-ui-react'
-import {Alert, Table, Menu,toaster} from 'evergreen-ui'
+import { Step, Icon, Segment, Input ,Header ,List} from 'semantic-ui-react'
+import {Alert, Table, Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label} from 'evergreen-ui'
 import api from "../../../istek";
 import SiparişTamam from "./SiparişTamam";
 const Sipariş =props=>{
@@ -92,60 +92,77 @@ const Sipariş =props=>{
     </Col>
   )
   const SiparişDetayı=()=>(
-    <Col xs="12" lg="5" md="5">
+    <Col xs="12" lg="4" md="4">
       <Segment raised>
-
-        <Header as='h4' textAlign='center' dividing>
+        <Header as='h4' textAlign='center' dividing color='teal'>
           Sipariş Özeti
-          <Header.Subheader>
-            {props.sepet.length} ürün
-          </Header.Subheader>
         </Header>
+        <List>
+         <List.Item>
+          <Header as='h6' textAlign='center'>
+            {props.sepet.length} ürün
+          </Header>
+         </List.Item>
+          <List.Item>
+            <Header as='h5' textAlign='center'>
+              Toplam: <span className="text-danger">{ücret} ₺</span>
+            </Header>
+          </List.Item>
+        </List>
 
-        <Table>
-          <Table.Head>
-            <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
-            <Table.TextHeaderCell> </Table.TextHeaderCell>
-            <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
-            <Table.TextHeaderCell>₺</Table.TextHeaderCell>
-          </Table.Head>
-          <Table.Body>
-            {props.sepet.map(urun => (
-              <Table.Row height="auto" key={urun._id} isSelectable onSelect={() => props.açKapa()}>
-                <Table.TextCell><img src={urun.img} style={{width: '55px'}} alt=""/></Table.TextCell>
-                <Table.TextCell>{urun.ad}</Table.TextCell>
-                <Table.TextCell>{urun.miktar}</Table.TextCell>
-                <Table.TextCell isNumber>
-                  {urun.miktar * urun.fiyat}
-                </Table.TextCell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-
-        </Table>
-        <br/>
-        <span className="text-center text-uppercase text-dark h4">toplam ücret: {ücret} ₺</span>
       </Segment>
       <br/>
     </Col>
   )
 
   const Banka=()=>(
-    <>
-      <Header as='a' textAlign='center' dividing>
+    <Segment raised>
+      <Header as='h4' textAlign='center' color='orange'>
+        Banka Bilgileri
         <Header.Subheader>
-          
+          Mağazamızın anlaşmalı hesaplarına sipariş ücretini ödeyebilirsiniz.
         </Header.Subheader>
       </Header>
-    </>
+      <List>
+        <List.Item>
+          <Header block as='a' textAlign='center' dividing>
+            Ziraat Bankası
+            <Header.Subheader>
+              <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
+              <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
+              <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
+              <span> SEVGÜL BATUR</span>
+            </Header.Subheader>
+          </Header>
+        </List.Item>
+        <List.Item>
+          <Header as='a' block textAlign='center'>
+            Garanti Bankası
+            <Header.Subheader>
+              <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
+              <span>Sevgül Batur</span>
+            </Header.Subheader>
+          </Header>
+        </List.Item>
+        <List.Item>
+          <Header as='a' block textAlign='center'>
+            İş Bankası
+            <Header.Subheader>
+              <span> IBAN:TR380006400000130211158527</span><br/>
+              <span>Sevgül Batur</span>
+            </Header.Subheader>
+          </Header>
+        </List.Item>
+      </List>
+    </Segment>
   )
   const Yöntem=(e)=>{
     setÖdemeYöntemi(e);
     siparişTamamla();
   }
   const ÖdemeSeç=()=>(
-    <>
-      <Header as='h3' textAlign='center' dividing>
+    <Segment raised>
+      <Header as='h4' textAlign='center' dividing color='orange'>
         Ödeme Yöntemi Seçiniz
       </Header>
       <Menu>
@@ -155,7 +172,7 @@ const Sipariş =props=>{
         </Menu.Group>
         <Menu.Divider />
       </Menu>
-    </>
+    </Segment>
   )
   const ÖdendiEkranı=()=>(
     <>
@@ -163,15 +180,13 @@ const Sipariş =props=>{
         ödemeYöntemi=== 'kapıda' ?
           <span>Sipariş Kapıda Ödenecek</span>
           : ödemeYöntemi === 'havale' ?
-          <span>
-            Hesap Bilgileri
-          </span>
+          <Banka/>
           :null
       }
     </>
   )
   return(
-    <div>
+    <Container>
 
         <Row>
           {
@@ -180,58 +195,86 @@ const Sipariş =props=>{
               :
               <>
                  <Adımlar/>
-                <Col xs="12" lg="7" md="7">
+                <Col xs="12" lg="8" md="8">
                   {
                     ekran === 'bilgi' ?
                       <Segment raised >
-                        <Header as='h4' textAlign='center' dividing>Müşteri Bilgileri</Header>
-                        <Input
-                          fluid
-                          label={{ icon: 'user',color:'teal' }}
-                          labelPosition='left corner'
+                        <Header as='h4' textAlign='center' color='orange'>Alıcı Bilgileri</Header>
+                        <TextInput
+                          name="ad"
                           value={ad}
+                          placeholder="Ad ve soyad girin..."
                           onChange={e => setAd(e.target.value)}
-                          placeholder="Ad Soyad"
-                          type="text"
-                          required
+                          appearance='warning'
+                          width={'100%'}
                         />
-                        <br/>
-                        <Input
-                          fluid
-                          label={{ icon: 'phone' ,color:'blue' }}
-                          labelPosition='left corner'
+
+                        <br/><br/>
+                        <TextInput
+                          name="telefon"
                           value={tel}
+                          placeholder="Telefon numaranız?..."
                           onChange={e => setTel(e.target.value)}
-                          placeholder="Telefon"
-                          type="phone"
-                          required
+                          width={'100%'}
                         />
                         <br/>
-                        <TextArea
-                          style={{width:'100%'}}
-                          onChange={e=>setDetay(e.target.value)}
-                          value={detay}
-                          placeholder='Sipariş detayı...'
-                        />
+                        <Pane>
+                          <Label
+                            htmlFor="not"
+                            marginBottom={4}
+                            display="block"
+                          >
+                            Siparişlerinizle ilgili bir notunuz varsa burada belirtiniz
+                          </Label>
+                          <Textarea id="not"
+                            onChange={e=>setDetay(e.target.value)}
+                            value={detay}
+                            placeholder="Sipariş detayı..."
+                          />
+                        </Pane>
                         <br/>
-                        <Button positive content='Adres için devam et' icon='location arrow' labelPosition='right'
-                                onClick={()=>setEkran('adres')} className="btn-success"/>
+                        <Button
+                          height={24}
+                          onClick={()=>setEkran('adres')}
+                          appearance="primary"
+                          marginRight={16}
+                          intent="warning"
+                          iconAfter='arrow-right'
+                          Warning>
+                         Adresi bilgileri için devam et
+                         </Button>
+
                       </Segment>
 
                       :ekran === 'adres' ?
                       <Segment raised>
-                        <Header as='h3' textAlign='center'>Kargo Adresi</Header>
-                        <Input fluid value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required/>
-                        <Input fluid value={ilce} onChange={e => setIlce(e.target.value)} placeholder="İlçe" type="text" required/>
-                        <Input fluid value={mahalle} onChange={e => setMahalle(e.target.value)} placeholder="Mahalle" type="text" required/>
-                        <TextArea
-                          style={{width:'100%'}}
-                          onChange={e=>setTamAdres(e.target.value)}
-                          value={tamAdres}
-                          placeholder='cadde, sokak ve diğer bilgileri giriniz'
-                        />
-                        <Button positive content='Ödemeye  Devam Et' icon='shopping cart' labelPosition='right'
-                                onClick={()=>setEkran('ödeme')} className="btn-success"/>
+                        <Header as='h4' textAlign='center' color='orange'>Teslimat Adresi</Header>
+                        <TextInput value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required width={'100%'}/>
+                        <br/>
+                        <br/>
+                        <TextInput value={ilce} onChange={e => setIlce(e.target.value)} placeholder="İlçe" type="text" required width={'100%'}/>
+                        <br/>
+                        <br/>
+                        <TextInput value={mahalle} onChange={e => setMahalle(e.target.value)} placeholder="Mahalle" type="text" required width={'100%'}/>
+                        <Pane>
+                          <Label htmlFor="adres" marginBottom={4} display="block">
+                            Detaylı adres
+                          </Label>
+                          <Textarea id="adres" onChange={e=>setTamAdres(e.target.value)} value={tamAdres} placeholder='cadde, sokak ve diğer bilgileri giriniz'
+                          />
+                        </Pane>
+
+                        <Button
+                          height={24}
+                          onClick={()=>setEkran('ödeme')}
+                          appearance="primary"
+                          marginRight={16}
+                          intent="warning"
+                          iconAfter='arrow-right'
+                        >
+                          Ödemeye  Devam Et
+                        </Button>
+
                       </Segment>
                        :ekran === 'ödeme' ?
                         ödendi ?
@@ -247,7 +290,7 @@ const Sipariş =props=>{
               </>
           }
         </Row>
-    </div>
+    </Container>
   )
 }
 
