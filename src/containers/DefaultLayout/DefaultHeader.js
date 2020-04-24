@@ -47,13 +47,6 @@ class DefaultHeader extends Component {
     return (
       <>
       <nav className="navbar navbar-expand-sm  navbar-light">
-          <Transition
-            animation='pulse'
-            duration={500}
-            visible={this.state.yanMenu}
-          >
-            <Icon className="yan_menu_iconu" size={24} marginLeft={10} onClick={this.yanMenuAçkapa}  icon="menu" marginRight={16} />
-          </Transition>
         <a className="navbar-brand" href="#">Nazlı Köy</a>
         <div className="sepet_dar_ekran">
 
@@ -69,16 +62,20 @@ class DefaultHeader extends Component {
            </List.Item>
            <List.Item>
              <Icon icon='shopping-cart' marginBottom={15} size={16} onClick={this.sepetAçKapa}/>
+             {
+               this.props.sepet.length>0 ?
+                 <Label size='mini' color='red' circular>
+                   {this.props.sepet.length}
+                 </Label>
+                 :null
+             }
+           </List.Item>
+           <List.Item>
+             <Icon className="yan_menu_iconu" size={16} marginLeft={10} marginBottom={15} onClick={this.yanMenuAçkapa}  icon="menu" />
            </List.Item>
          </List>
 
-          {
-            this.props.sepet.length>0 ?
-              <Label size='mini' color='red' circular>
-                {this.props.sepet.length}
-              </Label>
-              :null
-          }
+
         </div>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 

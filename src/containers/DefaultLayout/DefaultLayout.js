@@ -326,16 +326,8 @@ class DefaultLayout extends Component {
 
                  <div className="yan_menu">
                    <br/><br/>
-                   <Label circular color="red" onClick={this.yanMenuAcKapa} className="float-right">
-                     <Icon icon="cross" color="danger" />
-                   </Label>
-                   <div className="yan_menu_giris">
-                     <Button.Group>
-                       <Button onClick={this.sorgula}>Sipariş Sorgula</Button>
-                       <Button.Or text=" "/>
-                      <Button positive onClick={this.giris}>Sisteme Giriş</Button>
-                     </Button.Group>
-                   </div>
+                   <Icon name='close' color='red' onClick={this.yanMenuAcKapa} className="float-right"/>
+
                    <List animated className="kategori_listesi" selection verticalAlign='middle'>
                      {
                        this.state.kategoriler.map(kat=>
@@ -352,7 +344,13 @@ class DefaultLayout extends Component {
 
 
                  </div>
-
+                  <div className="yan_menu_giris">
+                    <Button.Group size='mini'>
+                      <Button onClick={this.sorgula}>Sipariş Sorgula</Button>
+                      <Button.Or text=" "/>
+                      <Button positive onClick={this.giris}>Sisteme Giriş</Button>
+                    </Button.Group>
+                  </div>
                 </SideSheet>
 
                 <main className="main">

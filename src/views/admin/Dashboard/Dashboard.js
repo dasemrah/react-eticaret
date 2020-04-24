@@ -62,7 +62,7 @@ componentDidMount() {
 
   })
 }
-  
+
 
 
   sonraki=(ay)=>{
