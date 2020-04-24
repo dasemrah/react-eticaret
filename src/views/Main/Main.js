@@ -56,7 +56,7 @@ class Main extends React.Component{
       <div className="ana_sayfa">
         <Row>
              <Col xs="12">
-               {this.state.kategoriler.length>0 ?
+               {this.props.kategoriler.length>0 ?
                  <div className="slayt_dış">
                    <Slayt gorseller={this.state.items}/>
                  </div>
@@ -67,7 +67,7 @@ class Main extends React.Component{
               <Col xs="12">
               <Container>
                 {
-                  this.state.urunler.length> 0 ?
+                  this.props.kategoriler.length> 0 ?
                   <ReklamGoster {...this.props}/>
                 :
                   <YerTutucu/>
@@ -77,13 +77,16 @@ class Main extends React.Component{
               <Col xs="12">
 br
                 <>
-                  <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
-                  <br/>
+
                   {
-                    this.state.urunler.length>0 ?
+                    this.props.kategoriler.length>0 ?
+                      <>
+                        <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
+                        <br/>
                       <Kaydırak
                         urunler={this.state.urunler}
                         {...this.props}/>
+                        </>
                       :
                       <YerTutucu/>
                   }
