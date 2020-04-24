@@ -62,9 +62,7 @@ componentDidMount() {
 
   })
 }
-   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextState.tumurunler.length===nextState.satın_alım.length)
-   }
+  
 
 
   sonraki=(ay)=>{
