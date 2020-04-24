@@ -65,8 +65,7 @@ class Main extends React.Component{
               </Container>
               </Col>
               <Col xs="12">
-                <br/>
-                <br/>
+
                 <>
                   <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
                   <Kaydırak

@@ -1,5 +1,6 @@
 import React from "react";
-import {Embed, Segment,Divider, Header,Image} from "semantic-ui-react";
+import {Embed, Container, Header,Image} from "semantic-ui-react";
+import {Col, Row} from 'reactstrap'
 const görseller=[
   {img:'https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/1.jpeg'},
   {img:'https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/2.jpeg'},
@@ -17,29 +18,34 @@ const Paketleme =()=>{
     <>
 
         <Header as='h2' icon textAlign='center'>
-          <img src="https://img.icons8.com/nolan/96/packaging.png"/>
-          <Header.Content>Nasıl Paketleme Yapıyoruz?</Header.Content>
-          <Divider/>
+
+          <Header.Content><h3 className="text-center"><span>Nasıl Paketleme Yapıyoruz?</span></h3></Header.Content>
+          <br/>
           <Header.Subheader >
-           <span className="text-light"> {metin}</span>
+           <span className="text-dark"> {metin}</span>
           </Header.Subheader>
         </Header>
-        <Embed
-          autoplay={false}
-          brandedUI
-          color='white'
-          hd={true}
-          icon='video play'
-          placeholder='https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/8.jpeg'
-          url='https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/VIDEO-1.mp4'
-        />
-        <br/>
-        <Image.Group>
-          {görseller.map(görsel=><>
-            <Image className="sayfa_gorsel" src={görsel.img}  size='massive' rounded/>
-            <Divider section/>
-          </>)}
-        </Image.Group>
+      <br/>
+        <Container>
+          <Embed
+            autoplay={false}
+            brandedUI
+            color='white'
+            hd={true}
+            icon='video play'
+            placeholder='https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/8.jpeg'
+            url='https://svgl.s3.eu-west-3.amazonaws.com/sayfalar/VIDEO-1.mp4'
+          />
+          <br/>
+            <Row>
+                {görseller.map(görsel=><>
+                  <Col xs='6' lg='3' md='3'>
+                    <Image className="sayfa_gorsel" src={görsel.img}  size='massive' rounded/>
+                    <br/>
+                  </Col>
+                </>)}
+            </Row>
+        </Container>
     </>
   )
 }
