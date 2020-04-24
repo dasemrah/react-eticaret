@@ -52,16 +52,16 @@ class DefaultHeader extends Component {
 
          <List horizontal>
            <List.Item>
-              <Icon icon='search' onClick={this.aramaAçKapa} size={16} marginBottom={15}/>
+              <Icon icon='search' onClick={this.aramaAçKapa} size={22} marginBottom={15}/>
            </List.Item>
            <List.Item>
-             <Icon icon='heart' size={16} marginBottom={15} onClick={()=>this.props.history.push('/begen')}/>
+             <Icon icon='heart' size={22} marginBottom={15} onClick={()=>this.props.history.push('/begen')}/>
              <Label size='mini' circular color='purple'>
                {this.props.begeni.length}
              </Label>
            </List.Item>
            <List.Item>
-             <Icon icon='shopping-cart' marginBottom={15} size={16} onClick={this.sepetAçKapa}/>
+             <Icon icon='shopping-cart' marginBottom={15} size={22} onClick={this.sepetAçKapa}/>
              {
                this.props.sepet.length>0 ?
                  <Label size='mini' color='red' circular>
@@ -71,7 +71,7 @@ class DefaultHeader extends Component {
              }
            </List.Item>
            <List.Item>
-             <Icon className="yan_menu_iconu" size={16} marginLeft={10} marginBottom={15} onClick={this.yanMenuAçkapa}  icon="menu" />
+             <Icon className="yan_menu_iconu" size={22} marginLeft={10} marginBottom={15} onClick={this.yanMenuAçkapa}  icon="menu" />
            </List.Item>
          </List>
 
