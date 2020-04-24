@@ -2,6 +2,8 @@ import React,{Component} from 'react'
 import {List,Button,Header,Segment,Container,Image} from "semantic-ui-react";
 import {Row,Col} from 'reactstrap'
 import Kaydırak from "../../Parcalar/Kaydırak";
+import Magnifier from "react-magnifier";
+
 import Disk from "o.disk/index";
 class Urun extends Component{
   constructor(props){
@@ -41,6 +43,7 @@ class Urun extends Component{
 
   }
   render() {
+
     return(
       <>
         <Row>
@@ -52,17 +55,17 @@ class Urun extends Component{
             <Segment className="tek_urun">
               <Row>
                 <Col xs="12" md='6' lg='6'>
-                  <Image style={{width: '100%',height: '250px'}} size='medium' src={this.state.urun.img} />
+                  <Magnifier src={this.state.urun.img} width={500} />
                 </Col>
                 <Col xs="12" md='6' lg='6' >
                   <>
                     <List>
-                      <List.Item><Header as='h2' textAlign='center'>{this.state.urun.ad}</Header></List.Item>
+                      <List.Item><h3 className="urun_ad text-center floated">{this.state.urun.ad}</h3></List.Item>
                       <List.Item><span className="p"> <br/>{this.state.urun.aciklama}</span></List.Item>
                       <br/>
                       <List.Item>
                       <div className="align-items-center text-center center">
-                        <span className="text-uppercase"> {this.state.urun.net} {this.state.urun.fiyat} ₺</span>
+                        <span className="text-uppercase"> {this.state.urun.net} <span className="text-danger h3">{this.state.urun.fiyat} ₺</span></span>
                       </div>
                       </List.Item>
                       <List.Item>
@@ -90,9 +93,7 @@ class Urun extends Component{
             <Col xs="12">
 
               <br/>
-                <Header color="brown" as='h2' textAlign='center'  block dividing>
-                  Birlikte tercih edilenler
-                </Header>
+                <h3 className="text-center altCizgi"> <span>Birlikte tercih edilenler</span></h3>
                 <Kaydırak {...this.props} urunler={this.state.tercih}/>
 
             </Col>
@@ -102,9 +103,7 @@ class Urun extends Component{
           {this.state.benzer.length>0 ?
             <Col xs="12">
                 <br/>
-                  <Header  dividing color="black" as='h2' textAlign='center'>
-                    Benzer Ürünler
-                  </Header>
+              <h3 className="text-center altCizgi"> <span>Benzer Ürünler</span></h3>
                   <Kaydırak {...this.props} urunler={this.state.benzer}/>
             </Col>
             :null}

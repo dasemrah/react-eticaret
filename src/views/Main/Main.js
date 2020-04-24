@@ -60,16 +60,15 @@ class Main extends React.Component{
                <div className="slayt_dış"> <Slayt gorseller={this.state.items}/></div>
              </Col>
               <Col xs="12">
-                  <ReklamGoster {...this.props}/>
+              <Container>
+                <ReklamGoster {...this.props}/>
+              </Container>
               </Col>
               <Col xs="12">
                 <br/>
                 <br/>
                 <>
-                  <Header as='h4' textAlign='center' dividing>
-                    En Çok Satan Ürünler
-                    <img src="https://img.icons8.com/cute-clipart/36/000000/flower-delivery.png"/>
-                  </Header>
+                  <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
                   <Kaydırak
                     urunler={this.state.urunler}
                     {...this.props}/>
