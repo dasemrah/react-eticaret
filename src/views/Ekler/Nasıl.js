@@ -13,9 +13,11 @@ const Nasıl =()=>
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         icon={<Icon icon='shopping-cart' size={16}/>}
       >
-        <h3 className="vertical-timeline-element-title">Sepete Ekleyin</h3>
+        <br/>
+        <h3 className="vertical-timeline-element-title "><span>Sepete Ekleyin</span></h3>
+        <br/>
         <p>Sipariş vermek istediğiniz ürünü "Sepete Ekle" butonu ile alışveriş sepetinize ekleyebilirsiniz.</p>
-
+        <br/>
       </VerticalTimelineElement>
       <VerticalTimelineElement
         contentStyle={{ background: '#FFC26B', color: '#fff' }}
@@ -25,11 +27,14 @@ const Nasıl =()=>
         icon={<Icon icon='plus' size={16}/>}
 
       >
+        <br/>
         <h3 className="vertical-timeline-element-title">Ürün Miktarını Belirleyin</h3>
+        <br/>
         <p className="text-dark">
           Üst kısımdaki sepet butonuna basarak sepetinizi açın. Seçtiğiniz ürünlerin hemen altında ürün miktarını görebilir,
           ürün miktarını artırıp azaltabilirsiniz.
         </p>
+        <br/>
       </VerticalTimelineElement>
 
       <VerticalTimelineElement
@@ -39,11 +44,14 @@ const Nasıl =()=>
         iconStyle={{ background: '#4FFF62', color: '#fff' }}
         icon={<Icon icon='tick' size={16}/>}
       >
+        <br/>
         <h3 className="vertical-timeline-element-title">Sepeti Onaylayın</h3>
+        <br/>
         <p className="text-dark">
           Satın alacağınız ürünleri belirledikten sonra, sepetinizin alt kısmındaki "Sepeti Onayla" butonuna basarak alışveriş işleminizi
           bitirebilirsiniz.
         </p>
+        <br/>
       </VerticalTimelineElement>
       <VerticalTimelineElement
         className="vertical-timeline-element--work"
@@ -52,11 +60,14 @@ const Nasıl =()=>
         contentStyle={{ background: '#4FF4FF', color: '#fff' }}
         contentArrowStyle={{ borderRight: '7px solid  #4FF4FF' }}
       >
+        <br/>
         <h3 className="vertical-timeline-element-title">Bilgilerinizi girin</h3>
+        <br/>
         <p className='text-dark'>
          Sepetinizi onayladıktan sonra açılan sipariş ekranında kişisel bilgilerinizi ve kargonuzun teslimat adresini
           giriniz.
         </p>
+        <br/>
       </VerticalTimelineElement>
 
       <VerticalTimelineElement
@@ -66,10 +77,13 @@ const Nasıl =()=>
         contentStyle={{ background: '#995AF3', color: '#fff' }}
         contentArrowStyle={{ borderRight: '7px solid  #995AF3' }}
       >
+        <br/>
         <h3 className="vertical-timeline-element-title">Ödeme Yöntemini Seçin</h3>
+        <br/>
         <p>
           Teslimat bilgilerini girdikten sonra ödeme adımı için ilerleyin. Ödeme adımında tercih ettiğiniz ödeme yöntemini seçin.
         </p>
+        <br/>
       </VerticalTimelineElement>
       <VerticalTimelineElement
         className="vertical-timeline-element--education"
@@ -78,12 +92,15 @@ const Nasıl =()=>
         contentArrowStyle={{ borderRight: '7px solid  #FF7373' }}
         icon={<Icon icon='small-tick' size={16}/>}
       >
+        <br/>
         <h3 className="vertical-timeline-element-title">Siparişinizi Tamamlayın</h3>
+        <br/>
         <p>
           Ödeme adımında EFT / Havale ile ödemeyi seçtiyseniz ekranda çıkan banka hesabına sipariş ücretini ödedikten sonra
           iletişim adresimizden bize bildirmeyi unutmayın. Daha sonra ürünleriniz hazırlanarak kargo ile adresinize
           gönderilecektir.
         </p>
+        <br/>
       </VerticalTimelineElement>
 
     </VerticalTimeline>
