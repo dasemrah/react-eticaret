@@ -1,36 +1,16 @@
 import React from "react";
-import {Jumbotron,Container,Col,Row} from 'reactstrap'
-import Urunler from "../Main/Urunler";
-class Heybe extends React.Component{
-  constructor(props){
-    super(props)
-  }
-  componentWillReceiveProps(nextProps, nextContext) {
-    console.log('heybe',nextProps)
-  }
+import {Message, Container} from "rsuite";
 
-  render() {
-    return(
-      <Jumbotron className="text-center">
-        <span className="h3 text-dark">Şifa Dolu Heybe</span>
-        <br/>
-        <span className="h6 text-success">Nazlı Köy'den sizin için seçtiğimiz şifa dolu ürünlerimiz...</span>
-        <br/><br/>
-        <Container>
-          <Row>
-            {this.props.urunler.map(urun=>
-              <Col xs="12" lg="3" md="4">
-                <Urunler
-                  urun={urun}
-                  {...this.props}
-                />
-              </Col>
-            )
-            }
-          </Row>
-        </Container>
-      </Jumbotron>
-    )
-  }
-}
+const Heybe =()=>(
+  <Container>
+    <Message
+      showIcon
+      type="info"
+      title={'Henüz tamam değilim'}
+      description="Hazırlanıyorum, akşama yetişirim "
+    />
+  </Container>
+
+)
+
 export default Heybe

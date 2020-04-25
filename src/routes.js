@@ -17,7 +17,6 @@ const routes      = [
   { path: '/',              exact: true,            name: 'Ana Sayfa' , component: Main },
   { path: '/sorgula',       exact: true,            name: 'Sorgula' ,   component: Sorgula },
   { path: '/login',         name: 'Login',                              component:  Login},
-  { path: '/kayit',         name: 'Kayıt',                              component:  Kayıt},
   { path: '/urun',          name: 'Urun Sayfası',                       component:  UrunSayfası},
   { path: '/siparis',       name: 'Yeni Sipariş',                       component:  Siparis},
   { path: '/kategori',      name: 'Kategori',                           component:  Kategoriler},

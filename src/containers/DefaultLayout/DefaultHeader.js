@@ -65,7 +65,7 @@ class DefaultHeader extends Component {
            </List.Item>
            <List.Item>
              <Icon.Group>
-               <Icon circular name='shopping cart' color='grey' size='large' onClick={this.sepetAçKapa}/>
+               <Icon circular name='cart' color='grey' size='large' onClick={this.sepetAçKapa}/>
                {this.props.sepet.length>0 ? <Label floating circular color='orange' size='small' className="text-danger">{this.props.sepet.length}</Label>:null}
              </Icon.Group>
            </List.Item>
@@ -127,11 +127,16 @@ class DefaultHeader extends Component {
           </ul>
           <List horizontal>
             <List.Item><i onClick={()=>this.props.history.push('/begen')} className="icon-heart h2"></i></List.Item>
+            {this.props.begeni.length>0 ?
+              <Label color='pink' circular>
+                {this.props.begeni.length}
+              </Label>
+            :null}
             <List.Item>
               <i onClick={this.sepetAçKapa}  className="icon-basket h2 text-uppercase"></i>
               {
                 this.props.sepet.length>0 ?
-                  <Label color='red' circular>
+                  <Label color='orange' circular>
                     {this.props.sepet.length}
                   </Label>
                   :null
