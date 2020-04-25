@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
-import {Step, Icon, Segment, Input, Header, List, Divider} from 'semantic-ui-react'
-import {Alert, Table, Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label} from 'evergreen-ui'
+import { Segment, Header, List, Divider} from 'semantic-ui-react'
+import { Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label, Table} from 'evergreen-ui'
+import {Steps, Panel ,Message} from "rsuite";
 import api from "../../../istek";
-import SiparişTamam from "./SiparişTamam";
+
+
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
   const [tel,setTel]        =useState("")
@@ -17,6 +19,12 @@ const Sipariş =props=>{
   const [tamAdres, setTamAdres]=useState('');
   const [ödemeYöntemi, setÖdemeYöntemi] = useState('');
   const [ödendi, setÖdendi] = useState(false);
+  const [step, setStep] = useState(0);
+
+  const onChange = nextStep => {
+    setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
+  };
+
   useEffect(()=>{
       var toplam=0
       props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
@@ -61,55 +69,32 @@ const Sipariş =props=>{
   }
   const adresEkranKontrol=()=>{
     if(ad.length>0 && tel.length>0){
-      setEkran('adres')
+      onChange(step+1)
     }else {
       toaster.warning('Ad ve Soyad bilgilerinizi tamamlayınız')
     }
   }
   const ödemeEkranKontrol = () =>{
     if(il.length>0,ilce.length>0,mahalle.length>0,tamAdres.length>0){
-      setEkran('ödeme')
+      onChange(step+1)
     }else {
       toaster.warning('Lütfen adres bilgilerinizi tamamlayınız')
     }
   }
   const Adımlar=()=>(
    <Col xs='12'>
-     <Step.Group  size='mini' className="adım" unstackable>
-       <Step onClick={()=>setEkran('bilgi')} active={ekran==='bilgi'}>
-         <Icon color='blue' name='user' />
-         <Step.Content>
-           <Step.Description>Müşteri Bilgileri</Step.Description>
-         </Step.Content>
-       </Step>
-       <Step onClick={()=>adresEkranKontrol()} active={ekran==='adres'}>
-         <Icon color='orange' name='location arrow' />
-         <Step.Content>
-           <Step.Description>Adres</Step.Description>
-         </Step.Content>
-       </Step>
-       <Step onClick={()=>ödemeEkranKontrol()} active={ekran==='ödeme'}>
-         <Icon color='teal' name='shopping cart' />
-         <Step.Content>
-           <Step.Description>Ödeme</Step.Description>
-         </Step.Content>
-       </Step>
-     </Step.Group>
-     <br/><br/>
+     <Steps current={step}>
+       <Steps.Item title="Bilgilerim" />
+       <Steps.Item title="Adresim" />
+       <Steps.Item title="Ödeme" />
+       <Steps.Item title="Tamamlandı" />
+     </Steps>
    </Col>
   )
-  const ÜrünYokUyarısı=()=>(
-    <Col xs="12">
-      <Alert intent="none" title="Sepette Hiç Ürün Yok." marginBottom={32}
-      />
-    </Col>
-  )
+
   const SiparişDetayı=()=>(
-    <Col xs="12" lg="4" md="4">
-      <Segment raised>
-        <Header as='h4' textAlign='center' dividing color='teal'>
-          Sipariş Özeti
-        </Header>
+
+      <Panel header=' Sipariş özeti' shaded collapsible>
         <List>
          <List.Item>
           <Header as='h6' textAlign='center'>
@@ -142,19 +127,41 @@ const Sipariş =props=>{
           </List.Item>
         </List>
         <Divider/>
-      </Segment>
-      <br/>
-    </Col>
+      </Panel>
+
+  )
+  const Urunlerim =()=>(
+    <Panel header='Ürünlerim' shaded collapsible>
+      <Table>
+        <Table.Head>
+          <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Ücret</Table.TextHeaderCell>
+        </Table.Head>
+        <Table.Body height={240}>
+          {props.sepet.map(e => (
+            <Table.Row key={e._id} isSelectable>
+              <Table.TextCell>{e.ad}</Table.TextCell>
+              <Table.TextCell isNumber>{e.miktar}</Table.TextCell>
+              <Table.TextCell isNumber>{e.fiyat}</Table.TextCell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </Panel>
   )
   const Kapıda = () =>(
-    <Segment raised>
-      <Header as='h4' textAlign='center' color='orange'>
-        Kapıda Ödeme Seçildi
-      </Header>
-      <Header.Subheader>
-        Sipariş ücretini kapıda ürünü teslim aldıktan sonra nakit veya kartla ödeyebilirsiniz.
-      </Header.Subheader>
-    </Segment>
+    <Panel shaded header={siparis.tarih.substring(0,11) +' tarihli siparişiniz başarıyla alındı'}>
+      <Message
+        showIcon
+        type="success"
+        title="Kapıda Ödeme Seçildi"
+        description="Sipariş ücretini kapıda, ürünü teslim aldıktan sonra, nakit veya kartla ödeyebilirsiniz.
+        Kargonuz yola çıktığında sizi bilgilendireceğiz.
+
+        "
+      />
+    </Panel>
   )
   const Banka=()=>(
     <Segment raised>
@@ -198,6 +205,8 @@ const Sipariş =props=>{
     </Segment>
   )
   const Yöntem=(e)=>{
+    console.log('belirlenen yöntem-->' ,ödemeYöntemi);
+    onChange(step+1)
     setÖdemeYöntemi(e);
     siparişTamamla();
   }
@@ -233,15 +242,16 @@ const Sipariş =props=>{
 
               <>
                  <Adımlar/>
-                <Col xs="12" lg="8" md="8">
+                <br/><br/>
+                <Col xs="12" lg="7" md="7">
                   {
-                    ekran === 'bilgi' ?
-                      <Segment raised >
-                        <Header as='h4' textAlign='center' color='orange'>Alıcı Bilgileri</Header>
+                    step === 0 ?
+                      <Panel shaded header='Bilgilerim'>
+
                         <TextInput
                           name="ad"
                           value={ad}
-                          placeholder="Ad ve soyad girin..."
+                          placeholder="Ad ve soyad"
                           onChange={e => setAd(e.target.value)}
                           appearance='warning'
                           width={'100%'}
@@ -251,23 +261,16 @@ const Sipariş =props=>{
                         <TextInput
                           name="telefon"
                           value={tel}
-                          placeholder="Telefon numaranız?..."
+                          placeholder="Telefon numarası"
                           onChange={e => setTel(e.target.value)}
                           width={'100%'}
                         />
-                        <br/>
+                        <br/><br/>
                         <Pane>
-                          <Label
-                            htmlFor="not"
-                            marginBottom={4}
-                            display="block"
-                          >
-                            Siparişlerinizle ilgili bir notunuz varsa burada belirtiniz
-                          </Label>
                           <Textarea id="not"
                             onChange={e=>setDetay(e.target.value)}
                             value={detay}
-                            placeholder="Sipariş detayı..."
+                            placeholder="Sipariş detayı ( Siparişlerinizle ilgili bir notunuz varsa burada belirtiniz)"
                           />
                         </Pane>
                         <br/>
@@ -282,11 +285,10 @@ const Sipariş =props=>{
                          Adresi bilgileri için devam et
                          </Button>
 
-                      </Segment>
+                      </Panel>
 
-                      :ekran === 'adres' ?
-                      <Segment raised>
-                        <Header as='h4' textAlign='center' color='orange'>Teslimat Adresi</Header>
+                      :step === 1 ?
+                      <Panel shaded header='Adresim'>
                         <TextInput value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required width={'100%'}/>
                         <br/>
                         <br/>
@@ -313,8 +315,8 @@ const Sipariş =props=>{
                           Ödemeye  Devam Et
                         </Button>
 
-                      </Segment>
-                       :ekran === 'ödeme' ?
+                      </Panel>
+                       :step === 2 ?
                         ödendi ?
                           <ÖdendiEkranı/>
                           :
@@ -324,7 +326,12 @@ const Sipariş =props=>{
                   }
                   <br/>
                 </Col>
-              <SiparişDetayı/>
+                <Col xs='12' lg='5' md='5'>
+                  <Row>
+                    <Col xs='12'><SiparişDetayı/></Col>
+                    <Col xs='12'><Urunlerim/></Col>
+                  </Row>
+                </Col>
               </>
         </Row>
     </Container>
