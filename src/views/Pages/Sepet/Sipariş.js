@@ -56,12 +56,14 @@ const Sipariş =props=>{
         console.log('yanıt',ynt.data)
         if(ynt.data.olay){
           setÖdendi(true)
+          onChange(3)
           setSiparis(ynt.data.siparis)
           console.log('sipariş oluştu',ynt.data.siparis)
           toaster.success('Siparişiniz '+ynt.data.siparis.tarih+' tarihinde oluşturuldu')
           props.sepetiBosalt()
         }
         else {
+          setÖdendi(false)
           toaster.danger('Siparişiniz oluşturulamadı')
         }
       })
@@ -94,7 +96,7 @@ const Sipariş =props=>{
 
   const SiparişDetayı=()=>(
 
-      <Panel header=' Sipariş özeti' shaded collapsible>
+      <Panel header=' Sipariş özeti' shaded >
         <List>
          <List.Item>
           <Header as='h6' textAlign='center'>
@@ -130,28 +132,33 @@ const Sipariş =props=>{
       </Panel>
 
   )
-  const Urunlerim =()=>(
-    <Panel header='Ürünlerim' shaded collapsible>
-      <Table>
-        <Table.Head>
-          <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Ücret</Table.TextHeaderCell>
-        </Table.Head>
-        <Table.Body height={240}>
-          {props.sepet.map(e => (
-            <Table.Row key={e._id} isSelectable>
-              <Table.TextCell>{e.ad}</Table.TextCell>
-              <Table.TextCell isNumber>{e.miktar}</Table.TextCell>
-              <Table.TextCell isNumber>{e.fiyat}</Table.TextCell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Panel>
-  )
+  const Urunlerim =s=>{
+    console.log('sipariş nesnesi',s)
+    return(
+      <Panel header='Ürünlerim' shaded>
+        <Table>
+          <Table.Head>
+            <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Ücret</Table.TextHeaderCell>
+          </Table.Head>
+          <Table.Body>
+            {
+              s.sip.map(e => (
+                <Table.Row height='auto' key={e._id} isSelectable>
+                  <Table.TextCell>{e.ad}</Table.TextCell>
+                  <Table.TextCell isNumber>{e.miktar}</Table.TextCell>
+                  <Table.TextCell isNumber>{e.fiyat}</Table.TextCell>
+                </Table.Row>
+              ))
+            }
+          </Table.Body>
+        </Table>
+      </Panel>
+    )
+  }
   const Kapıda = () =>(
-    <Panel shaded header={siparis.tarih.substring(0,11) +' tarihli siparişiniz başarıyla alındı'}>
+    <Panel shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
       <Message
         showIcon
         type="success"
@@ -164,13 +171,14 @@ const Sipariş =props=>{
     </Panel>
   )
   const Banka=()=>(
-    <Segment raised>
-      <Header as='h4' textAlign='center' color='orange'>
-        Banka Bilgileri
-        <Header.Subheader>
-          Mağazamızın anlaşmalı hesaplarına sipariş ücretini ödeyebilirsiniz.
-        </Header.Subheader>
-      </Header>
+    <Panel shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
+      <Message
+        showIcon
+        type="success"
+        title="Siparişiniz alındı"
+        description="Siparişlerin hazırlanmaya başlanması için sipariş ücretini ödemeniz gerekmekte.
+        Mağazamızın anlaşmalı hesaplarına sipariş ücretini ödeyebilirsiniz. Ödemeyi yaptıktan sonra bize haber veriniz. "
+      />
       <List>
         <List.Item>
           <Header block as='a' textAlign='center' dividing>
@@ -202,19 +210,16 @@ const Sipariş =props=>{
           </Header>
         </List.Item>
       </List>
-    </Segment>
+    </Panel>
   )
   const Yöntem=(e)=>{
     console.log('belirlenen yöntem-->' ,ödemeYöntemi);
-    onChange(step+1)
+    onChange(2)
     setÖdemeYöntemi(e);
     siparişTamamla();
   }
   const ÖdemeSeç=()=>(
-    <Segment raised>
-      <Header as='h4' textAlign='center' color='orange'>
-        Ödeme Yöntemi Seçiniz
-      </Header>
+    <Panel shaded header=' Ödeme Yöntemi Seçiniz'>
       <Menu>
         <Menu.Group>
           <Menu.Item icon='home' onSelect={() => Yöntem('kapıda')}>Kapıda ödeme ile sipariş vermek istiyorum</Menu.Item>
@@ -222,16 +227,31 @@ const Sipariş =props=>{
         </Menu.Group>
         <Menu.Divider />
       </Menu>
-    </Segment>
+    </Panel>
+  )
+  const  Başarısız =()=>(
+      <Panel shaded header='Hata'>
+        <Message>
+
+          <Message
+            showIcon
+            type="error"
+            title="Bir hata oluştu"
+            description="Siparişiniz alınırken bir hata ile karşılaşıldı"
+          />
+        </Message>
+      </Panel>
   )
   const ÖdendiEkranı=()=>(
     <>
       {
-            ödemeYöntemi  === 'kapıda' ?
-          <Kapıda/>
-          : ödemeYöntemi  === 'havale' ?
-          <Banka/>
-          :null
+           ödendi ?
+             ödemeYöntemi  === 'kapıda' ?
+               <Kapıda/>
+               : ödemeYöntemi  === 'havale' ?
+               <Banka/>
+               :null
+             :<Başarısız/>
       }
     </>
   )
@@ -317,11 +337,10 @@ const Sipariş =props=>{
 
                       </Panel>
                        :step === 2 ?
-                        ödendi ?
-                          <ÖdendiEkranı/>
-                          :
                           <ÖdemeSeç/>
-                        :null
+                        :step === 3 ?
+                          <ÖdendiEkranı/>
+                          :null
 
                   }
                   <br/>
@@ -329,7 +348,7 @@ const Sipariş =props=>{
                 <Col xs='12' lg='5' md='5'>
                   <Row>
                     <Col xs='12'><SiparişDetayı/></Col>
-                    <Col xs='12'><Urunlerim/></Col>
+                    <Col xs='12'><Urunlerim sip={props.sepet.length>0 ? props.sepet : siparis.Urunler}/></Col>
                   </Row>
                 </Col>
               </>
