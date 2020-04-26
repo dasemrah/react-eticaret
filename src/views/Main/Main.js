@@ -62,7 +62,7 @@ class Main extends React.Component{
 
       <div className="ana_sayfa">
         <Drawer
-          size={'xs'}
+          size={'sm'}
           show={this.state.sepetToggle}
           onHide={()=>this.setState({sepetToggle:false})}
           placement={this.state.yerlesim}
@@ -80,6 +80,7 @@ class Main extends React.Component{
             <div className="sepet_kapsam">
               <div className="sepet_duzen">
                 <div className="sepet_yerlesimi">
+                  <>
                   {
                     this.props.sepet.map(e=>(
                       <div className='sepet_eleman'>
@@ -104,19 +105,24 @@ class Main extends React.Component{
                             {e.ucret}₺
                           </span>
                         <span className="sepet_urun_remove">
-                          <Icon icon='close'/>
+                          <Icon onClick={()=>this.props.urunÇıkart(e)} icon='close'/>
                         </span>
                       </div>
                     ))
                   }
-                  <div className="tamamla">
-                    <button onClick={()=> this.props.history.push('/siparis')} className="tamamla_buton">
-                      <a> Siparişi Tamamla</a>
-                      <span className="tamamla_ucret">
+                  </>
+                  {
+                    this.props.sepet.length> 0 ?
+                      <div className="tamamla">
+                        <button onClick={()=> this.props.history.push('/siparis')} className="tamamla_buton">
+                          <a> Siparişi Tamamla</a>
+                          <span className="tamamla_ucret">
                       {this.state.ucret}₺
                     </span>
-                    </button>
-                  </div>
+                        </button>
+                      </div>
+                      :null
+                  }
                 </div>
 
               </div>

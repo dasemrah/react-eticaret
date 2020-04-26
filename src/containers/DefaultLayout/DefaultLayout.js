@@ -208,7 +208,7 @@ class DefaultLayout extends Component {
     }
     else
       {
-      this.mikarDeğiştir(+1,this.state.sepet.indexOf(urun),urun)
+      this.mikarDeğiştir(1,urun)
       }
   }
 
@@ -421,6 +421,7 @@ class DefaultLayout extends Component {
                                     aramaSonucu={this.urunAç}
                                     seçkeAçKapa={this.seçkeAçKapa}
                                     miktarDeğiştir={this.mikarDeğiştir}
+                                    urunÇıkart={this.urunÇıkart}
 
                                   />
                                 )} />
