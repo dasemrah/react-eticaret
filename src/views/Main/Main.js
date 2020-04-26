@@ -62,7 +62,7 @@ class Main extends React.Component{
 
       <div className="ana_sayfa">
         <Drawer
-          size={'sm'}
+          size={this.props.sepet.length>0 ? 'sm':'xs'}
           show={this.state.sepetToggle}
           onHide={()=>this.setState({sepetToggle:false})}
           placement={this.state.yerlesim}

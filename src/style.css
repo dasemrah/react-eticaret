@@ -260,7 +260,9 @@
   margin-left: 0px;
 }
 
-
+.rs-drawer-backdrop{
+  opacity: 0.3 !important;
+}
 
 .sepet_kapsam{
   position: relative;
