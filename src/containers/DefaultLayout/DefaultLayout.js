@@ -40,7 +40,7 @@ class DefaultLayout extends Component {
       urunler:[],
       yanMenu:false,
       urunGoster:false,
-      begeni:[]
+      begeni:[],
 
     }
   }
@@ -161,7 +161,8 @@ class DefaultLayout extends Component {
   }
   aramaSonucu=(result)=>{
     this.setState({
-      seciliUrun:result
+      seciliUrun:result,
+      urunGoster:true
     })
   }
   sepetiBosalt=()=>{
@@ -175,6 +176,7 @@ class DefaultLayout extends Component {
       urunGoster:false,
     })
   }
+
   urunAç=(urun)=>{
     let {kategori} = urun
     istek
@@ -185,9 +187,9 @@ class DefaultLayout extends Component {
            benzer:benzer,
            tercih:tercih,
            seciliUrun:urun,
+            urunGoster:true,
         })
       })
-    this.props.history.push('/urun')
   }
   sepeteEkle=(urun)=>{
     console.log(typeof urun)
@@ -204,7 +206,7 @@ class DefaultLayout extends Component {
         toplam:urun.miktar+this.state.toplam,
         urunGoster:false,
       })
-      toaster.success('1 adet '+urun.net+' '+ urun.ad+' eklendi',{duration:1.7})
+      toaster.success(urun.net+' '+ urun.ad+' eklendi',{duration:2.7})
     }
     else
       {

@@ -2,12 +2,13 @@ import React from 'react';
 import Arama from "../Parcalar/Arama";
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
-import { Placeholder } from 'rsuite';
+import {IconButton, Placeholder} from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
 import {Image} from 'semantic-ui-react'
 import Kategoriler from "../Pages/Kategoriler";
 import {Icon, Drawer} from "rsuite";
-
+import Urun from "./Urunler/Urun";
+import Magnifier from "react-magnifier";
 class Main extends React.Component{
   constructor(props){
     super(props)
@@ -18,6 +19,7 @@ class Main extends React.Component{
       urunler:[],
       ucret:0,
       sepetToggle:false,
+
       yerlesim:''
     }
   }
@@ -62,6 +64,52 @@ class Main extends React.Component{
 
       <div className="ana_sayfa">
         <Drawer
+          show={this.props.urunGoster}
+          onHide={()=>this.props.urunKapat()}
+          placement='bottom'
+          size='md'
+        >
+          <Drawer.Header>
+            <Drawer.Title>{this.props.seciliUrun.ad}</Drawer.Title>
+          </Drawer.Header>
+          <Drawer.Body>
+           <div className="tek_urun">
+            <Row>
+              <Col xs='12' lg='6' md='6'>
+                <Magnifier src={this.props.seciliUrun.img} width={500} />
+              </Col>
+              <Col xs='12' lg='6' md='6'>
+                <div className="tek_urun_alt">
+                  <div className="hJAUJy">
+                    <div className="kzoayf ">
+                      <h1 className="mqzOv">{this.props.seciliUrun.ad}</h1>
+                      <div className="fbUCfN">
+                        <div className="cqZYhV ">
+                          {this.props.seciliUrun.fiyat} ₺
+                        </div>
+                      </div>
+                    </div>
+                    <div className="btDBfe">
+                      {this.props.seciliUrun.net}
+                    </div>
+                    <p className="OLDqC">
+                      {this.props.seciliUrun.aciklama}
+                    </p>
+                    <div className="jiwWyF ">
+                      <div className="EWA-dv">
+                        <IconButton onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+           </div>
+          </Drawer.Body>
+
+        </Drawer>
+
+        <Drawer
           size={this.props.sepet.length>0 ? 'sm':'xs'}
           show={this.state.sepetToggle}
           onHide={()=>this.setState({sepetToggle:false})}
@@ -89,7 +137,7 @@ class Main extends React.Component{
                           <span>{e.miktar}</span>
                           <Icon className='sepet_count' icon='plus'  onClick={()=>this.props.miktarDeğiştir(1,e)} />
                         </div>
-                        <Image size='mini' src={e.img} className="sepet_gorsel" alt=""/>
+                        <Image onClick={()=>this.props.urunAç(e)} size='mini' src={e.img} className="sepet_gorsel" alt=""/>
                         <div className="sepet_detay">
                           <span className="sepet_urun_ad">
                             {e.ad}

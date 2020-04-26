@@ -340,9 +340,12 @@
 }
 
 @media screen and (max-width: 600px){
+  .EWA-dv {
+    margin-top: 40px;
+  }
   .navbar-brand{
     margin-top: -5%;
-    margin-left: -200px !important;
+
     color: #33C329 !important;
     font-size: 1.6em;
   }
@@ -574,11 +577,39 @@ html{
 .react-multi-carousel-dot-list{
   margin-top:2% !important;
 }
-
 .tek_urun{
-  border: none !important;
+  max-width: 100%;
+  order: 0;
+  flex: 0 0 100%;
+  padding: 30px 47px 40px 30px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
 }
-
+.tek_urun_alt{
+  max-width: 100%;
+  order: 1;
+  flex: 0 0 100%;
+  padding: 10px 0px 30px;
+  border-left: 1px solid rgb(243, 243, 243)
+}
+.btDBfe {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+}
+.OLDqC {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(66, 69, 97);
+  line-height: 2;
+  margin-top: 30px;
+}
 .ana_sayda_görseli{
   width: 100% !important;
   object-fit: cover;
@@ -834,7 +865,46 @@ html{
     visibility: hidden;
   }
 }
+.kzoayf {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.mqzOv {
+  font-family: Poppins, sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+  line-height: 1.5;
+  display: flex;
+}
+.fbUCfN {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 25px;
+  line-height: 31px;
+}
+.cqZYhV {
+  font-family: Lato, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(0, 158, 127);
+}
 @media only screen and (max-width: 600px) {
+  .fbUCfN {
+    margin-left: 15px;
+  }
+  .mqzOv {
+    word-break: break-word;
+  }
+  .hJAUJy {
+    padding: 0px 30px 30px;
+  }
   .sepet_gösterici{
     display: none;
     visibility: hidden;
@@ -882,9 +952,7 @@ html{
   }
 
 
-  .tek_urun_gorsel{
-    height: 350px;
-  }
+
   .nasıl{
     height: 150px;
   }
@@ -905,9 +973,7 @@ html{
     width: 100% !important;
     margin-bottom: 25px;
   }
-  .tek_urun_gorsel{
-    height: 450px;
-  }
+
   .nasıl{
     height: 250px;
   }
@@ -1086,9 +1152,7 @@ html{
 }
 
 
-.tek_urun_icerik{
-  margin-top: 5%;
-}
+
 .card{
   border-radius: 0 !important;
   margin-bottom: 20px !important;

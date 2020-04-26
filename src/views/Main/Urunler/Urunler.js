@@ -8,6 +8,7 @@ const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
   const [sepetteymiş,setSepette]       = useState(false)
   useEffect(()=>{
+
     var index=props.begeni.findIndex(p=>p._id===props.urun._id);
     if(index>-1){
       setBeğenilmiş(true)
@@ -37,7 +38,7 @@ const Urunler =props=>{
 
       <Panel className="urun_card" >
         <Grid>
-          <Grid.Column width={16}> <Image className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
+          <Grid.Column width={16}> <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
           <Grid.Column  width={16}>
             <div className="urun_card_bilgi">
               <h3 className="urun_ad">{props.urun.ad}</h3>
