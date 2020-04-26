@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from 'react';
-import {Alert, Col, Row} from 'reactstrap';
-import {Image, Icon, Button, Card, Label, Segment, Grid, List, Header} from 'semantic-ui-react'
-import Disk from "o.disk/index";
+import {Alert,} from 'reactstrap';
+import {Image, Grid} from 'semantic-ui-react'
+import {Panel} from "rsuite";
+import {IconButton, Icon} from "rsuite";
+
 const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
   const [sepetteymiş,setSepette]       = useState(false)
@@ -16,18 +18,16 @@ const Urunler =props=>{
     }
   })
   const extra = (
-   <div className="align-items-center text-center">
+   <div className="card_aciklama">
      {
        props.aktif ===false ?
          <>
            <Alert color="danger">Bu ürün stokta yoktur!</Alert>
          </>
          :
-         <Button.Group className="alışveriş_butonları"  size='mini'>
-           <Button size='mini' color={!beğenilmiş ? 'pink' : 'grey'} active={!beğenilmiş} onClick={()=>props.begen(props.urun)}><Icon name='heart outline'/></Button>
-           <Button.Or text=' ' />
-           <Button size='mini'   onClick={()=>props.sepeteEkle(props.urun)} color={!sepetteymiş ? 'green' : 'black'}>{!sepetteymiş ? <span>Sepete Ekle</span>: <span>Sepette</span>}</Button>
-         </Button.Group>
+          <button className="card_buton">
+              <i className="icon-basket">d </i>
+          </button>
      }
     </div>
 
@@ -35,29 +35,24 @@ const Urunler =props=>{
   return(
     <>
 
-      <Segment className="urun_card">
+      <Panel className="urun_card" >
         <Grid>
           <Grid.Column width={16}> <Image className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
           <Grid.Column  width={16}>
-            <List onClick={()=>props.urunAç(props.urun)}>
-              <List.Item><span className="text-dark h6 text-uppercase text-center floated">{props.urun.ad}</span></List.Item>
-              <List.Item>
-                <List horizontal>
-                  <List.Item>
-                    <span className="text-danger h4">{props.urun.fiyat} ₺  </span>
-                  </List.Item>
-                  <List.Item>
-                    <span className="h4 text-uppercase">{props.urun.net} </span>
-                  </List.Item>
-                </List>
-              </List.Item>
-            </List>
-            <List>
-              {extra}
-            </List>
+            <div className="urun_card_bilgi">
+              <h3 className="urun_ad">{props.urun.ad}</h3>
+              <span className="urun_miktar">{props.urun.net}</span>
+            </div>
+            <div className="urun_meta">
+              <div className="urun_meta_bilgi">
+                <span className="urun_ucret">{props.urun.fiyat} ₺</span>
+              </div>
+                <IconButton onClick={()=>props.sepeteEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+            </div>
           </Grid.Column>
         </Grid>
-      </Segment>
+      </Panel>
+
       </>
   )
 }

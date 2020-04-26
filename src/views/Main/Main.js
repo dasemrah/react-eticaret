@@ -1,14 +1,11 @@
 import React from 'react';
-
+import Arama from "../Parcalar/Arama";
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
-import Slayt from "./Slayt";
-import { Container,  Loader} from 'semantic-ui-react'
 import { Placeholder } from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
-import ReklamGoster from "../Parcalar/ReklamGoster";
-import Istatistik from "../Parcalar/Istatistik";
-import Kaydırak from "../Parcalar/Kaydırak";
+import {Image} from 'semantic-ui-react'
+import Kategoriler from "../Pages/Kategoriler";
 
 class Main extends React.Component{
   constructor(props){
@@ -56,42 +53,16 @@ class Main extends React.Component{
       <div className="ana_sayfa">
         <Row>
              <Col xs="12">
-               {this.props.kategoriler.length>0 ?
-                 <div className="slayt_dış">
-                   <Slayt gorseller={this.state.items}/>
-                 </div>
-               :
-                 <YerTutucu/>
-                 }
+
+              <Image className="ana_sayda_görseli" size={"huge"} src='https://svgl.s3.eu-west-3.amazonaws.com/WhatsApp+Image+2020-04-15+at+21.49.48.jpg'/>
+              <div className="ana_sayfa_arama">
+                <Arama {...this.props}/>
+              </div>
              </Col>
-              <Col xs="12">
-              <Container>
-                {
-                  this.props.kategoriler.length> 0 ?
-                  <ReklamGoster {...this.props}/>
-                :
-                  <YerTutucu/>
-                }
-              </Container>
-              </Col>
-              <Col xs="12">
-br
-                <>
 
-                  {
-                    this.props.kategoriler.length>0 ?
-                      <>
-                        <h3 className="enCokAltCizgi text-center"><span>En çok satın alınan ürünler</span></h3>
-                        <br/>
-                      <Kaydırak
-                        urunler={this.state.urunler}
-                        {...this.props}/>
-                        </>
-                      :
-                      <YerTutucu/>
-                  }
-                </>
-
+              <Col xs="12">
+                <br/><br/><br/>
+                <Kategoriler {...this.props}/>
               </Col>
          </Row>
       </div>

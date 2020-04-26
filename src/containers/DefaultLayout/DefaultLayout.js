@@ -83,7 +83,7 @@ class DefaultLayout extends Component {
       yanMenu:false
     })
     console.log('kategori seçildi',this.state.kategori)
-    this.props.history.push('/kategori')
+
   }
 
   giris=()=>{
@@ -379,6 +379,7 @@ class DefaultLayout extends Component {
                        ucret={this.state.ucret}
                        urunÇıkart={this.urunÇıkart}
                        devam={this.siparisDevam}
+                       sepetAçKapa={this.seçkeAçKapa}
                        {...this.props}
 
 
@@ -417,6 +418,8 @@ class DefaultLayout extends Component {
                                     login={this.login}
                                     begen={this.begen}
                                     beneniÇıkart={this.beneniÇıkart}
+                                    aramaSonucu={this.urunAç}
+
                                   />
                                 )} />
                             ) : (null);

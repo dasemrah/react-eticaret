@@ -14,28 +14,6 @@ istek.get('/urunler').then(ynt=>{
 
 
 
-
-
-
-const aramaSonucu =(sonuc)=>(
-  <>
-    {
-      sonuc !==null ?
-        <>
-          <Alert color="success">Arama Sonucu</Alert>
-          <SiparisKart
-            siparis={sonuc}
-            seviye={seviye}
-            tumUrunler={tumUrunler}
-          />
-        </>
-        :
-        <>
-          <Alert color="warning">Sonuç Bulunamadı</Alert>
-        </>
-    }
-  </>
-)
 class Siparis extends React.Component{
   constructor(props){
     super(props)
@@ -55,6 +33,13 @@ class Siparis extends React.Component{
       activeItem:'0',
       animasyon:true
     }
+
+  }
+  componentDidMount() {
+    this.siparişleriAl();
+  }
+
+  siparişleriAl=()=>{
     istek.get('/tumsiparisler').then((ynt)=>{
       console.log('tüm siprarişler',ynt.data.siparis)
       this.setState({
@@ -83,7 +68,6 @@ class Siparis extends React.Component{
 
     }).catch((err)=>console.log(err));
   }
-
   handleChange(e){
     this.setState({
       ara:e.target.value
@@ -114,45 +98,18 @@ class Siparis extends React.Component{
 
   render() {
 
-    const { activeItem } = this.state;
+    const { activeItem,siparisler } = this.state;
     const Göster=()=>(
       <>
         {
-          this.state.activeItem === '0' ?
-            this.state.yeni.map(siparis=>(
-              <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-            ))
-            :
-            this.state.activeItem === '1' ?
-              this.state.ödendi.map(siparis=>(
-                <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-              ))
-              :
-              this.state.activeItem === '2' ?
-                this.state.hazırlanıyor.map(siparis=>(
-                  <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-                ))
-                :
-                this.state.activeItem === '3' ?
-                  this.state.hazır.map(siparis=>(
-                    <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-                  ))
-                  :
-                  this.state.activeItem === '4' ?
-                    this.state.verilecek.map(siparis=>(
-                      <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-                    ))
-                    :
-                    this.state.activeItem === '5' ?
-                      this.state.kargo.map(siparis=>(
-                        <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-                      ))
-                      :
-                      this.state.activeItem === '6' ?
-                        this.state.teslim.map(siparis=>(
-                          <SiparisKart key={siparis._id} siparis={siparis}  seviye={seviye} tumUrunler={tumUrunler}/>
-                        ))
-                        :null
+          siparisler.map(e =>
+            <>
+              {
+                e.durum===parseInt(activeItem) ?
+                  <SiparisKart key={e._id} siparis={e}  seviye={seviye} tumUrunler={tumUrunler} />
+                  :null
+              }
+            </>  )
         }
       </>
     )

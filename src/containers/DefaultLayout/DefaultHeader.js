@@ -142,9 +142,7 @@ class DefaultHeader extends Component {
                   :null
               }
             </List.Item>
-            <List.Item>
-              <Arama {...this.props} />
-            </List.Item>
+
           </List>
 
 

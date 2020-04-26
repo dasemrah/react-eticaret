@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,200&display=swap');
 .main{
-  background-color: white;
+  background-color: rgb(247, 247, 247);
+  font-family: Lato, sans-serif;
+
 }
 *{
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: Lato, sans-serif ;
+  font-weight: 700 !important;
 }
 .css-1ii3p2c{
   color: rgba(0, 0, 0, 0.5) !important;
   font-family: 'Montserrat Alternates', sans-serif !important;
 }
-.urun_ad{
-  font-size: 1.5rem;
-  font-family: 'Montserrat Alternates', sans-serif;
-}
+
 .enCokAltCizgi{
   margin-top: 7rem !important;
   margin-bottom: 2rem !important;
@@ -37,16 +37,7 @@
   height: 2px;
   background: #ffb300 !important;
 }
-.urun_ad::before{
-  content: '';
-  position: absolute;
-  left: 50%;
-  top:2.5rem;
-  transform: translateX(-50%);
-  width: 35%;
-  height: 2px;
-  background: #ffb300 !important;
-}
+
 .istatistik{
   background-color: #C86262;
 
@@ -55,9 +46,7 @@
 .sahte_fiyat{
   text-decoration:line-through grey;
 }
-.urun_buton{
-  width: 100% !important;
-}
+
 .ust{
   width: 100% !important;
   position: fixed;
@@ -244,6 +233,7 @@
   }
 }
 @media screen and (min-width: 600px) {
+
   .sepet_dar_ekran{
     visibility: hidden;
     display: none;
@@ -386,17 +376,8 @@ html{
   background-color: #FFE850 !important;
   margin-left: 10% !important;
 }
-.step a i {
-  color: #37FFC2;
-}
-.steps{
 
-  border: none !important;
-  border-radius: 0;
-}
-.step .active{
-  background-color: red;
-}
+
 
 .sepet_alt_kısım{
   padding-top: 50px;
@@ -419,32 +400,12 @@ html{
 .menu{
   background-color: white !important;
 }
-.reklam_gorsel{
-  width: 100% !important;
-  height: 100px !important;
-  object-fit: cover;
-  object-position: 10% 25%;
-}
-.reklam_cumle{
-  position: absolute;
-  bottom: 5%;
-  right: 10%;
-  z-index: 1;
-  background-color: #0b4d75;
-  color: white;
 
-}
 .css-1yiw7zu {
   margin-top: 15%;
 }
 
-.reklam_iskelet{
-  height: 100px;
-  margin-top: 5% !important;
-  width: 100% !important;
-  margin-bottom: 10px !important;
-  margin-left: 0%;
-}
+
 .react-multi-carousel-dot-list{
   margin-top:2% !important;
 }
@@ -452,10 +413,145 @@ html{
 .tek_urun{
   border: none !important;
 }
+
+.ana_sayda_görseli{
+  width: 100% !important;
+  object-fit: cover;
+  object-position: 0 18% !important;
+}
+
+
 .urun_card{
+  background-color: rgb(255, 255, 255) !important;
   border: none !important;
 }
+.mobile_kategoriler{
+  width: 100%;
+  z-index: 1;
+  position: relative !important;
+  background-color: rgb(255, 255, 255);
+  height: 55px !important;
+  overflow: hidden !important;
+}
+.kategori_listesi{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  height: 80px !important;
+  overflow-y: hidden !important;
+  overflow-x: auto !important;
+  padding-top: 15px !important;
+  padding-bottom: 25px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+.kategori_listesi .item {
+  margin-right: -15px !important;
+}
+.kategori_listesi .item a {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(119, 121, 140);
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 5px 5px ;
+  border-radius: 6px;
+}
+.urun_card{
+
+  margin: 5% 5% !important;
+}
+.mobile_aktif_liste{
+  color: rgb(0, 158, 127) !important;
+  background-color: rgb(248, 248, 248) !important;
+}
+.kateori_dış_iskelet .rs-nav {
+  margin-bottom: 15px !important;
+  padding-left: 0px !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+}
+.rs-nav-item{
+  font-size: 18px !important;
+  font-weight: 700;
+  width: 100% !important;
+  display: flex !important;
+  -webkit-box-align: center;
+  align-items: center !important;
+  margin-bottom: 1px !important;
+  color: rgb(13, 17, 54) !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease-in-out 0s !important;
+  padding: 5px 0px !important;
+  outline: 0px !important;
+}
+.rs-nav-item a {
+  width: 100% !important;
+}
+.urun_card_bilgi{
+  padding: 20px 25px 30px;
+  margin-top: -30px;
+}
+.urun_miktar{
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+}
+.urun_ad{
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 800 !important;
+  color: rgb(13, 17, 54);
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  overflow: hidden;
+}
+.urun_meta_bilgi{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.urun_ucret{
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(0, 158, 127);
+}
+.urun_buton{
+  color: rgb(0, 158, 127);
+
+  background-color: transparent !important;
+}
+.urun_meta{
+
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.rs-nav-item-active .rs-nav-item-content{
+  color: rgb(0, 158, 127) !important;
+}
+@media only screen and (max-width:1024px){
+  .kateori_dış_iskelet{
+    display: none;
+    visibility: hidden;
+  }
+}
 @media only screen and (max-width: 600px) {
+
+  .ana_sayfa_arama{
+    display: none;
+    visibility: hidden;
+  }
   .arama{
     position: absolute;
     top:48px;
@@ -465,15 +561,19 @@ html{
   .search .input{
     width: 100% !important;
   }
+  .ana_sayda_görseli{
+    height: 15rem !important;
+
+  }
+
+
   .magnifier-image {
     height: 300px !important;
   }
   .magnifier{
     width: 100% !important;
   }
-  .urun_card{
-    height: 100% !important;
-  }
+
 
   .alışveriş_butonları{
     width: 100% !important;
@@ -505,7 +605,9 @@ html{
 
 }
 @media only screen and (max-width: 1024px) and (min-width: 600px){
-
+  .ana_sayda_görseli{
+    height: 20rem !important;
+  }
   .urun_gorsel{
     height: 125px;
     width: 100% !important;
@@ -522,9 +624,73 @@ html{
     width: 100%;
     object-fit: cover;
   }
+  .ana_sayfa_arama{
+    padding: 16px;
+    z-index: 2;
+    position: absolute;
+    top:40%;
+    margin-left: 25% !important;
+    width: 50%;
+  }
+  .ui .input{
+    display: flex;
+  }
 
+  .ui.input>input{
+    padding: 16px;
+    border: none !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    box-shadow: 0px 11px 24px -10px rgba(0,0,0,0.75);
+    background: rgb(247, 247, 247) !important;
+
+  }
+  .ui.search>.results{
+    width: 100% !important;
+  }
 }
 @media only screen and (min-width: 1024px) {
+  .mobile_kategoriler{
+    visibility: hidden;
+    display: none;
+  }
+  .ana_sayda_görseli{
+    height: 25rem !important;
+  }
+  .rs-nav-vertical{
+    width: 100% !important;
+    font-family: Lato, sans-serif !important;
+    margin: 0 !important;
+    margin-left: 5% !important;
+    border-radius: 4px !important;
+    background: rgb(255, 255, 255) !important ;
+    height: 100% !important;
+  }
+
+  .ana_sayfa_arama{
+    padding: 16px;
+    z-index: 2;
+    position: absolute;
+    top:40%;
+    margin-left: 25% !important;
+    width: 50%;
+  }
+  .ui .input{
+    display: flex;
+  }
+
+  .ui.input>input{
+    padding: 16px;
+    border: none !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    box-shadow: 0px 11px 24px -10px rgba(0,0,0,0.75);
+   background: rgb(247, 247, 247) !important;
+
+  }
+  .ui.search>.results{
+    width: 100% !important;
+  }
   .urun_img{
     height: 200px !important;
   }
@@ -532,9 +698,14 @@ html{
     padding-top: 2% !important;
 
   }
-  .urun_card{
-    height: 100% !important;
-    margin: 2% 5% !important;
+
+  .card_aciklama{
+    margin-top: 30px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
   }
   .urun_gorsel{
     height: 350px;
@@ -553,7 +724,43 @@ html{
 
 }
 
-
+.card_buton{
+  height: 36px;
+  padding-left: 17px;
+  padding-right: 17px;
+  font-size: 13px;
+  font-weight: 700;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(247, 247, 247);
+  border-image: initial;
+  border-radius: 18px;
+  cursor: pointer;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: auto;
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
+  color: rgb(0, 158, 127);
+  background-color: transparent;
+  height: 38px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 14px;
+  text-decoration: none;
+  border-image: initial;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(241, 241, 241);
+  transition: all 0.35s ease 0s;
+  border-radius: 6px;
+}
 .slayt_iç{
   position: relative;
   text-align: center;

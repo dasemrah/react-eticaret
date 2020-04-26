@@ -1,9 +1,8 @@
 import React from 'react'
 
 import {Row,Col} from "reactstrap";
-import {Header ,Label,Container} from "semantic-ui-react";
-import {SelectMenu, Icon, Button} from 'evergreen-ui'
-import Kaydırak from "../../Parcalar/Kaydırak";
+import {List} from "semantic-ui-react";
+import {Nav} from 'rsuite'
 import Urunler from "../../Main/Urunler";
 
 class Kategoriler extends React.Component{
@@ -11,7 +10,8 @@ class Kategoriler extends React.Component{
     super(props)
     this.state={
       kategori:[],
-      urunler:[]
+      urunler:[],
+      acitive:''
     }
   }
 
@@ -32,32 +32,51 @@ class Kategoriler extends React.Component{
     console.log('kategoriler sayfa props',nextProps)
   }
 
-
+  handleSelect=(activeKey) =>{
+    this.props.kategoriSec(activeKey)
+    this.setState({
+      active:activeKey
+    })
+  }
   render() {
+    const {active} = this.state
+    const styles = { width: 100 };
+
+    const CustomNav = ({ active, onSelect, ...props }) => {
+      return (
+        <Nav {...props} vertical activeKey={active} onSelect={d=>onSelect(d)} style={styles}>
+          {this.props.kategoriler.map(e=>
+            <Nav.Item eventKey={e}>{e.ad}</Nav.Item>
+          )}
+
+        </Nav>
+      );
+    };
+    const MobileNav =()=>(
+      <div className="mobile_kategoriler">
+     <List horizontal relaxed='very' className="kategori_listesi">
+       {
+         this.props.kategoriler.map(e=>
+           <List.Item>
+             <a className={this.props.kategori=== e.ad ? 'mobile_aktif_liste' : ''} onClick={()=> this.props.kategoriSec(e)} >{e.ad}</a>
+           </List.Item>
+         )
+       }
+     </List>
+      </div>
+    )
     return(
 
     <Row>
-
-      <Col xs="12">
-        <Header dividing>
-
-        <span className="h3 text-left">
-              <SelectMenu
-                title={<>Kagetori Seç <Icon marginLeft='75%' icon='caret-right' /></>}
-                options={this.props.kategoriler.map(label =>({label:label.ad,value:label,}))}
-                selected={this.props.kategori}
-                onSelect={item => this.props.kategoriSec(item.value)}
-                filterPlaceholder={"Filtrele..."}
-              >
-                < Button appearance='minimal' iconAfter="caret-down" marginRight={16}>{this.props.kategori || 'Kategori seç...'}</Button>
-              </SelectMenu>
-
-        </span>
-          <span className="float-right"><Label>{this.state.urunler.length} ürün</Label></span>
-        </Header>
-        <br/>
+     <Col xs='12'>
+       <MobileNav/>
+     </Col>
+      <Col xs='12' md='2' lg='2'>
+       <div className="kateori_dış_iskelet">
+         <CustomNav active={active} onSelect={this.handleSelect} />
+       </div>
       </Col>
-      <Col xs="12">
+      <Col xs="12" lg='10' md='10'>
       <div className="kateori_kapsam">
         <Row>
           {

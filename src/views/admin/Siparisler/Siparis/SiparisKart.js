@@ -1,5 +1,4 @@
 import {Col} from "reactstrap";
-import Edit from "../Edit";
 import React from "react";
 import {Table} from 'evergreen-ui'
 import {Header,Button,Icon,Segment} from "semantic-ui-react";
@@ -61,9 +60,6 @@ const SiparisKart=props=>(
           Ürünler
         </Header>
         {urunView(props.siparis.Urunler)}
-
-
-
 
       </Segment>
       <br/><br/>
