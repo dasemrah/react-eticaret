@@ -419,6 +419,7 @@ class DefaultLayout extends Component {
                                     begen={this.begen}
                                     beneniÇıkart={this.beneniÇıkart}
                                     aramaSonucu={this.urunAç}
+                                    seçkeAçKapa={this.seçkeAçKapa}
 
                                   />
                                 )} />
