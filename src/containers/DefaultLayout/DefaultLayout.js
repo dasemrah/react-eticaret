@@ -191,15 +191,14 @@ class DefaultLayout extends Component {
   }
   sepeteEkle=(urun)=>{
     console.log(typeof urun)
-    urun.miktar=1;
+
     console.log( urun)
-    this.setState({
-      sepetSeçke:true
-    })
     let urun_id=urun._id
     const index= this.state.sepet.findIndex(p => p._id === urun_id)
     if(index === -1)
     {
+      urun.miktar=1;
+      urun.ucret=urun.miktar*urun.fiyat
       this.setState({
         sepet:[...this.state.sepet,urun],
         toplam:urun.miktar+this.state.toplam,
@@ -211,7 +210,6 @@ class DefaultLayout extends Component {
       {
       this.mikarDeğiştir(+1,this.state.sepet.indexOf(urun),urun)
       }
-    this.seçkeAçKapa()
   }
 
   ucret=()=> {
@@ -233,15 +231,17 @@ class DefaultLayout extends Component {
     this.sepetMiktar(this.state.sepet.length)
 
   };
-  mikarDeğiştir=(girdi,urunIndex,urun)=>{
-    this.state.sepet[urunIndex].miktar+=girdi;
-    if(this.state.sepet[urunIndex].miktar===0)
+  mikarDeğiştir=(girdi,urun)=>{
+    let urunIndex = this.state.sepet.indexOf(urun)
+    let guncelle = this.state.sepet[urunIndex]
+    guncelle.miktar+=girdi
+    guncelle.ucret=guncelle.fiyat*guncelle.miktar
+    if(guncelle.miktar===0)
     {
       this.urunÇıkart(urun)
     }
     this.setState(this.state);
     this.toplamHesapla();
-
   }
   toplamHesapla=()=>{
     var aratoplam=0
@@ -420,6 +420,7 @@ class DefaultLayout extends Component {
                                     beneniÇıkart={this.beneniÇıkart}
                                     aramaSonucu={this.urunAç}
                                     seçkeAçKapa={this.seçkeAçKapa}
+                                    miktarDeğiştir={this.mikarDeğiştir}
 
                                   />
                                 )} />

@@ -6,7 +6,7 @@ import { Placeholder } from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
 import {Image} from 'semantic-ui-react'
 import Kategoriler from "../Pages/Kategoriler";
-import {Icon} from "rsuite";
+import {Icon, Drawer} from "rsuite";
 
 class Main extends React.Component{
   constructor(props){
@@ -16,7 +16,9 @@ class Main extends React.Component{
       items:[],
       kategoriler:[],
       urunler:[],
-      ucret:0
+      ucret:0,
+      sepetToggle:false,
+      yerlesim:''
     }
   }
 
@@ -30,7 +32,12 @@ class Main extends React.Component{
         })
       })
   }
-
+  sepetAc=(yerlesim)=>{
+    this.setState({
+      sepetToggle:true,
+      yerlesim:yerlesim
+    })
+  }
 
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -47,7 +54,6 @@ class Main extends React.Component{
     console.log('ana state',nextState)
   }
 
-
   render() {
 
     const { Paragraph } = Placeholder;
@@ -55,7 +61,70 @@ class Main extends React.Component{
     return(
 
       <div className="ana_sayfa">
-        <button onClick={()=>this.props.seçkeAçKapa()} className="sepet_gösterici">
+        <Drawer
+          size={'xs'}
+          show={this.state.sepetToggle}
+          onHide={()=>this.setState({sepetToggle:false})}
+          placement={this.state.yerlesim}
+        >
+          <Drawer.Header>
+           <div className="sepet_title">
+            <div className="sepet_title_eleman">
+             <span style={{marginRight:'10px'}}> <Icon icon='shopping-basket'/></span>
+              <span>{this.props.sepet.length} ürün</span>
+            </div>
+
+           </div>
+          </Drawer.Header>
+
+            <div className="sepet_kapsam">
+              <div className="sepet_duzen">
+                <div className="sepet_yerlesimi">
+                  {
+                    this.props.sepet.map(e=>(
+                      <div className='sepet_eleman'>
+                        <div className="counter">
+                          <Icon className='sepet_count' icon='data-decrease' onClick={()=>this.props.miktarDeğiştir(-1,e)} />
+                          <span>{e.miktar}</span>
+                          <Icon className='sepet_count' icon='plus'  onClick={()=>this.props.miktarDeğiştir(1,e)} />
+                        </div>
+                        <Image size='mini' src={e.img} className="sepet_gorsel" alt=""/>
+                        <div className="sepet_detay">
+                          <span className="sepet_urun_ad">
+                            {e.ad}
+                          </span>
+                          <span className="sepet_urun_fiyat">
+                            {e.fiyat} ₺
+                          </span>
+                          <span className="sepet_urun_adet">
+                            {e.miktar} X {e.net}
+                          </span>
+                        </div>
+                        <span className="sepet_urun_ucret">
+                            {e.ucret}₺
+                          </span>
+                        <span className="sepet_urun_remove">
+                          <Icon icon='close'/>
+                        </span>
+                      </div>
+                    ))
+                  }
+                  <div className="tamamla">
+                    <button onClick={()=> this.props.history.push('/siparis')} className="tamamla_buton">
+                      <a> Siparişi Tamamla</a>
+                      <span className="tamamla_ucret">
+                      {this.state.ucret}₺
+                    </span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+        </Drawer>
+        <button onClick={()=>this.sepetAc('right')} className="sepet_gösterici">
            <span className="sepet_bilgileri">
             <span className="sepet_göster_icon"> <Icon icon='shopping-basket'/></span>
              {this.props.sepet.length} ürün
@@ -64,7 +133,7 @@ class Main extends React.Component{
             {this.state.ucret} ₺
           </span>
         </button>
-        <button onClick={()=>this.props.seçkeAçKapa()} className="mobile_sepet_gösterici">
+        <button onClick={()=>this.sepetAc('bottom')} className="mobile_sepet_gösterici">
           <span style={{color:'white',marginRight:'10px'}}><Icon icon='shopping-basket' /></span>
           <span className='text-light'>{this.props.sepet.length} ürün</span>
           <span className="mobile_sepet_ucret">{this.state.ucret} ₺</span>
