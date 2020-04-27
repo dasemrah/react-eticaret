@@ -96,8 +96,9 @@ class Main extends React.Component{
                       {this.props.seciliUrun.aciklama}
                     </p>
                     <div className="jiwWyF ">
-                      <div className="EWA-dv">
-                        <IconButton onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                      <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
+                        <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                        <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
                       </div>
                     </div>
                   </div>

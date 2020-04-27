@@ -338,7 +338,9 @@
 .📦w_400px{
   overflow: hidden;
 }
-
+.arama_katman{
+  height: 80px !important;
+}
 @media screen and (max-width: 600px){
   .EWA-dv {
     margin-top: 40px;
@@ -826,6 +828,10 @@ html{
 
   background-color: transparent !important;
 }
+.tek_urun_sepete_ekle{
+  color: rgb(0, 158, 127);
+  margin-left: 10px;
+}
 .urun_meta{
 
   display: flex;
@@ -915,9 +921,10 @@ html{
   }
   .arama{
     position: absolute;
-    top:48px;
+    top:20px;
     width: 100% !important;
     background-color: white;
+    margin-left: 1px !important;
   }
   .search .input{
     width: 100% !important;

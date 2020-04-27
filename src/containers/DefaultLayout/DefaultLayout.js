@@ -242,7 +242,9 @@ class DefaultLayout extends Component {
     {
       this.urunÇıkart(urun)
     }
-    this.setState(this.state);
+    this.setState({
+      urunGoster:false
+    });
     this.toplamHesapla();
   }
   toplamHesapla=()=>{

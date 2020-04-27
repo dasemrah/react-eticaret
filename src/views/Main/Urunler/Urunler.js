@@ -2,11 +2,13 @@ import React,{useState,useEffect} from 'react';
 import {Alert,} from 'reactstrap';
 import {Image, Grid} from 'semantic-ui-react'
 import {Panel} from "rsuite";
-import {IconButton, Icon} from "rsuite";
+import {IconButton, Icon , Animation} from "rsuite";
 
 const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
   const [sepetteymiş,setSepette]       = useState(false)
+  const [yerlesim, Yerlesim] = useState('')
+  const [goster, Goster] =useState(false)
   useEffect(()=>{
 
     var index=props.begeni.findIndex(p=>p._id===props.urun._id);
@@ -18,27 +20,19 @@ const Urunler =props=>{
       setSepette(true)
     }
   })
-  const extra = (
-   <div className="card_aciklama">
-     {
-       props.aktif ===false ?
-         <>
-           <Alert color="danger">Bu ürün stokta yoktur!</Alert>
-         </>
-         :
-          <button className="card_buton">
-              <i className="icon-basket">d </i>
-          </button>
-     }
-    </div>
-
-  )
+  const sepetEkle=(urun)=>{
+    props.sepeteEkle(urun)
+    Goster(true)
+  }
+  const {Slide} = Animation
   return(
     <>
 
       <Panel className="urun_card" >
         <Grid>
-          <Grid.Column width={16}> <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/></Grid.Column>
+          <Grid.Column width={16}>
+            <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/>
+          </Grid.Column>
           <Grid.Column  width={16}>
             <div className="urun_card_bilgi">
               <h3 className="urun_ad">{props.urun.ad}</h3>
@@ -48,7 +42,7 @@ const Urunler =props=>{
               <div className="urun_meta_bilgi">
                 <span className="urun_ucret">{props.urun.fiyat} ₺</span>
               </div>
-                <IconButton onClick={()=>props.sepeteEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
             </div>
           </Grid.Column>
         </Grid>

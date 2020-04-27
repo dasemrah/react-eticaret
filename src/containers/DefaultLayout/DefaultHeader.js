@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Transition, Label, List, Icon} from "semantic-ui-react";
 import { Menu, Popover, Button,toaster } from 'evergreen-ui'
 import Arama from "../../views/Parcalar/Arama";
-
+import {Drawer} from "rsuite";
 class DefaultHeader extends Component {
   constructor(props){
     super(props)
@@ -70,9 +70,9 @@ class DefaultHeader extends Component {
 
 
         </div>
-        <div style={aramaGörünürlük ? {visibility:"visible",display:"inline"} : {visibility:"hidden",display:"none"}}>
-          <Arama {...this.props} />
-        </div>
+        <Drawer className="arama_katman" size='xs' placement='top' show={aramaGörünürlük} onHide={()=>this.setState({aramaGörünürlük:false})}>
+          <Arama aramaAçKapa={this.aramaAçKapa} {...this.props} />
+        </Drawer>
       </nav>
         </>
     );

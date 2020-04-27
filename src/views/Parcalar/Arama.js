@@ -46,7 +46,7 @@ export default class Arama extends Component {
     console.log('seçildi')
     this.setState({ value: result.title })
     this.props.aramaSonucu(result)
-
+    this.props.aramaAçKapa()
   }
 
   handleSearchChange = (e, { value }) => {
