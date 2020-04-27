@@ -1,6 +1,8 @@
 import React from 'react';
 import {CornerDialog, Button} from "evergreen-ui";
 import {Input,TextArea} from "semantic-ui-react";
+import istek from '../../../istek'
+import {toaster} from "evergreen-ui";
 
 class Edit extends React.Component{
   constructor(props){
@@ -20,7 +22,17 @@ class Edit extends React.Component{
       net      : urun.net,
       fiyat    : urun.fiyat
     })
-    console.log('ürün değişti',urun)
+    console.log('ürün değişti',nextProps)
+  }
+  stok=(urunid,durum)=>{
+    istek
+      .post('/stok',{urunid:urunid,durum:durum})
+      .then(ynt=>{
+        console.log('ynt',ynt)
+        toaster.success(durum ? 'Ürün markete eklendi' : 'Ürün stoktan kaldırıldı')
+        this.props.gizle()
+      })
+      .catch(err=>console.log(err))
   }
 
   render() {
@@ -65,7 +77,14 @@ class Edit extends React.Component{
             onChange={e=>this.setState({net:e.target.value})}
           />
           <br/>
-
+          <Button onClick={()=>this.stok(urun._id,urun.aktif ? false : true)} intent={urun.aktif ? 'warning' : ' '} iconAfter={urun.aktif ? 'cross' : 'add'} size={16} >
+            {
+              urun.aktif ===true ?
+                <span>Satıştan Kaldır</span>
+                :
+                <span>Mağazaya Ekle</span>
+            }
+          </Button>
           <Button onClick={()=>this.props.duzenle(this.state)} intent='success' iconAfter='tick-circle'>Kaydet</Button>
         </CornerDialog>
       </>

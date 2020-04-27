@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {Alert,} from 'reactstrap';
 import {Image, Grid} from 'semantic-ui-react'
 import {Panel} from "rsuite";
-import {IconButton, Icon , Animation} from "rsuite";
+import {IconButton, Icon , Animation, Message} from "rsuite";
 
 const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
@@ -42,8 +42,19 @@ const Urunler =props=>{
               <div className="urun_meta_bilgi">
                 <span className="urun_ucret">{props.urun.fiyat} ₺</span>
               </div>
-                <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
-            </div>
+              {
+                props.urun.aktif ?
+                  <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                  :
+
+                  <Message
+                    showIcon
+                    type="warning"
+                    title="Tükendi"
+
+                  />
+              }
+             </div>
           </Grid.Column>
         </Grid>
       </Panel>
