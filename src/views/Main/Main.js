@@ -2,7 +2,7 @@ import React from 'react';
 import Arama from "../Parcalar/Arama";
 import {Row,Col} from "reactstrap";
 import api from "../../istek";
-import {IconButton, Placeholder} from 'rsuite';
+import {IconButton, Message, Placeholder} from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
 import {Image} from 'semantic-ui-react'
 import Kategoriler from "../Pages/Kategoriler";
@@ -96,10 +96,20 @@ class Main extends React.Component{
                       {this.props.seciliUrun.aciklama}
                     </p>
                     <div className="jiwWyF ">
-                      <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
-                        <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
-                        <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
-                      </div>
+                      {
+                        this.props.seciliUrun.aktif ?
+                          <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
+                            <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                            <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
+                          </div>
+                          :
+                          <Message
+                            showIcon
+                            type="warning"
+                            title="Tükendi"
+
+                          />
+                      }
                     </div>
                   </div>
                 </div>
