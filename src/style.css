@@ -341,6 +341,10 @@
 .arama_katman{
   height: 80px !important;
 }
+.navbar-brand{
+  color: rgb(0, 158, 127) !important;
+  font-size: 1.6em;
+}
 @media screen and (max-width: 600px){
   .sepet_kapsam{
     max-height: 370px;
@@ -350,8 +354,6 @@
   }
   .navbar-brand{
     margin-top: -5%;
-
-    color: #33C329 !important;
     font-size: 1.6em;
   }
 
