@@ -47,6 +47,12 @@ class DefaultHeader extends Component {
     return (
       <>
       <nav className="navbar navbar-expand-sm  navbar-light">
+        <div onClick={()=>this.props.yanMenuAcKapa()} className="sol_menu_buton">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
         <a className="navbar-brand" href="#">Nazlı Köy</a>
         <div className="sepet_dar_ekran">
           <Icon circular color='grey' name='search'  size='large' onClick={this.aramaAçKapa}/>

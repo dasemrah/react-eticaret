@@ -1,15 +1,16 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
-import { Container, Spinner} from 'reactstrap';
-import {List, Divider,Header,Button,Label,Icon} from 'semantic-ui-react'
+import { Container,} from 'reactstrap';
+import {List,Header,Button,Icon} from 'semantic-ui-react'
 import '../../style.css'
 import {AppFooter, AppHeader, AppSidebar, AppSidebarFooter, AppSidebarForm, AppSidebarHeader, AppSidebarMinimizer, AppBreadcrumb2 as AppBreadcrumb, AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
 import admin_nav from '../../admin_nav';
 import routes from '../../routes';
 import istek from "../../istek";
 import adminRoutes from "../../adminRoutes";
-import {Pill, SideSheet, toaster} from "evergreen-ui";
+import {SideSheet, toaster} from "evergreen-ui";
+import {Drawer} from "rsuite";
 import Sepet from "../../views/Pages/Sepet";
 import Disk from 'o.disk'
 
@@ -41,7 +42,7 @@ class DefaultLayout extends Component {
       yanMenu:false,
       urunGoster:false,
       begeni:[],
-
+      listeAktif:''
     }
   }
 
@@ -85,7 +86,13 @@ class DefaultLayout extends Component {
     console.log('kategori seçildi',this.state.kategori)
 
   }
-
+  sayfa=(e)=>{
+    this.setState({
+      listeAktif:e,
+      yanMenu:false
+    })
+    this.props.history.push(e)
+  }
   giris=()=>{
     this.setState({
       yanMenu:false
@@ -316,85 +323,56 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader urunAç={this.urunAç}  {...this.state} aramaSonucu={this.urunAç} {...this.props} seçkeKapa={this.seçkeKapa} yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader urunAç={this.urunAç}  {...this.state} aramaSonucu={this.urunAç} {...this.props}  yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">
-                <SideSheet
-                  position={'left'}
-                  isShown={this.state.yanMenu}
-                  onCloseComplete={()=>this.seçkeKapa()}
-                  width={300}
-
+                <Drawer
+                  placement='left'
+                  size='xs'
+                  show={this.state.yanMenu}
+                  onHide={()=>this.seçkeKapa()}
+                  className="yan_menu"
                 >
+                  <Drawer.Header  className="yan_menu_baslik">
+                    <Drawer.Title className="yan_menu_baslik_ic">
+                      <button onClick={()=>this.sayfa('login')} className="yan_menu_giris_butonu">
+                        <span style={{paddingLeft:'4px',paddingRight:'4px',whiteSpace:'nowrap'}}>
+                          Giriş Yap
+                        </span>
+                      </button>
+                    </Drawer.Title>
+                  </Drawer.Header>
+                  <Drawer.Body className='yan_menu_liste'>
+                    <div className="eleman">
+                      <a onClick={()=>this.sayfa('/')} className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null}>
+                        <span>
+                          Ana Sayfa
+                        </span>
+                      </a>
+                    </div>
+                    <div className="eleman">
+                      <a  className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null} onClick={()=>this.sayfa('paketleme')}>
+                        <span>Nasıl Paketleme Yapıyoruz?</span>
+                      </a>
+                    </div>
+                    <div className="eleman">
+                      <a  className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null} onClick={()=>this.sayfa('gizlilik')}>
+                        <span>Kullanım Şartları ve Gizlilik İlkesi</span>
+                      </a>
+                    </div>
+                  </Drawer.Body>
 
-                 <div className="yan_menu">
-                   <br/><br/><br/>
-                   <Icon name='close' color='red' onClick={this.yanMenuAcKapa} className="float-right"/>
-
-                   <List animated className="kategori_listesi" selection verticalAlign='middle'>
-                     {
-                       this.state.kategoriler.map(kat=>
-                         <List.Item selection={true}  key={kat._id} onClick={()=>this.kategoriSec(kat)}>
-                          <Header as='a' dividing>
-                            <span className="text-dark text-capitalize p text-left floated">{kat.ad}</span>
-                            <br/>
-                          </Header>
-
-                         </List.Item>
-                       )
-                     }
-                   </List>
+                </Drawer>
 
 
-                 </div>
-                  <div className="yan_menu_giris">
-                    <Button.Group size='mini'>
-                      <Button onClick={this.sorgula}>Sipariş Sorgula</Button>
-                      <Button.Or text=" "/>
-                      <Button positive onClick={this.giris}>Sisteme Giriş</Button>
-                    </Button.Group>
-                  </div>
-                </SideSheet>
+
 
                 <main className="main">
                   <AppBreadcrumb appRoutes={routes} router={router}/>
                   <>
-                    <SideSheet
-                      position={'right'}
-                      isShown={this.state.sepetSeçke}
-                      containerProps={{
-                        display: 'flex',
-                        flex: '1',
-                        flexDirection: 'column',
-                      }}
-                      width={400}
-                      preventBodyScrolling
-                      onCloseComplete={() => this.setState({sepetSeçke:false})}
-                    >
-
-                   <>
-                     <br/><br/>
-                     <Sepet
-                       seçkeAçKapa={this.seçkeAçKapa}
-                       sepet={this.state.sepet}
-                       miktarDeğiştir={this.mikarDeğiştir}
-                       toplam={this.state.toplam}
-                       ucret={this.state.ucret}
-                       urunÇıkart={this.urunÇıkart}
-                       devam={this.siparisDevam}
-                       sepetAçKapa={this.seçkeAçKapa}
-                       {...this.props}
-
-
-                     />
-                   </>
-                    </SideSheet>
                     <Suspense fallback={this.loading()}>
                       <Switch>
-
-
-
                         {
 
                           routes.map((route, idx) => {

@@ -408,10 +408,7 @@
     visibility: hidden;
     display: none;
   }
-.yan_menu_iconu{
-  visibility: hidden;
-  display: none;
-}
+
 
 }
 
@@ -832,6 +829,9 @@ html{
   color: rgb(0, 158, 127);
   margin-left: 10px;
 }
+.adres_buton_katman{
+  margin-top: 25px;
+}
 .urun_meta{
 
   display: flex;
@@ -901,7 +901,70 @@ html{
   font-weight: 700;
   color: rgb(0, 158, 127);
 }
+.adres_buton_text{
+  padding-left: 4px;
+  padding-right: 4px;
+  white-space: nowrap;
+}
+.adres_buton{
+  cursor: pointer;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  background-color: rgb(0, 158, 127);
+  height: 48px;
+  width: auto;
+  color: rgb(255, 255, 255);
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  text-decoration: none;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  transition: all 0.3s ease 0s;
+}
 @media only screen and (max-width: 600px) {
+  .sol_menu_buton{
+    width: 26px;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 8px;
+  }
+  .sol_menu_buton > span{
+    display: block;
+    background-color: rgb(13, 17, 54);
+    height: 2px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out 0s;
+  }
+  .sol_menu_buton >  span:nth-child(1) {
+    width: 26px;
+  }
+
+  .sol_menu_buton >  span:nth-child(2) {
+    width: 12px;
+  }
+  .sol_menu_buton > span:last-child {
+    margin-bottom: 0px;
+  }
+  .sol_menu_buton > span:nth-child(3) {
+    width: 22px;
+  }
+  .adres_buton{
+    width: 100%;
+  }
   .fbUCfN {
     margin-left: 15px;
   }
@@ -1092,7 +1155,78 @@ html{
   }
 
 }
+.yan_menu{
+  width: 85% !important;
+}
+.yan_menu_baslik{
+  background-color: rgb(247, 247, 247);
+  padding: 45px;
+  margin-top: 40px;
+}
+.yan_menu_baslik_ic{
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+.yan_menu_liste{
+  padding: 40px 0px;
+  margin-top: -20px;
+}
+.yan_menu_liste > .eleman > .aktif{
+ color: rgb(0, 158, 127);
+}
+.yan_menu_liste >.eleman{
+  margin-top: 20px;
+}
+.yan_menu_liste >.eleman>.link {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(13, 17, 54);
+  margin-bottom: 19px;
+  position: relative;
+  padding: 5px 45px;
+  transition: all 0.15s ease-in-out 0s;
 
+}
+.yan_menu_giris_butonu{
+  padding-left: 15px;
+  padding-right: 15px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  cursor: pointer;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  background-color: rgb(0, 158, 127);
+  width: auto;
+  color: rgb(255, 255, 255);
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
+  height: 38px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 14px;
+  text-decoration: none;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  transition: all 0.3s ease 0s;
+  border-radius: 6px;
+}
+.yan_menu_baslik .rs-drawer-header-close{
+  margin-top: 45px;
+  margin-left: 65%;
+}
 .card_buton{
   height: 36px;
   padding-left: 17px;
@@ -1187,12 +1321,7 @@ html{
   margin-left: 5%;
   margin-right: 5%;
 }
-.yan_menu{
-  background-color: white;
-  margin-top: 10%;
-  overflow: hidden;
-  padding-bottom: 10% !important;
-}
+
 .yan_menu_giris{
   margin-left: 15%;
 }

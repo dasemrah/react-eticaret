@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
 import { Segment, Header, List, Divider} from 'semantic-ui-react'
 import { Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label, Table} from 'evergreen-ui'
-import {Steps, Panel ,Message} from "rsuite";
+import {Steps, Panel ,Message, Icon} from "rsuite";
 import api from "../../../istek";
 
 
@@ -242,6 +242,14 @@ const Sipariş =props=>{
         </Message>
       </Panel>
   )
+  const Butonlarım=(e)=>
+    <div className="adres_buton_katman">
+      <button onClick={()=>e.fonk()} className="adres_buton">
+        <span className="adres_buton_text">{e.ad} </span>
+        <Icon style={{color:'rgb(255, 255, 255)',marginLeft:'10px'}} icon='angle-right' />
+      </button>
+    </div>
+
   const ÖdendiEkranı=()=>(
     <>
       {
@@ -294,17 +302,7 @@ const Sipariş =props=>{
                           />
                         </Pane>
                         <br/>
-                        <Button
-                          height={24}
-                          onClick={()=>adresEkranKontrol()}
-                          appearance="primary"
-                          marginRight={16}
-                          intent="warning"
-                          iconAfter='arrow-right'
-                          Warning>
-                         Adresi bilgileri için devam et
-                         </Button>
-
+                       <Butonlarım ad='Adres Bilgisi' fonk={adresEkranKontrol}/>
                       </Panel>
 
                       :step === 1 ?
@@ -323,17 +321,7 @@ const Sipariş =props=>{
                           <Textarea id="adres" onChange={e=>setTamAdres(e.target.value)} value={tamAdres} placeholder='cadde, sokak ve diğer bilgileri giriniz'
                           />
                         </Pane>
-
-                        <Button
-                          height={24}
-                          onClick={()=>ödemeEkranKontrol()}
-                          appearance="primary"
-                          marginRight={16}
-                          intent="warning"
-                          iconAfter='arrow-right'
-                        >
-                          Ödemeye  Devam Et
-                        </Button>
+                        <Butonlarım ad='Ödeme' fonk={ödemeEkranKontrol}/>
 
                       </Panel>
                        :step === 2 ?
