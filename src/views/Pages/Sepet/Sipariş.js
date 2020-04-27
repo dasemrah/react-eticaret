@@ -114,7 +114,7 @@ const Sipariş =props=>{
          </List.Item>
           <List.Item>
             <Header as='h5' textAlign='center'>
-              Toplam: <span className="text-danger">
+              Toplam: <span style={{color:'rgb(0, 158, 127)'}}>
               {props.sepet.length>0 ?
               <>
                 {ücret} ₺

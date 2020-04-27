@@ -5,7 +5,7 @@ import axios from 'axios';
 import ImageUploader from 'react-images-upload';
 import {Alert,Popover,Menu} from "evergreen-ui";
 import {Label} from "semantic-ui-react";
-import Resizer from 'react-image-file-resizer';
+import {Drawer} from "rsuite";
 
 
 class Urunekle extends Component{
@@ -184,10 +184,14 @@ class Urunekle extends Component{
 
     return(
       <>
-        <Modal isOpen={this.state.modal} modalTransition={{ timeout: 700 }} backdropTransition={{ timeout: 1300 }}
-               toggle={this.setModal} className="modal-warning">
-          <ModalHeader toggle={this.setModal}>Yeni Kategori Ekle</ModalHeader>
-          <ModalBody>
+        <Drawer size='xs' show={this.state.modal}
+               onHide={()=>this.setModal()} className="modal-warning">
+          <Drawer.Header>
+            <Drawer.Title>
+              Yeni Kategori Ekle
+            </Drawer.Title>
+          </Drawer.Header>
+          <Drawer.Body>
             <Alert
               intent="none"
               title="Kategori adını yazıp ekleyiniz"
@@ -199,14 +203,14 @@ class Urunekle extends Component{
                 </InputGroupAddon>
                 <Input value={this.state.yenikategori} placeholder="ad gir" type="text" onChange={this.kategoriChange}/>
               </InputGroup>
-          </ModalBody>
-          <ModalFooter>
+          </Drawer.Body>
+          <Drawer.Footer>
             {this.state.yenikategori.length>0 ?
-              <Button color="primary" onClick={this.kategoriEkle}><i className="icon-plus">Kategoriyi Kaydet</i></Button>
+              <Button color="primary" onClick={()=>this.kategoriEkle()}><i className="icon-plus">Kategoriyi Kaydet</i></Button>
             :null}
-            <Button color="danger" onClick={this.setModal}>İptal</Button>
-          </ModalFooter>
-        </Modal>
+            <Button color="danger" onClick={()=>this.setModal()}>İptal</Button>
+          </Drawer.Footer>
+        </Drawer>
         <>
           <Row>
             {
