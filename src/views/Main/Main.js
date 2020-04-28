@@ -62,9 +62,6 @@ class Main extends React.Component{
       olay:1
     })
   }
-  componentWillUpdate(nextProps, nextState, nextContext) {
-      return(nextProps.urunler.length>0)
-  }
 
   render() {
 
@@ -228,6 +225,7 @@ class Main extends React.Component{
                     <YerTutucu/>
                     :
                     <>
+                      <br/>
                     <Kategoriler {...this.props}/>
                 </>
                     }
