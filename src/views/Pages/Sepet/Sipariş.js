@@ -41,6 +41,7 @@ const Sipariş =props=>{
       tel:  tel,
       odeme_yontemi:yöntem,
     }
+
     var ucret=0
     props.sepet.map(urun=>ucret+=urun.fiyat*urun.miktar)
     api

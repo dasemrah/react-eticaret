@@ -338,6 +338,9 @@
 .📦w_400px{
   overflow: hidden;
 }
+.rs-steps-item-icon::before{
+  color: white !important;
+}
 .arama_katman{
   height: 80px !important;
 }
