@@ -131,7 +131,28 @@ const Sipariş =props=>{
             </Header>
           </List.Item>
           <List.Item>
-          <h6 className="text-center">  Kargo Ücreti: <span> +15 ₺</span></h6>
+          <h6 className="text-center">
+            Kargo Ücreti:
+            {
+              ödendi
+                ?
+                siparis.ucret>=250
+                  ?
+                  <>
+                    <span style={{textDecorationLine:'line-through'}} className="text-danger">15 ₺</span>
+                    <span style={{color:'rgb(0, 158, 127)'}}> ücretsiz</span>
+                  </>
+                  :<span>15 ₺</span>
+                :
+                ücret>=250
+                  ?
+                  <>
+                     <span  style={{textDecorationLine:'line-through'}} className="text-danger">15 ₺</span>
+                     <span style={{color:'rgb(0, 158, 127)'}}> ücretsiz</span>
+                    </>
+                  :<span>15 ₺</span>
+            }
+          </h6>
           </List.Item>
           {
             ödendi ?
@@ -152,11 +173,11 @@ const Sipariş =props=>{
               {
                 ödendi ?
                   <>
-                    {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+15} ₺
+                    {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ? 0 : 15)} ₺
                   </>
                   :
                   <>
-                    {ücret+15} ₺
+                    {ücret+(ücret>= 250 ? 0 : 15)} ₺
                   </>
               }
             </h3>

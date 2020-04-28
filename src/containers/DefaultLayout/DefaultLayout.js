@@ -43,7 +43,7 @@ class DefaultLayout extends Component {
       urunGoster:false,
       begeni:[],
       listeAktif:'',
-      urunAnimasyon:false
+
     }
   }
 
@@ -76,13 +76,12 @@ class DefaultLayout extends Component {
     })
   }
   kategoriSec=secim=>{
-    console.log('seçim',secim)
+
     this.setState({
       kategori:secim.ad,
       urunler:secim.urunler,
       yanMenu:false
     })
-    console.log('kategori seçildi',this.state.kategori)
   }
   sayfa=(e)=>{
     this.setState({

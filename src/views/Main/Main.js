@@ -40,6 +40,7 @@ class Main extends React.Component{
       kategori:this.props.kategori,
       urunler:this.props.urunler,
       ucret:toplam,
+
     })
   }
   sepetAc=(yerlesim)=>{
