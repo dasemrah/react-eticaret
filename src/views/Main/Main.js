@@ -40,7 +40,7 @@ class Main extends React.Component{
       kategori:this.props.kategori,
       urunler:this.props.urunler,
       ucret:toplam,
-
+      olay:1
     })
   }
   sepetAc=(yerlesim)=>{
@@ -228,7 +228,6 @@ class Main extends React.Component{
                     <YerTutucu/>
                     :
                     <>
-                      <br/><br/><br/>
                     <Kategoriler {...this.props}/>
                 </>
                     }
