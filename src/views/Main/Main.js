@@ -7,7 +7,7 @@ import "react-multi-carousel/lib/styles.css";
 import {Image} from 'semantic-ui-react'
 import Kategoriler from "../Pages/Kategoriler";
 import {Icon, Drawer} from "rsuite";
-import Urun from "./Urunler/Urun";
+import YerTutucu from "../Parcalar/YerTutucu";
 import Magnifier from "react-magnifier";
 class Main extends React.Component{
   constructor(props){
@@ -19,7 +19,7 @@ class Main extends React.Component{
       urunler:[],
       ucret:0,
       sepetToggle:false,
-
+      olay:0,
       yerlesim:''
     }
   }
@@ -33,6 +33,15 @@ class Main extends React.Component{
           items:foundItems.data
         })
       })
+    var toplam=0
+    this.props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
+    this.setState({
+      kategoriler:this.props.kategoriler,
+      kategori:this.props.kategori,
+      urunler:this.props.urunler,
+      ucret:toplam,
+
+    })
   }
   sepetAc=(yerlesim)=>{
     this.setState({
@@ -50,11 +59,11 @@ class Main extends React.Component{
       kategori:nextProps.kategori,
       urunler:nextProps.urunler,
       ucret:toplam,
-
+      olay:1
     })
   }
   componentWillUpdate(nextProps, nextState, nextContext) {
-    console.log('ana state',nextState)
+      return(nextProps.urunler.length>0)
   }
 
   render() {
@@ -214,8 +223,16 @@ class Main extends React.Component{
              </Col>
 
               <Col xs="12">
-                <br/><br/><br/>
-                <Kategoriler {...this.props}/>
+                {
+                  this.state.olay === 0 ?
+                    <YerTutucu/>
+                    :
+                    <>
+                      <br/><br/><br/>
+                    <Kategoriler {...this.props}/>
+                </>
+                    }
+
               </Col>
          </Row>
       </div>
