@@ -39,10 +39,12 @@ class Urunler extends Component {
   duzenle=(value)=>{
     let nesne=this.state.duzenle_urun;
     console.log('düzenleme sonucu--->',value)
+
     nesne.ad        = value.ad;
     nesne.aciklama  = value.aciklama;
     nesne.net       = value.net;
     nesne.fiyat     = value.fiyat;
+    nesne.img       = value.file_url;
     api.post('/urunduzenle',{nesne:nesne})
       .then(ynt=>{
         console.log('ynt',ynt)
