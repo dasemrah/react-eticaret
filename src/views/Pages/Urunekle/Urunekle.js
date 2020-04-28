@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Row, Col, ModalFooter,Modal,ModalBody,CardHeader,CardBody, ModalHeader,Toast,ToastHeader,ToastBody, Card, Input, InputGroup, InputGroupText, InputGroupAddon,Button} from 'reactstrap';
+import {Row, Col,CardHeader,CardBody,Toast,ToastHeader,ToastBody, Card, Input, InputGroup, InputGroupText, InputGroupAddon,Button} from 'reactstrap';
 import istek from '../../../istek';
 import axios from 'axios';
 import ImageUploader from 'react-images-upload';

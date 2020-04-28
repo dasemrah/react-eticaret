@@ -3,7 +3,7 @@ const Login       =  React.lazy(()=>import('./views/Pages/Login'));
 const Kayıt       =  React.lazy(()=>import('./views/Pages/Register'));
 const Main        =  React.lazy(()=>import('./views/Main'));
 const Sorgula     =  React.lazy(()=>import('./views/Main/Sorgula'));
-const UrunSayfası =  React.lazy(()=>import('./views/Main/Urunler/Urun'));
+
 const Siparis     =  React.lazy(()=>import('./views/Pages/Sepet/Sipariş.js'));
 const Kategoriler =  React.lazy(()=>import('./views/Pages/Kategoriler'));
 const Nasıl       =  React.lazy(()=>import('./views/Ekler/Nasıl'));
@@ -17,7 +17,6 @@ const routes      = [
   { path: '/',              exact: true,            name: 'Ana Sayfa' , component: Main },
   { path: '/sorgula',       exact: true,            name: 'Sorgula' ,   component: Sorgula },
   { path: '/login',         name: 'Login',                              component:  Login},
-  { path: '/urun',          name: 'Urun Sayfası',                       component:  UrunSayfası},
   { path: '/siparis',       name: 'Yeni Sipariş',                       component:  Siparis},
   { path: '/kategori',      name: 'Kategori',                           component:  Kategoriler},
   { path: '/nasil',         name: 'Nasıl Sipariş Verebilirim',          component:  Nasıl},

@@ -20,7 +20,7 @@ class Main extends React.Component{
       ucret:0,
       sepetToggle:false,
       olay:0,
-      yerlesim:''
+      yerlesim:'bottom'
     }
   }
 
@@ -40,7 +40,6 @@ class Main extends React.Component{
       kategori:this.props.kategori,
       urunler:this.props.urunler,
       ucret:toplam,
-      olay:1
     })
   }
   sepetAc=(yerlesim)=>{

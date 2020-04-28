@@ -65,9 +65,7 @@ class DefaultLayout extends Component {
         kategori:ynt.data.foundUrun[4].ad
       })
     }).catch((err)=>console.log(err));
-    istek.get('/populer').then(ynt=>{
-      console.log('popüler',ynt.data)
-    })
+
   }
 
 

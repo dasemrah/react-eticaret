@@ -17,7 +17,7 @@ class Kategoriler extends React.Component{
 
 
   componentDidMount() {
-    console.log('kategori sayfa props',this.props)
+
     this.setState({
       urunler:this.props.urunler,
       kategori:this.props.kategori
@@ -29,7 +29,7 @@ class Kategoriler extends React.Component{
       kategori:nextProps.kategori,
       urunler:nextProps.urunler,
     })
-    console.log('kategoriler sayfa props',nextProps)
+
   }
 
   handleSelect=(activeKey) =>{
@@ -46,7 +46,7 @@ class Kategoriler extends React.Component{
       return (
         <Nav {...props} vertical activeKey={active} onSelect={d=>onSelect(d)} style={styles}>
           {this.props.kategoriler.map(e=>
-            <Nav.Item eventKey={e}>{e.ad}</Nav.Item>
+            <Nav.Item key={e._id} eventKey={e}>{e.ad}</Nav.Item>
           )}
 
         </Nav>
@@ -57,7 +57,7 @@ class Kategoriler extends React.Component{
      <List horizontal relaxed='very' className="kategori_listesi">
        {
          this.props.kategoriler.map(e=>
-           <List.Item>
+           <List.Item key={e._id}>
              <a className={this.props.kategori=== e.ad ? 'mobile_aktif_liste' : ''} onClick={()=> this.props.kategoriSec(e)} >{e.ad}</a>
            </List.Item>
          )

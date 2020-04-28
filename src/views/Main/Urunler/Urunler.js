@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {Alert,} from 'reactstrap';
-import {Image, Grid, Placeholder} from 'semantic-ui-react'
+import {Image, Grid} from 'semantic-ui-react'
 import {Panel} from "rsuite";
 import {IconButton, Icon , Animation, Message} from "rsuite";
 
@@ -24,6 +23,7 @@ const Urunler =props=>{
     props.sepeteEkle(urun)
     Goster(true)
   }
+
   const {Slide} = Animation
   return(
     <>
@@ -45,7 +45,7 @@ const Urunler =props=>{
               </div>
               {
                 props.urun.aktif ?
-                  <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                  <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} circle />
                   :
 
                   <Message

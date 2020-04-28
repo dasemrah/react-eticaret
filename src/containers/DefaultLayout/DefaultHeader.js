@@ -39,7 +39,7 @@ class DefaultHeader extends Component {
         this.setState({
           kategoriler:nextProps.kategoriler
         })
-    console.log('header props-->',nextProps)
+
   }
 
   render() {
