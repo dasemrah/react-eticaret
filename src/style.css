@@ -367,6 +367,10 @@
 .rs-steps-item-status-finish{
   color: white !important;
 }
+.siparis_panellerim{
+  background-color: white !important;
+  border-radius: 0 !important;
+}
 .siparisim_katman{
   width: 100%;
   flex-shrink: 0;

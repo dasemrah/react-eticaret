@@ -162,7 +162,7 @@ const Sipariş =props=>{
     </div>
   )
   const Kapıda = () =>(
-    <Panel shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
+    <Panel className="siparis_panellerim" shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
       <Message
         showIcon
         type="success"
@@ -175,7 +175,7 @@ const Sipariş =props=>{
     </Panel>
   )
   const Banka=()=>(
-    <Panel shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
+    <Panel className="siparis_panellerim" shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
       <Message
         showIcon
         type="success"
@@ -223,7 +223,7 @@ const Sipariş =props=>{
     siparişTamamla(e);
   }
   const ÖdemeSeç=()=>(
-    <Panel shaded header=' Ödeme Yöntemi Seçiniz'>
+    <Panel className="siparis_panellerim" shaded header=' Ödeme Yöntemi Seçiniz'>
       <Menu>
         <Menu.Group>
           <Menu.Item icon='home' onSelect={() => Yöntem('kapıda')}>Kapıda ödeme ile sipariş vermek istiyorum</Menu.Item>
@@ -234,7 +234,7 @@ const Sipariş =props=>{
     </Panel>
   )
   const  Başarısız =()=>(
-      <Panel shaded header='Hata'>
+      <Panel className="siparis_panellerim" shaded header='Hata'>
         <Message>
 
           <Message
@@ -278,7 +278,7 @@ const Sipariş =props=>{
                 <Col xs="12" lg="7" md="7">
                   {
                     step === 0 ?
-                      <Panel shaded header='Bilgilerim'>
+                      <Panel className="siparis_panellerim" shaded header='Bilgilerim'>
 
                         <TextInput
                           name="ad"
@@ -310,7 +310,7 @@ const Sipariş =props=>{
                       </Panel>
 
                       :step === 1 ?
-                      <Panel shaded header='Adresim'>
+                      <Panel className="siparis_panellerim" shaded header='Adresim'>
                         <TextInput value={il} onChange={e => setIl(e.target.value)} placeholder="Şehir" type="text" required width={'100%'}/>
                         <br/>
                         <br/>
