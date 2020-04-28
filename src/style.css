@@ -497,7 +497,7 @@
   color: rgb(119, 121, 140);
   margin-left: auto;
 }
-@media screen and (max-width: 600px){
+@media screen and (max-width: 767px){
   .sepet_kapsam{
     max-height: 370px;
   }
@@ -559,7 +559,7 @@
     margin-left: -5%;
   }
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 767px) {
 
   .sepet_dar_ekran{
     visibility: hidden;
@@ -737,7 +737,7 @@ html{
   max-width: 100%;
   order: 0;
   flex: 0 0 100%;
-  padding: 30px 47px 40px 30px;
+  overflow-x: hidden;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -1000,7 +1000,7 @@ html{
 .rs-nav-item-active .rs-nav-item-content{
   color: rgb(0, 158, 127) !important;
 }
-@media only screen and (max-width:1024px){
+@media only screen and (max-width:767px){
   .sepet_title{
     -webkit-box-pack: center !important;
     justify-content: center !important;
@@ -1090,7 +1090,7 @@ html{
   border-image: initial;
   transition: all 0.3s ease 0s;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 767px) {
   .sol_menu_buton{
     width: 26px;
     cursor: pointer;
@@ -1190,51 +1190,17 @@ html{
   }
 
 }
-@media only screen and (max-width: 1024px) and (min-width: 600px){
-
-  .ana_sayda_görseli{
-    height: 20rem !important;
-  }
-  .urun_gorsel{
-    height: 125px;
-    width: 100% !important;
-    margin-bottom: 25px;
-  }
-
-  .nasıl{
-    height: 250px;
-  }
-  .slayt{
-    height: 400px;
-    width: 100%;
-    object-fit: cover;
-  }
-  .ana_sayfa_arama{
-    padding: 16px;
-    z-index: 2;
-    position: absolute;
-    top:40%;
-    margin-left: 25% !important;
-    width: 50%;
-  }
-  .ui .input{
-    display: flex;
-  }
-
-  .ui.input>input{
-    padding: 16px;
-    border: none !important;
-    width: 100% !important;
-    border-radius: 8px !important;
-    box-shadow: 0px 11px 24px -10px rgba(0,0,0,0.75);
-    background: rgb(247, 247, 247) !important;
-
-  }
-  .ui.search>.results{
-    width: 100% !important;
-  }
+.magnifier-image{
+  width: 100%;
+  height: auto !important;
+  object-fit: scale-down !important;
 }
-@media only screen and (min-width: 1024px) {
+.urun_img{
+  height: 200px !important;
+  object-fit: scale-down;
+  ob
+}
+@media only screen and (min-width: 767px) {
   .mobile_sepet_gösterici{
     display: none;
     visibility: hidden;
@@ -1268,7 +1234,7 @@ html{
     display: flex;
   }
 
-  .ui.input>input{
+.arama>.wide> .ui>.input>input{
     padding: 16px;
     border: none !important;
     width: 100% !important;
@@ -1280,9 +1246,7 @@ html{
   .ui.search>.results{
     width: 100% !important;
   }
-  .urun_img{
-    height: 200px !important;
-  }
+
   .breadcrumb{
     padding-top: 2% !important;
 

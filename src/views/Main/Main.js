@@ -33,15 +33,8 @@ class Main extends React.Component{
           items:foundItems.data
         })
       })
-    var toplam=0
-    this.props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
-    this.setState({
-      kategoriler:this.props.kategoriler,
-      kategori:this.props.kategori,
-      urunler:this.props.urunler,
-      ucret:toplam,
 
-    })
+
   }
   sepetAc=(yerlesim)=>{
     this.setState({
@@ -220,16 +213,7 @@ class Main extends React.Component{
              </Col>
 
               <Col xs="12">
-                {
-                  this.state.olay === 0 ?
-                    <YerTutucu/>
-                    :
-                    <>
-                      <br/>
-                    <Kategoriler {...this.props}/>
-                </>
-                    }
-
+                <Kategoriler {...this.props}/>
               </Col>
          </Row>
       </div>

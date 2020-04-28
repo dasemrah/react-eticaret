@@ -118,7 +118,7 @@ class Edit extends React.Component{
           </Modal.Header>
           <Modal.Body>
 
-            <Image src={this.state.file_url} size='tiny' bordered/>
+            <Image src={this.state.file_url} size='tiny' style={{width:'40%', marginLeft:'30%'}} bordered/>
             <ImageUploader
               withIcon={true}
               buttonText='Görsel Seç'
