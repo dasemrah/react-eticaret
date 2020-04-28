@@ -29,15 +29,17 @@ const Sipariş =props=>{
       var toplam=0
       props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
       ÜcretDeğiş(toplam)
-      console.log('sipariş sayfa props',props)
-  })
 
-  const siparişTamamla=()=>{
+})
+
+  const siparişTamamla=(yöntem)=>{
+
+    console.log('yöntem ic fonk',yöntem)
     let veriler={
       ad:   ad,
       adres:il+' '+ilce+ ' '+mahalle+' '+tamAdres,
       tel:  tel,
-      odeme_yontemi:ödemeYöntemi,
+      odeme_yontemi:yöntem,
     }
     var ucret=0
     props.sepet.map(urun=>ucret+=urun.fiyat*urun.miktar)
@@ -133,7 +135,7 @@ const Sipariş =props=>{
 
   )
   const Urunlerim =s=>{
-    console.log('sipariş nesnesi',s)
+
     return(
       <Panel header='Ürünlerim' shaded>
         <Table>
@@ -213,10 +215,10 @@ const Sipariş =props=>{
     </Panel>
   )
   const Yöntem=(e)=>{
+    setÖdemeYöntemi(e);
     console.log('belirlenen yöntem-->' ,ödemeYöntemi);
     onChange(2)
-    setÖdemeYöntemi(e);
-    siparişTamamla();
+    siparişTamamla(e);
   }
   const ÖdemeSeç=()=>(
     <Panel shaded header=' Ödeme Yöntemi Seçiniz'>
