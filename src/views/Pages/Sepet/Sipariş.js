@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
-import { Segment, Header, List, Divider} from 'semantic-ui-react'
-import { Menu,toaster, Button ,TextInput, Textarea ,Pane ,Label, Table} from 'evergreen-ui'
+import { Header, List} from 'semantic-ui-react'
+import { Menu,toaster ,TextInput, Textarea ,Pane ,Label,} from 'evergreen-ui'
 import {Steps, Panel ,Message, Icon} from "rsuite";
 import api from "../../../istek";
 
@@ -89,7 +89,7 @@ const Sipariş =props=>{
   const Adımlar=()=>(
    <Col xs='12'>
      <Steps current={step}>
-       <Steps.Item title="Bilgilerim" />
+       <Steps.Item  title="Bilgilerim" />
        <Steps.Item title="Adresim" />
        <Steps.Item title="Ödeme" />
        <Steps.Item title="Tamamlandı" />

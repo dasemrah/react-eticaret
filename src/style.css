@@ -1330,6 +1330,7 @@ html{
 .yan_menu_liste{
   padding: 40px 0px;
   margin-top: -20px;
+  overflow: hidden !important;
 }
 .yan_menu_liste > .eleman > .aktif{
  color: rgb(0, 158, 127);
@@ -1337,15 +1338,14 @@ html{
 .yan_menu_liste >.eleman{
   margin-top: 20px;
 }
-.yan_menu_liste >.eleman>.link {
-  font-size: 14px;
+.yan_menu_liste >.eleman>a>span {
+
   font-weight: 400;
   color: rgb(13, 17, 54);
   margin-bottom: 19px;
   position: relative;
   padding: 5px 45px;
   transition: all 0.15s ease-in-out 0s;
-
 }
 .yan_menu_giris_butonu{
   padding-left: 15px;

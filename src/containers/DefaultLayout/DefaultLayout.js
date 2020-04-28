@@ -342,19 +342,24 @@ class DefaultLayout extends Component {
                   </Drawer.Header>
                   <Drawer.Body className='yan_menu_liste'>
                     <div className="eleman">
-                      <a onClick={()=>this.sayfa('/')} className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null}>
+                      <a onClick={()=>this.sayfa('/')} className={'link '+(this.state.listeAktif===this.props.history.location ? 'aktif': null)}>
                         <span>
                           Ana Sayfa
                         </span>
                       </a>
                     </div>
                     <div className="eleman">
-                      <a  className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null} onClick={()=>this.sayfa('paketleme')}>
+                      <a  className={'link '+(this.state.listeAktif===this.props.history.location ? 'aktif': null)} onClick={()=>this.sayfa('sorgula')}>
+                        <span>Siparişlerim</span>
+                      </a>
+                    </div>
+                    <div className="eleman">
+                      <a  className={'link '+(this.state.listeAktif===this.props.history.location ? 'aktif': null)} onClick={()=>this.sayfa('paketleme')}>
                         <span>Nasıl Paketleme Yapıyoruz?</span>
                       </a>
                     </div>
                     <div className="eleman">
-                      <a  className={'link '+this.state.listeAktif===this.props.history.location ? 'aktif': null} onClick={()=>this.sayfa('gizlilik')}>
+                      <a  className={'link '+(this.state.listeAktif===this.props.history.location ? 'aktif': null)} onClick={()=>this.sayfa('gizlilik')}>
                         <span>Kullanım Şartları ve Gizlilik İlkesi</span>
                       </a>
                     </div>

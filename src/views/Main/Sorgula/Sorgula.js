@@ -40,7 +40,7 @@ class Sorgula extends Component{
            {e.durum === 0 ?
              <span>Siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
              : e.durum ===1 ?
-               <span>Ödemeniz alınmıştır.</span>
+               <span>{e.odeme === 'kapıda' ? <>Siparişiniz kapıda ödeme seçeneği ile kaydedilmiştir.</> : <>Ödemeniz alınmıştır.</>}</span>
                :e.durum === 2 ?
                  <span>Siparişiniz hazırlanıyor.</span>
                  :e.durum === 3 ?
