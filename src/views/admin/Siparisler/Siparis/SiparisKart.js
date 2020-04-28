@@ -55,7 +55,7 @@ const SiparisKart=props=>(
         <h3 className="siparis-card-text"><i className="icon-location-pin"> {props.siparis.adres}</i> </h3>
 
         <h3 className="siparis-card-text"> <i className="icon-clock"> Tarih: {props.siparis.tarih.slice(0,props.siparis.tarih.length-14)} </i></h3>
-        {props.siparis.durum ===0 ? <h3 className="siparis-card-text"><i className="icon-credit-card"> Ücret: {props.siparis.ucret} ₺ </i>  </h3>: <></>}
+        <h3 className="siparis-card-text"><i className="icon-credit-card"> Ücret: {props.siparis.ucret} ₺ </i>  </h3>
         <Message type="warning" description={props.siparis.odeme==='kapıda' ? 'Kapıda Ödeme Seçildi' : 'Havale İle Ödeme Seçildi'} />
 
         <br/>
