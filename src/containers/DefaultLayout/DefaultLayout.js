@@ -42,7 +42,8 @@ class DefaultLayout extends Component {
       yanMenu:false,
       urunGoster:false,
       begeni:[],
-      listeAktif:''
+      listeAktif:'',
+      urunAnimasyon:false
     }
   }
 
@@ -84,7 +85,6 @@ class DefaultLayout extends Component {
       yanMenu:false
     })
     console.log('kategori seçildi',this.state.kategori)
-
   }
   sayfa=(e)=>{
     this.setState({

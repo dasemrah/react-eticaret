@@ -49,7 +49,8 @@ class Main extends React.Component{
       kategoriler:nextProps.kategoriler,
       kategori:nextProps.kategori,
       urunler:nextProps.urunler,
-      ucret:toplam
+      ucret:toplam,
+
     })
   }
   componentWillUpdate(nextProps, nextState, nextContext) {

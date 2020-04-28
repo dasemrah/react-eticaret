@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Alert,} from 'reactstrap';
-import {Image, Grid} from 'semantic-ui-react'
+import {Image, Grid, Placeholder} from 'semantic-ui-react'
 import {Panel} from "rsuite";
 import {IconButton, Icon , Animation, Message} from "rsuite";
 
@@ -32,6 +32,7 @@ const Urunler =props=>{
         <Grid>
           <Grid.Column width={16}>
             <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%',height:'155px'}} rounded size='small'/>
+
           </Grid.Column>
           <Grid.Column  width={16}>
             <div className="urun_card_bilgi">
@@ -50,8 +51,8 @@ const Urunler =props=>{
                   <Message
                     showIcon
                     type="warning"
-                    title="Tükendi"
-
+                    description="Tükendi"
+                    className="stok_uyarı"
                   />
               }
              </div>

@@ -345,6 +345,13 @@
   color: rgb(0, 158, 127) !important;
   font-size: 1.6em;
 }
+.rs-steps-item-icon-wrapper{
+  background-color: rgb(0, 158, 127) !important;
+  border-color: rgb(0, 158, 127) !important;
+  color: white !important;
+}
+
+
 @media screen and (max-width: 600px){
   .sepet_kapsam{
     max-height: 370px;
