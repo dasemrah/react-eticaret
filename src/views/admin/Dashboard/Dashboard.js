@@ -66,6 +66,7 @@ componentDidMount() {
 
 
   sonraki=(ay)=>{
+
     var buay=this.state.ay+ay;
     if(buay===-1){buay=0}
     this.setState({ay:buay})
