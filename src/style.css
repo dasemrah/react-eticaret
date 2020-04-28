@@ -367,6 +367,132 @@
 .rs-steps-item-status-finish{
   color: white !important;
 }
+.siparisim_katman{
+  width: 100%;
+  flex-shrink: 0;
+  padding-top: 20px;
+}
+.siparisim_ara_katman{
+  position: relative;
+  z-index: 999;
+  transform: translate3d(0px, 0px, 0px);
+}
+.siparisim_ic_katman{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.siparisim_baslik{
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+  text-align: center;
+  margin-bottom: 40px;
+}
+.siparisim_urunler_katman{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 0px;
+  max-height: 390px;
+}
+.siparisim_urunler_ic{
+  position: relative;
+  overflow: scroll;
+  margin-right: -17px;
+  margin-bottom: -17px;
+  min-height: 17px;
+  max-height: calc(407px);
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-right: 15px;
+}
+.siparisim_ic_kenar{
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+.siparisim_eleman{
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+}
+.siparisim_adet{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+}
+.siparisim_carpi{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  margin: 0px 12px;
+}
+.siparisim_urun_ad{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  margin-right: 15px;
+}
+.siparis_ucret_katman{
+  margin-top: 20px;
+  border-top: 1px solid rgb(230, 230, 230);
+  padding: 20px 15px 0px;
+}
+.siparis_ucret_eleman_baslik{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+}
+.siparis_ucret_eleman_icerik{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+}
+.siparis_ucret_eleman_toplam{
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.siparis_ucret_eleman_baslik_toplam{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+}
+.siparis_ucret_eleman_icerik_toplam{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+}
+.siparis_ucret_eleman{
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.siparisim_urun_fiyat{
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  margin-left: auto;
+}
 @media screen and (max-width: 600px){
   .sepet_kapsam{
     max-height: 370px;

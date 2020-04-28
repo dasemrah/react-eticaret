@@ -96,122 +96,71 @@ const Sipariş =props=>{
      </Steps>
    </Col>
   )
-
-  const SiparişDetayı=()=>(
-
-      <Panel header=' Sipariş özeti' shaded >
-        <List>
-         <List.Item>
-          <Header as='h6' textAlign='center'>
-            {
-              props.sepet.length>0 ?
-                <>
-                  {props.sepet.length} ürün
-                </>
-                :
-                <>
-                {siparis.Urunler.length} ürün
-                </>
-            }
-          </Header>
-         </List.Item>
-          <List.Item>
-            <Header as='h5' textAlign='center'>
-              Ara Toplam: <span>
-              {props.sepet.length>0 ?
-              <>
-                {ücret} ₺
-              </>
-                :
-                <>
-                  {siparis.ucret} ₺
-               </>
-              }
-            </span>
-            </Header>
-          </List.Item>
-          <List.Item>
-          <h6 className="text-center">
-            Kargo Ücreti:
-            {
-              ödendi
-                ?
-                siparis.ucret>=250
-                  ?
-                  <>
-                    <span style={{textDecorationLine:'line-through'}} className="text-danger">15 ₺</span>
-                    <span style={{color:'rgb(0, 158, 127)'}}> ücretsiz</span>
-                  </>
-                  :<span>15 ₺</span>
-                :
-                ücret>=250
-                  ?
-                  <>
-                     <span  style={{textDecorationLine:'line-through'}} className="text-danger">15 ₺</span>
-                     <span style={{color:'rgb(0, 158, 127)'}}> ücretsiz</span>
-                    </>
-                  :<span>15 ₺</span>
-            }
-          </h6>
-          </List.Item>
-          {
-            ödendi ?
-              <List.Item>
-                {
-                  siparis.odeme === 'kapıda' ?
-                    <h6 className="text-center">
-                      Kapıda Ödeme Ücreti: <span>+10 ₺</span>
-                    </h6>
-                    :null
-                }
-              </List.Item>
-              :null
-          }
-          <List.Item>
-            <h3 className="text-center">
-              Toplam:
+  const Detaylar = (e)=>(
+    <div className="siparisim_katman">
+      <div className="siparisim_ara_katman">
+        <div className="siparisim_ic_katman">
+          <h3 className="siparisim_baslik"> Siparişlerim</h3>
+          <div className="siparisim_urunler_katman">
+            <div className="siparisim_ic_kenar">
               {
-                ödendi ?
-                  <>
-                    {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ? 0 : 15)} ₺
-                  </>
-                  :
-                  <>
-                    {ücret+(ücret>= 250 ? 0 : 15)} ₺
-                  </>
+                e.sip.map(urun=>
+                  <div className="siparisim_eleman">
+                    <span className="siparisim_adet">{urun.miktar}</span>
+                    <span className="siparisim_carpi">X</span>
+                    <span className="siparisim_urun_ad">{urun.ad} | {urun.net}</span>
+                    <span className="siparisim_urun_fiyat">{parseInt(urun.fiyat)*parseInt(urun.miktar)} ₺</span>
+                  </div>
+                )
               }
-            </h3>
-          </List.Item>
-        </List>
-        <Divider/>
-      </Panel>
-
-  )
-  const Urunlerim =s=>{
-
-    return(
-      <Panel header='Ürünlerim' shaded>
-        <Table>
-          <Table.Head>
-            <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Ücret</Table.TextHeaderCell>
-          </Table.Head>
-          <Table.Body>
+            </div>
+          </div>
+          <div className="siparis_ucret_katman">
+            <div className="siparis_ucret_eleman">
+              <span className="siparis_ucret_eleman_baslik">Ara Toplam</span>
+              <span className="siparis_ucret_eleman_icerik">{ödendi ? siparis.ucret : ücret} ₺</span>
+            </div>
+            <div className="siparis_ucret_eleman">
+              <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
+              <span className="siparis_ucret_eleman_icerik">
+                {ödendi ?
+                  siparis.ucret>=250 ?  <>Ücretsiz</>
+                    :<>15 ₺</>
+                  :ücret>=250 ? <>Ücretsiz</>
+                    : <>15 ₺</>
+                  }
+              </span>
+            </div>
             {
-              s.sip.map(e => (
-                <Table.Row height='auto' key={e._id} isSelectable>
-                  <Table.TextCell>{e.ad}</Table.TextCell>
-                  <Table.TextCell isNumber>{e.miktar}</Table.TextCell>
-                  <Table.TextCell isNumber>{e.fiyat}</Table.TextCell>
-                </Table.Row>
-              ))
+              ödendi ?
+                siparis.odeme === 'kapıda' ?
+                  <div className="siparis_ucret_eleman">
+                    <span className="siparis_ucret_eleman_baslik">Kapıda Ödeme Ücreti</span>
+                    <span className="siparis_ucret_eleman_icerik">+10 ₺</span>
+                  </div>
+                  :null
+                :null
             }
-          </Table.Body>
-        </Table>
-      </Panel>
-    )
-  }
+            <div className="siparis_ucret_eleman_toplam">
+              <span className="siparis_ucret_eleman_baslik_toplam">Toplam</span>
+              <span className="siparis_ucret_eleman_icerik_toplam">
+                {
+                  ödendi ?
+                    <>
+                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ? 0 : 15)} ₺
+                    </>
+                    :
+                    <>
+                      {ücret+(ücret>= 250 ? 0 : 15)} ₺
+                    </>
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
   const Kapıda = () =>(
     <Panel shaded header={siparis.tarih +' tarihli siparişiniz başarıyla alındı'}>
       <Message
@@ -389,10 +338,7 @@ const Sipariş =props=>{
                   <br/>
                 </Col>
                 <Col xs='12' lg='5' md='5'>
-                  <Row>
-                    <Col xs='12'><SiparişDetayı/></Col>
-                    <Col xs='12'><Urunlerim sip={props.sepet.length>0 ? props.sepet : siparis.Urunler}/></Col>
-                  </Row>
+                  <Detaylar sip={props.sepet.length>0 ? props.sepet : siparis.Urunler}/>
                 </Col>
               </>
         </Row>
