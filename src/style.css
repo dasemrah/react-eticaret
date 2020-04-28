@@ -1338,6 +1338,11 @@ html{
 .yan_menu_liste >.eleman{
   margin-top: 20px;
 }
+.siparis-card-text{
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
 .yan_menu_liste >.eleman>a>span {
 
   font-weight: 400;
