@@ -1310,9 +1310,9 @@ html{
   margin-top: 20px;
 }
 .siparis-card-text{
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+  font-family: Oxygen !important;
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 100 !important;
 }
 .yan_menu_liste >.eleman>a>span {
 

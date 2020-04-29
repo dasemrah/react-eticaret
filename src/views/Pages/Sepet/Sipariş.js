@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
 import { Header, List} from 'semantic-ui-react'
 import { Menu,toaster ,TextInput, Textarea ,Pane ,Label,} from 'evergreen-ui'
-import {Steps, Panel ,Message, Icon} from "rsuite";
+import {Steps, Panel ,Message, Icon, Modal, Button} from "rsuite";
 import api from "../../../istek";
 
 
@@ -18,9 +18,10 @@ const Sipariş =props=>{
   const [mahalle, setMahalle] = useState('')
   const [tamAdres, setTamAdres]=useState('');
   const [ödemeYöntemi, setÖdemeYöntemi] = useState('');
+  const [kapıda ,KapıdaAyar] = useState('');
   const [ödendi, setÖdendi] = useState(false);
   const [step, setStep] = useState(0);
-
+  const [kapıdamodal ,KapıdaModalAyar] = useState(false)
   const onChange = nextStep => {
     setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
   };
@@ -32,14 +33,15 @@ const Sipariş =props=>{
 
 })
 
-  const siparişTamamla=(yöntem)=>{
+  const siparişTamamla=(yöntem,kapıdaYontemi)=>{
 
-    console.log('yöntem ic fonk',yöntem)
+    console.log('yöntem ic fonk',yöntem, kapıdaYontemi)
     let veriler={
       ad:   ad,
       adres:il+' '+ilce+ ' '+mahalle+' '+tamAdres,
       tel:  tel,
       odeme_yontemi:yöntem,
+      kapıda       : kapıdaYontemi
     }
 
     var ucret=0
@@ -47,12 +49,13 @@ const Sipariş =props=>{
     api
       .post('/yenisiparis',{
         data:{
-          ad          :   veriler.ad,
-          telefon     :   veriler.tel,
-          adres       :   veriler.adres,
-          ucret       :   ucret,
-          odeme_yontemi : veriler.odeme_yontemi,
-          urunler     :   props.sepet,
+          ad            :   veriler.ad,
+          telefon       :   veriler.tel,
+          adres         :   veriler.adres,
+          ucret         :   ucret,
+          odeme_yontemi :   veriler.odeme_yontemi,
+          urunler       :   props.sepet,
+          kapida        :   veriler.kapıda
         }
       })
       .then(ynt=>{
@@ -167,10 +170,7 @@ const Sipariş =props=>{
         showIcon
         type="success"
         title="Kapıda Ödeme Seçildi"
-        description="Sipariş ücretini kapıda, ürünü teslim aldıktan sonra, nakit veya kartla ödeyebilirsiniz.
-        Kargonuz yola çıktığında sizi bilgilendireceğiz.
-
-        "
+        description={'Sipariş ücretini kapıda, ürünü teslim aldıktan sonra '+siparis.kapida+' ödeyebilirsiniz. Kargonuz yola çıktığında sizi bilgilendireceğiz'}
       />
     </Panel>
   )
@@ -216,17 +216,46 @@ const Sipariş =props=>{
       </List>
     </Panel>
   )
-  const Yöntem=(e)=>{
-    setÖdemeYöntemi(e);
+  const Yöntem=(o_y,k_o_y)=>{
+    setÖdemeYöntemi(o_y);
     console.log('belirlenen yöntem-->' ,ödemeYöntemi);
     onChange(2)
-    siparişTamamla(e);
+    siparişTamamla(o_y,k_o_y);
   }
+  const KapıdaYontem=(o_y,k_o_y)=>{
+    Yöntem(o_y,k_o_y)
+    console.log('kapıda ödeme şekli',k_o_y)
+    KapıdaModalAyar(false)
+  }
+  const KapıdaSecici=()=>(
+    <Modal show={kapıdamodal} onHide={()=>KapıdaModalAyar(false)}>
+      <Modal.Header>
+
+      </Modal.Header>
+      <Modal.Body>
+        <Panel className="siparis_panellerim" shaded header='Ücreti Kapıda Nasıl Ödemek İstersiniz?'>
+          <Menu>
+            <Menu.Group>
+              <Menu.Item icon='dollar' onSelect={() => KapıdaYontem('kapıda','nakit')}>Nakit Ödeyeceğim</Menu.Item>
+              <Menu.Item icon='credit-card' onSelect={() => KapıdaYontem('kapıda','kartla')}>Kartla Ödeme Yapacağım</Menu.Item>
+            </Menu.Group>
+            <Menu.Divider />
+          </Menu>
+        </Panel>
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={()=>KapıdaModalAyar(false)} appearance="subtle">
+          İptal
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  )
   const ÖdemeSeç=()=>(
     <Panel className="siparis_panellerim" shaded header=' Ödeme Yöntemi Seçiniz'>
       <Menu>
         <Menu.Group>
-          <Menu.Item icon='home' onSelect={() => Yöntem('kapıda')}>Kapıda ödeme ile sipariş vermek istiyorum</Menu.Item>
+          <Menu.Item icon='home' onSelect={() => KapıdaModalAyar(true)}>Kapıda ödeme ile sipariş vermek istiyorum</Menu.Item>
           <Menu.Item icon='credit-card' onSelect={() => Yöntem('havale')}>EFT / Havale ile ödeme yapmak istiyorum</Menu.Item>
         </Menu.Group>
         <Menu.Divider />
@@ -273,6 +302,7 @@ const Sipariş =props=>{
         <Row>
 
               <>
+                <KapıdaSecici/>
                  <Adımlar/>
                 <br/><br/>
                 <Col xs="12" lg="7" md="7">
