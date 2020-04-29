@@ -76,14 +76,14 @@ const Sipariş =props=>{
       .catch(err=>console.log(err))
   }
   const adresEkranKontrol=()=>{
-    if(ad.length>0 && tel.length>0){
+    if(ad.length>3 && tel.length>9){
       onChange(step+1)
     }else {
       toaster.warning('Ad ve Soyad bilgilerinizi tamamlayınız')
     }
   }
   const ödemeEkranKontrol = () =>{
-    if(il.length>0,ilce.length>0,mahalle.length>0,tamAdres.length>0){
+    if(il.length>1 && ilce.length>0 && mahalle.length>0 &&tamAdres.length>0){
       onChange(step+1)
     }else {
       toaster.warning('Lütfen adres bilgilerinizi tamamlayınız')
