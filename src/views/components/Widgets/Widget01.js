@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Progress } from 'reactstrap';
 import classNames from 'classnames';
 import { mapToCssModules } from 'reactstrap/lib/utils';
-import {Segment} from "semantic-ui-react";
+import {Panel} from 'rsuite'
 
 const propTypes = {
   header: PropTypes.number,
@@ -45,13 +45,13 @@ class Widget01 extends Component {
     progress.style = classNames('progress-xs my-3', progress.style);
 
     return (
-      <Segment color="teal" className={classes} {...attributes}>
+      <Panel shaded style={{backgroundColor:'white'}} className={classes} {...attributes}>
         <div className="h4 m-0">{header}</div>
         <div>{mainText}</div>
         <Progress className={progress.style} color={progress.color} value={progress.value} />
         <small className="text-muted">{smallText}</small>
         <div>{children}</div>
-      </Segment>
+      </Panel>
     );
   }
 }

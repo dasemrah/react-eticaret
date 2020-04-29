@@ -681,10 +681,13 @@ html{
   min-width: 100&;
 }
 .aylik-grafik{
-  width: 120%;
-  margin-left: -10% !important;
-}
+  width: 100%;
 
+}
+  .graik_kart{
+    width: 100%;
+
+  }
 .title span {
   background: -webkit-linear-gradient(white, #38495a);
   -webkit-background-clip: text;
@@ -695,7 +698,10 @@ html{
   font-size: 30px;
 
 }
-
+.chartjs-size-monitor{
+  display: none !important;
+  visibility: hidden !important;
+}
 .css-yrjgl1{
   background-color: #FFE850 !important;
   margin-left: 10% !important;

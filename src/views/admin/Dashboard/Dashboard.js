@@ -9,6 +9,7 @@ import KazancGrafik from "../KazancGrafik/KazancGrafik";
 import Grafik from "../KilogramGrafik";
 import AylikGrafik from "../AylikGrafik";
 import {Segment,Icon,Button} from 'semantic-ui-react'
+import {Panel} from "rsuite";
 
 class Dashboard extends Component {
   constructor(props){
@@ -22,14 +23,34 @@ class Dashboard extends Component {
       ay:0,
 
     }
+
   }
 componentDidMount() {
-  api.get('/tarih/'+this.state.ay).then(gunluk=>{
-    console.log('tarih:-->',gunluk)
-    this.grafigedok(gunluk)
+  api.get('/tumsiparisler').then((ynt)=>{
+    this.setState({tumsiparisler:ynt.data.siparis})
+    var kazanç=0
+    var miktar=0
+    this.state.tumurunler.map(e=>{
+      ynt.data.siparis.map(s => {
+        s.Urunler.map(u=>{
+          if(e._id===u._id&&u.miktar!==null){
+            miktar+=u.miktar
+          }
+        })
+      })
+      this.setState({ satın_alım: [...this.state.satın_alım, {id:e._id, urun:e, miktar:miktar} ] })
+      miktar=0
+    })
+    this.state.satın_alım.map(e=>{
+        this.setState({
+          toplamkazanç:this.state.toplamkazanç+(e.miktar*e.urun.fiyat)
+        })
+      }
+    )
+
   })
   api.get('/urunler').then((ynt)=>{
-    console.log('Tüm ürünler: ',ynt.data);
+
     ynt.data.foundUrun.map(kategori=>{
       kategori.urunler.map(urunler=>{
         this.state.tumurunler.push(urunler)
@@ -38,29 +59,13 @@ componentDidMount() {
     this.setState(this.state)
 
   }).catch((err)=>console.log(err));
-  api.get('/tumsiparisler').then((ynt)=>{
-    this.setState({tumsiparisler:ynt.data.siparis})
-    var kazanç=0
-    var miktar=0
-    this.state.tumurunler.map(e=>{
-     ynt.data.siparis.map(s => {
-       s.Urunler.map(u=>{
-         if(e._id===u._id&&u.miktar!==null){
-           miktar+=u.miktar
-         }
-       })
-      })
-      this.setState({ satın_alım: [...this.state.satın_alım, {id:e._id, urun:e, miktar:miktar} ] })
-      miktar=0
-    })
-    this.state.satın_alım.map(e=>{
-      this.setState({
-        toplamkazanç:this.state.toplamkazanç+(e.miktar*e.urun.fiyat)
-      })
-      }
-    )
-
+  api.get('/tarih/'+this.state.ay).then(gunluk=>{
+    console.log('tarih:-->',gunluk)
+    this.grafigedok(gunluk)
   })
+
+
+
 }
 
 
@@ -102,7 +107,18 @@ componentDidMount() {
         sonbiray:this.state.sonbiray,
       })
     })
+
   }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return(nextState.tumurunler.length === nextState.satın_alım.length)
+  }
+
+  componentWillUpdate(nextProps, nextState, nextContext) {
+    console.log('ürün sayısı --->',nextState.tumurunler.length)
+    console.log('satın alım sayısı---->',nextState.satın_alım.length)
+  }
+
   render() {
 
 
@@ -136,7 +152,7 @@ componentDidMount() {
             <Col xs="12" md="12" lg="12">
               <Row>
                 <Col xs="12">
-                  <Segment color="green" className="aylik-grafik">
+                  <Panel shaded style={{backgroundColor:'white'}}>
                     <p className="p text-center">Kazanç Tablosu</p>
                     <p className="h2 text-muted text-center text-capitalize">Toplam Kazanç: {this.state.toplamkazanç} ₺</p>
 
@@ -157,12 +173,11 @@ componentDidMount() {
                     <br/>
                     <AylikGrafik data={this.state.sonbiray}/>
 
-                  </Segment>
+                  </Panel>
                   <br/>
                 </Col>
                 <Col xs="12">
-                  <Grafik data={this.state.satın_alım}/>
-                  <br/>
+                    <Grafik data={this.state.satın_alım}/>
                 </Col>
                 <Col xs="12">
                   <br/>

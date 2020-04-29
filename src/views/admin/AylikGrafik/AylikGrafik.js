@@ -3,6 +3,7 @@ import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 import {Card,Spinner} from "reactstrap";
 import {Line} from "react-chartjs-2";
 import {List,Label} from 'semantic-ui-react'
+import {Panel} from "rsuite";
 
 
 const options = {
@@ -50,14 +51,14 @@ class AylikGrafik extends Component{
   }
   loading = () =>   <Spinner style={{ width: '24rem', height: '24rem' }} type="grow" color="warning" />;
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log(nextProps)
+
     this.state.veri.datasets[0].data=[]
     this.state.veri.labels=[]
     var ayliktoplam=0;
     nextProps.data.map(eleman=> {
       var tl = 0;
       eleman.aradizi.map(gun=>{
-        console.log('ücret:-->',gun.ucret)
+
          if(!isNaN(parseInt(gun.ucret))){ tl = tl + parseInt(gun.ucret)}
       })
 
@@ -97,11 +98,9 @@ class AylikGrafik extends Component{
             </Label>
           </List.Item>
         </List>
-        <Card>
           <div className="chart-wrapper">
             <Line data={this.state.veri} options={options} />
           </div>
-        </Card>
       </>
     )
   }

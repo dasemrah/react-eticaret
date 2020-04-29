@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-import { Doughnut} from 'react-chartjs-2';
-import { Card, CardBody, CardHeader } from 'reactstrap';
+import { Bar} from 'react-chartjs-2';
+import {Panel} from "rsuite";
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 var newData=[]
 
@@ -20,39 +20,15 @@ class KazancGrafik extends Component{
         datasets: [
           {
             data: [],
-            backgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#006F54',
-              '#008691',
-              '#FFE6FF',
-              '#D3FF00',
-              '#F0F4CD',
-              '#00F5FF',
-              '#FFC89D',
-              '#EF005F',
-              '#2F4858',
-              '#B859E7',
-            ],
-            hoverBackgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#006F54',
-              '#008691',
-              '#FFE6FF',
-              '#D3FF00',
-              '#F0F4CD',
-              '#00F5FF',
-              '#FFC89D',
-              '#EF005F',
-              '#2F4858',
-              '#B859E7',
-            ],
-          }],
+            label: 'Ücret',
+            backgroundColor: 'rgba(255,99,132,0.2)',
+            borderColor: 'rgba(255,99,132,1)',
+            borderWidth: 1,
+            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+            hoverBorderColor: 'rgba(255,99,132,1)',
+          },
+        ],
       }
-
     }
   }
   componentWillReceiveProps(nextProps, nextContext) {
@@ -60,7 +36,7 @@ class KazancGrafik extends Component{
     this.state.veri.datasets[0].data=[]
     var data=[]
     nextProps.data.map(e=>{
-        console.log('kazanç graifği ürün--->',e)
+
         this.state.veri.labels.push(e.urun.ad);
         this.state.veri.datasets[0].data.push(e.miktar*e.urun.fiyat)
       },
@@ -69,26 +45,15 @@ class KazancGrafik extends Component{
 
   }
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextState.veri.labels.length>0)
+    return(nextProps.data.length>0)
   }
 
 
   render() {
     return(
-      <div className="animated fadeIn">
-
-        <Card className="graik_kart">
-          <CardHeader>
-            Her Üründen Kazanılan Ücret (₺)
-          </CardHeader>
-          <CardBody>
-            <div className="chart-wrapper">
-              <Doughnut data={this.state.veri} options={options} />
-            </div>
-          </CardBody>
-
-        </Card>
-      </div>
+    <Panel header="Ürün başı kazanç">
+      <Bar height={600} data={this.state.veri} options={options} />
+    </Panel>
     )
   }
 }
