@@ -1001,6 +1001,10 @@ html{
   color: rgb(0, 158, 127) !important;
 }
 @media only screen and (max-width:767px){
+  .urun_img{
+    height: 155px !important;
+
+  }
   .sepet_title{
     -webkit-box-pack: center !important;
     justify-content: center !important;
@@ -1156,7 +1160,10 @@ html{
 
 
   .magnifier-image {
-    height: 300px !important;
+    height: auto !important;
+    width: 80% !important;
+    margin-left: 10% !important;
+
   }
   .magnifier{
     width: 100% !important;
@@ -1195,12 +1202,12 @@ html{
   height: auto !important;
   object-fit: scale-down !important;
 }
-.urun_img{
-  height: 200px !important;
-  object-fit: scale-down;
 
-}
 @media only screen and (min-width: 767px) {
+  .urun_img{
+    height: 200px !important;
+
+  }
   .mobile_sepet_gösterici{
     display: none;
     visibility: hidden;
