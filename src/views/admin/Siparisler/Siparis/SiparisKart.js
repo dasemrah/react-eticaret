@@ -59,7 +59,7 @@ const SiparisKart=props=>(
         <h3 className="siparis-card-text">
           <i className="icon-shopping-bag">
           Toplam Ücret:
-          {parseInt(props.siparis.ucret)+(parseInt(props.siparis.ucret)>=250 ? 0 : 15)+(props.siparis.odeme==='kapıda' ? 10 : 0)} ₺
+          {parseInt(props.siparis.ucret)+(parseInt(props.siparis.ucret)>=250 || props.siparis.paket ? 0 : 15)+(props.siparis.odeme==='kapıda' ? 10 : 0)} ₺
         </i>
         </h3>
         <Message type={props.siparis.odeme ===  'kapıda' ? 'warning' : 'success'} description={props.siparis.odeme==='kapıda' ? ' Kapıda '+props.siparis.kapida+' ödeme seçildi' : 'Havale İle Ödeme Seçildi'} />

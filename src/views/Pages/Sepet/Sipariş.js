@@ -22,16 +22,34 @@ const Sipariş =props=>{
   const [ödendi, setÖdendi] = useState(false);
   const [step, setStep] = useState(0);
   const [kapıdamodal ,KapıdaModalAyar] = useState(false)
+  const [paket,paketKontrol] = useState(Boolean)
+
   const onChange = nextStep => {
     setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
   };
 
   useEffect(()=>{
+      console.log('kategoriler',props.kategoriler)
+      props.kategoriler.map(e=>{
+        if(e.ad==='Ramazan Paketleri'){
+
+          e.urunler.map(u=>{
+           let index= props.sepet.findIndex(p=>p._id===u._id)
+            if(index>-1){
+                console.log('paket bulundu',u.ad)
+              paketKontrol(true)
+
+              console.log('paketlendi',paket)
+
+            }
+          })
+        }
+      })
       var toplam=0
       props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
       ÜcretDeğiş(toplam)
 
-})
+},[])
 
   const siparişTamamla=(yöntem,kapıdaYontemi)=>{
 
@@ -55,7 +73,8 @@ const Sipariş =props=>{
           ucret         :   ucret,
           odeme_yontemi :   veriler.odeme_yontemi,
           urunler       :   props.sepet,
-          kapida        :   veriler.kapıda
+          kapida        :   veriler.kapıda,
+          paket         :   paket
         }
       })
       .then(ynt=>{
@@ -127,9 +146,9 @@ const Sipariş =props=>{
               <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
               <span className="siparis_ucret_eleman_icerik">
                 {ödendi ?
-                  siparis.ucret>=250 ?  <>Ücretsiz</>
+                  siparis.ucret>=250 || paket ?  <>Ücretsiz</>
                     :<>15 ₺</>
-                  :ücret>=250 ? <>Ücretsiz</>
+                  :ücret>=250 ||paket ? <>Ücretsiz</>
                     : <>15 ₺</>
                   }
               </span>
@@ -150,11 +169,11 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ? 0 : 15)} ₺
+                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ||paket ? 0 : 15)} ₺
                     </>
                     :
                     <>
-                      {ücret+(ücret>= 250 ? 0 : 15)} ₺
+                      {ücret+(ücret>= 250 ||paket ? 0 : 15)} ₺
                     </>
                 }
               </span>
