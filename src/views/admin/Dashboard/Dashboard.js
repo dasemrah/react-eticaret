@@ -148,8 +148,8 @@ componentDidMount() {
             <Col xs="12" md="12" lg="12">
               <Row>
                 <Col xs="12">
-                  <Panel shaded style={{backgroundColor:'white'}}>
-                    <p className="p text-center">Kazanç Tablosu</p>
+
+
                     <p className="h2 text-muted text-center text-capitalize">Toplam Kazanç: {this.state.toplamkazanç} ₺</p>
 
                     <Button
@@ -168,14 +168,11 @@ componentDidMount() {
                     </Button>
                     <br/>
                     <AylikGrafik data={this.state.sonbiray}/>
-
-                  </Panel>
-                  <br/>
                 </Col>
-                <Col xs="12">
+                <Col xs="12" lg='6'>
                     <Grafik data={this.state.satın_alım}/>
                 </Col>
-                <Col xs="12">
+                <Col xs="12" lg='6'>
                   <br/>
                   <KazancGrafik data={this.state.satın_alım}/>
                 </Col>

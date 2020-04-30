@@ -48,7 +48,7 @@ class KazancGrafik extends Component{
 
   render() {
     return(
-    <Panel header="Ürün başı kazanç">
+    <Panel  header="Ürün başı kazanç">
       <Bar height={600} data={this.state.veri} options={options} />
     </Panel>
     )

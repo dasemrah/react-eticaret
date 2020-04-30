@@ -678,7 +678,9 @@ html{
 }
 .chart-wrapper{
   min-height: 600px;
-  min-width: 100&;
+  width: 110% !important;
+  margin-left: -5% !important;
+
 }
 .aylik-grafik{
   width: 100%;

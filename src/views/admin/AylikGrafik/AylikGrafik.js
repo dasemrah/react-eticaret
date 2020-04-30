@@ -64,9 +64,14 @@ class AylikGrafik extends Component{
 
       ayliktoplam=ayliktoplam+tl
       this.state.veri.datasets[0].data.push(tl);
-      this.state.veri.labels.push(eleman.tarih.slice(0,10))
+      this.state.veri.labels.push(eleman.tarih.slice(5,10))
     })
-   if(nextProps.data.length>0){ this.setState({aylıktoplam:ayliktoplam,grafikayı:nextProps.data[nextProps.data.length-1].tarih.slice(0,7)})}
+   if(nextProps.data.length>0){
+     this.setState({
+       aylıktoplam:ayliktoplam,
+       grafikayı:nextProps.data[nextProps.data.length-1].tarih.slice(0,7)
+     })
+   }
   }
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return (nextProps.data.length>0||nextState.aylıktoplam>0)
@@ -98,9 +103,9 @@ class AylikGrafik extends Component{
             </Label>
           </List.Item>
         </List>
-          <div className="chart-wrapper">
-            <Line data={this.state.veri} options={options} />
-          </div>
+          <Panel header="Günlük Satış Grafiği">
+            <Line width={'120%'} data={this.state.veri} options={options} />
+          </Panel>
       </>
     )
   }

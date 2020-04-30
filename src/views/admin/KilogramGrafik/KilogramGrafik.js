@@ -68,7 +68,7 @@ class KilogramGrafik extends Component{
     return(
       <div className="animated fadeIn">
 
-        <Panel header='Ürünler Kaç Adet Satılmış'>
+        <Panel  header='Ürünler Kaç Adet Satılmış'>
                   <Line width={'100%'} height={600} data={this.state.veri} options={options}/>
         </Panel>
       </div>
