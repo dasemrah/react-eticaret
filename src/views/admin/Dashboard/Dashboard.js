@@ -122,8 +122,12 @@ componentDidMount() {
       <div className="app fadeIn">
         <br/>
         <Row>
-
-          <Col xs="12" md="6" lg="3">
+          <Col xs='12' md='6' lg='3'>
+            <Widget01 color="white" className="vidget" mainText="Mağaza Toplam Kazancı" value={this.state.toplamkazanç} smallText='Simdiye kadar satılan tüm ürünlerden gelen kazancı gösterir.'
+                      color="danger" header={this.state.toplamkazanç +' ₺'}/>
+            <br/>
+          </Col>
+          <Col xs="6" md="6" lg="3">
             <Link to="/urunler">
               <Widget01 color="blue" className="vidget" mainText="Mağazadaki Ürünler" value={this.state.tumurunler.length} smallText="Güncel Durum"
                         color="success" header={this.state.tumurunler.length}
@@ -131,7 +135,7 @@ componentDidMount() {
             </Link>
             <br/>
           </Col>
-          <Col xs="12" md="6" lg="3">
+          <Col xs="6" md="6" lg="3">
             <Link to="/siparisler">
               <Widget01 className="vidget"
                         mainText="Toplam Siparişler"
@@ -147,32 +151,15 @@ componentDidMount() {
 
             <Col xs="12" md="12" lg="12">
               <Row>
-                <Col xs="12">
-
-
-                    <p className="h2 text-muted text-center text-capitalize">Toplam Kazanç: {this.state.toplamkazanç} ₺</p>
-
-                    <Button
-                      icon
-                      onClick={()=>this.sonraki(1)}
-                      floated="left"
-                    >
-                      <Icon name="arrow alternate circle left outline"/>
-                    </Button>
-                    <Button
-                      icon
-                      onClick={()=>this.sonraki(-1)}
-                      floated="right"
-                    >
-                      <Icon name="arrow alternate circle right outline"/>
-                    </Button>
-                    <br/>
-                    <AylikGrafik data={this.state.sonbiray}/>
+                <Col xs="12" lg='6'>
+                   <Panel header="Günlük Satış Grafiği">
+                     <AylikGrafik sonraki={this.sonraki}  data={this.state.sonbiray}/>
+                   </Panel>
                 </Col>
                 <Col xs="12" lg='6'>
                     <Grafik data={this.state.satın_alım}/>
                 </Col>
-                <Col xs="12" lg='6'>
+                <Col xs="12" lg='12'>
                   <br/>
                   <KazancGrafik data={this.state.satın_alım}/>
                 </Col>

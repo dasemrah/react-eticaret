@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
-import {Card,Spinner} from "reactstrap";
+import {Card, Col, Spinner} from "reactstrap";
 import {Line} from "react-chartjs-2";
-import {List,Label} from 'semantic-ui-react'
+import {List, Label, Button, Icon} from 'semantic-ui-react'
 import {Panel} from "rsuite";
 
 
@@ -27,7 +27,7 @@ class AylikGrafik extends Component{
           {
             data: [],
             label: 'Kazanç ₺',
-            fill: false,
+            fill: true,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
@@ -79,33 +79,35 @@ class AylikGrafik extends Component{
   render() {
     return(
       <>
-        <List horizontal>
-          <List.Item>
-            <Label as='a'>
-              Ay:
-              <Label.Detail> {this.state.grafikayı}</Label.Detail>
-            </Label>
-          </List.Item>
-
-          <List.Item>
-            <Label as='a' color="black">
-              Toplam:
-              <Label.Detail> {this.state.aylıktoplam} ₺</Label.Detail>
-            </Label>
-          </List.Item>
-
-          <List.Item>
-            <Label size="tiny" as='a' color="orange">
-              Günlük Ortalama:
-              <Label.Detail>
+        <Panel>
+          <List>
+            <List.Item>
+              <List.Content floated='right'>
+                {this.state.grafikayı}
+              </List.Content>
+              <List.Content>Gösterilen Ay: </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content floated='right'>
+                {this.state.aylıktoplam} ₺
+              </List.Content>
+              <List.Content>Bu ayki toplam kazanç: </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content floated='right'>
                 {parseInt(this.state.aylıktoplam/this.state.veri.labels.length)} ₺
-              </Label.Detail>
-            </Label>
-          </List.Item>
-        </List>
-          <Panel header="Günlük Satış Grafiği">
+              </List.Content>
+              <List.Content>Günlük ortalama kazanç: </List.Content>
+            </List.Item>
+          </List>
+          <Button content='Önceki ay' size='mini' icon='left arrow' labelPosition='left'   onClick={()=>this.props.sonraki(1)}/>
+          <Button content='Sonraki ay' floated='right' size='mini' icon='right arrow' labelPosition='right'  onClick={()=>this.props.sonraki(-1)}/>
+
+
+        </Panel>
+
             <Line width={'120%'} data={this.state.veri} options={options} />
-          </Panel>
+
       </>
     )
   }

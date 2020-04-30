@@ -20,7 +20,7 @@ class KazancGrafik extends Component{
         datasets: [
           {
             data: [],
-            label: 'Ücret',
+            label: 'Ücret ₺',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
