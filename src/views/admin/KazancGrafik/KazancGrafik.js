@@ -44,9 +44,6 @@ class KazancGrafik extends Component{
     )
 
   }
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextProps.data.length>0)
-  }
 
 
   render() {

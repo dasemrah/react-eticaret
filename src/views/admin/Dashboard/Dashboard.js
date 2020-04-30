@@ -20,9 +20,21 @@ class Dashboard extends Component {
       satın_alım:[],
       toplamkazanç:0,
       sonbiray:[],
-      ay:0,
+      ay:1,
 
     }
+    api.get('/uruntum').then((ynt)=>{
+      console.log('tüm  ürünler aşlındı',ynt.data)
+      ynt.data.map(e=>{
+        this.setState({
+          tumurunler:[...this.state.tumurunler,e]
+        })
+      })
+    }).catch((err)=>console.log(err));
+    api.get('/tarih/'+this.state.ay).then(gunluk=>{
+      console.log('tarih:-->',gunluk)
+      this.grafigedok(gunluk)
+    })
 
   }
 componentDidMount() {
@@ -49,20 +61,7 @@ componentDidMount() {
     )
 
   })
-  api.get('/urunler').then((ynt)=>{
 
-    ynt.data.foundUrun.map(kategori=>{
-      kategori.urunler.map(urunler=>{
-        this.state.tumurunler.push(urunler)
-      })
-    })
-    this.setState(this.state)
-
-  }).catch((err)=>console.log(err));
-  api.get('/tarih/'+this.state.ay).then(gunluk=>{
-    console.log('tarih:-->',gunluk)
-    this.grafigedok(gunluk)
-  })
 
 
 
@@ -110,9 +109,6 @@ componentDidMount() {
 
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return(nextState.tumurunler.length === nextState.satın_alım.length)
-  }
 
   componentWillUpdate(nextProps, nextState, nextContext) {
     console.log('ürün sayısı --->',nextState.tumurunler.length)
