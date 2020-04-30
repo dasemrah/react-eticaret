@@ -36,13 +36,30 @@ class Siparis extends React.Component{
 
   }
   componentDidMount() {
+
     this.siparişleriAl();
   }
-
+  siparisSil=(silinecek)=>{
+    console.log('silimecek id',silinecek._id)
+    istek
+      .post('/siparissil',{siparisid:silinecek._id})
+      .then(ynt=>{console.log('sanırım silindi',ynt)})
+      .catch(err=>console.log(err))
+      this.props.history.push('/')
+  }
   siparişleriAl=()=>{
+
     istek.get('/tumsiparisler').then((ynt)=>{
       console.log('tüm siprarişler',ynt.data.siparis)
       this.setState({
+        yeni:[],
+        ödendi:[],
+        kargo:[],
+        hazır:[],
+        teslim:[],
+        yedek:[],
+        verilecek:[],
+        hazırlanıyor:[],
         siparisler:ynt.data.siparis,
       })
       ynt.data.siparis.map(sip=>
@@ -106,7 +123,7 @@ class Siparis extends React.Component{
             <>
               {
                 e.durum===parseInt(activeItem) ?
-                  <SiparisKart key={e._id} siparis={e}  seviye={seviye} tumUrunler={tumUrunler} />
+                  <SiparisKart key={e._id} siparis={e}  seviye={seviye} tumUrunler={tumUrunler} siparisSil={this.siparisSil} />
                   :null
               }
             </>  )

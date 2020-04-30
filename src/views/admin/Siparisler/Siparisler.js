@@ -19,7 +19,7 @@ class Siparisler extends Component {
           <>
             {
 
-                <Siparis/>
+                <Siparis {...this.props}/>
 
             }
           </>
