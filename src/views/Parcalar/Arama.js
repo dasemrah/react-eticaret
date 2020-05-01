@@ -28,6 +28,7 @@ export default class Arama extends Component {
                 net:urun.net,
                 kategori:urun.kategori,
                 ad:urun.ad,
+                aktif:urun.aktif,
                 img:urun.img,
                 fiyat:urun.fiyat,
                 aciklama:urun.aciklama,
