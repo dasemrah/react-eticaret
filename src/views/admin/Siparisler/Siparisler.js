@@ -1,12 +1,15 @@
 import React, { Component, } from 'react';
-import {Table, Icon ,Popover, Whisper, Panel, Dropdown} from "rsuite";
+import {Table, Icon ,Popover, Whisper, Modal, Dropdown ,Button} from "rsuite";
 import {Label} from "semantic-ui-react";
 import api from '../../../istek'
 class Siparisler extends Component {
   constructor(props){
     super(props)
     this.state={
-      tumsiparisler:[]
+      tumsiparisler:[],
+      loading:true,
+      modalAç:false,
+      siparis:[]
     }
   }
   componentDidMount() {
@@ -14,11 +17,16 @@ class Siparisler extends Component {
       .get('tumsiparisler')
       .then(ynt=>{
         console.log('tüm siparişler alındı',ynt.data.siparis)
-        this.setState({tumsiparisler:ynt.data.siparis})
+        this.setState({tumsiparisler:ynt.data.siparis,loading:false})
       })
 
   }
+
+
   seviye=(siparisid, seviye)=>{
+    this.setState({
+      loading:true
+    })
     api
       .post('/seviye',{siparisid,seviye})
       .then(ynt=>{
@@ -29,7 +37,9 @@ class Siparisler extends Component {
         console.log('ürün index',index)
         order.durum=seviye
         this.state.tumsiparisler[index]=order
-        this.setState(this.state)
+        this.setState({
+          loading:false
+        })
       })
   }
 
@@ -80,6 +90,21 @@ class Siparisler extends Component {
         </Cell>
       )
    }
+   const SiparişAçıcı=(e)=>(
+     <Modal size='lg' show={this.state.modalAç} onHide={()=>this.setState({modalAç:false})}>
+       <Modal.Header>
+         <Modal.Title>{this.state.siparis.ad}</Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+
+       </Modal.Body>
+       <Modal.Footer>
+         <Button onClick={()=>this.setState({modalAç:false})} appearance="subtle">
+           İptal
+         </Button>
+       </Modal.Footer>
+     </Modal>
+   )
    const ÖdemeTürü=({rowData, dataKey, ...props})=>{
 
      return(
@@ -156,27 +181,28 @@ class Siparisler extends Component {
     const OrdersTable=()=>(
       <div>
         <Table
+          wordWrap
+          rowHeight={60}
+          loading={this.state.loading}
           height={500}
           data={this.state.tumsiparisler}
-          onRowClick={data => {
-            console.log(data);
-          }}
+
         >
-          <Column width={250}>
+          <Column width={200}>
             <HeaderCell>Ad</HeaderCell>
             <Cell dataKey="ad" />
           </Column>
 
-          <Column width={200}>
+          <Column width={150}>
             <HeaderCell>Numara</HeaderCell>
             <Cell dataKey="telefon" />
           </Column>
 
-          <Column width={200}>
+          <Column width={300}>
             <HeaderCell>Adres</HeaderCell>
             <AdresGösterici dataKey="adres"/>
           </Column>
-          <Column width={150}>
+          <Column width={100}>
             <HeaderCell>Ücret</HeaderCell>
            <Cell>
              {rowData=>(
@@ -186,15 +212,25 @@ class Siparisler extends Component {
              )}
            </Cell>
            </Column>
-          <Column width={200}>
+          <Column width={150}>
             <HeaderCell>Ödeme</HeaderCell>
             <ÖdemeTürü dataKey="odeme"/>
           </Column>
-          <Column width={200}>
+          <Column width={120}>
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={100} fixed="right">
+          <Column width={200}>
+            <HeaderCell>Tarih</HeaderCell>
+           <Cell>
+             {
+               rowData=>(
+                 <> {rowData.tarih.substring(0,10)+'  |  '+rowData.tarih.substring(12,19)}</>
+               )
+             }
+           </Cell>
+          </Column>
+          <Column width={75} fixed="right">
             <HeaderCell>Action</HeaderCell>
             <Aksiyon dataKey='Urunler'/>
           </Column>
@@ -204,6 +240,7 @@ class Siparisler extends Component {
     return (
       <>
         <OrdersTable/>
+        <SiparişAçıcı/>
       </>
     );
   }
