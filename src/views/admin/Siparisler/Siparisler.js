@@ -56,7 +56,7 @@ class Siparisler extends Component {
             <Cell {...props}>
               {
                 rowData.durum === 0 ?
-                  <span><Label color='red' circular size='mini'/> Yeni</span>
+                  <span><Label color='blue' circular size='mini'/> Yeni</span>
                   :rowData.durum === 1 ?
                     <span><Label color='purple' circular size='mini'/> Ödendi</span>
                    :rowData.durum === 2 ?
