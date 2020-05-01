@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import istek from './istek';
+import PrintProvider, { Print, NoPrint } from 'react-easy-print';
 import './App.scss';
 import 'semantic-ui-css/semantic.min.css'
 import 'rsuite/dist/styles/rsuite-default.css';
@@ -18,7 +18,11 @@ class App extends Component {
       <HashRouter>
           <React.Suspense fallback={loading()}>
             <Switch>
-              <Route path="/" name="Home" component={DefaultLayout} />
+             <PrintProvider>
+               <NoPrint>
+                 <Route path="/" name="Home" component={DefaultLayout} />
+               </NoPrint>
+             </PrintProvider>
             </Switch>
           </React.Suspense>
       </HashRouter>

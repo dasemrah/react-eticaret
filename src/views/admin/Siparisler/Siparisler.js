@@ -1,6 +1,8 @@
 import React, { Component, } from 'react';
-import {Table, Icon ,Popover, Whisper, Modal, Dropdown ,Button} from "rsuite";
-import {Label} from "semantic-ui-react";
+import PrintProvider, { Print, NoPrint } from 'react-easy-print';
+import {Table, Icon, Popover, Message, Whisper, Modal, Dropdown, Button, Panel} from "rsuite";
+import {Label, List} from "semantic-ui-react";
+import SiparisKart from "./Siparis/SiparisKart";
 import api from '../../../istek'
 class Siparisler extends Component {
   constructor(props){
@@ -8,8 +10,8 @@ class Siparisler extends Component {
     this.state={
       tumsiparisler:[],
       loading:true,
-      modalAç:false,
-      siparis:[]
+      siparişAç:false,
+      sipariş:[]
     }
   }
   componentDidMount() {
@@ -22,7 +24,12 @@ class Siparisler extends Component {
 
   }
 
-
+  siparişAç=(data)=>{
+    this.setState({
+      siparişAç:true,
+      sipariş:data
+    })
+}
   seviye=(siparisid, seviye)=>{
     this.setState({
       loading:true
@@ -44,6 +51,7 @@ class Siparisler extends Component {
   }
 
   render() {
+    const {sipariş} = this.state
     const { Column, HeaderCell, Cell, Pagination } = Table;
     const ürünstili = {
       background: '#000',
@@ -76,35 +84,8 @@ class Siparisler extends Component {
             </Cell>
           )
    }
-   const AdresGösterici=({rowData, dataKey, ...props})=>{
-      const speaker=(
-        <Popover title='Adres'>
-          {rowData.adres}
-        </Popover>
-      )
-      return(
-        <Cell {...props}>
-          <Whisper trigger='hover' placement='top' speaker={speaker}>
-           <span> {rowData.adres}</span>
-          </Whisper>
-        </Cell>
-      )
-   }
-   const SiparişAçıcı=(e)=>(
-     <Modal size='lg' show={this.state.modalAç} onHide={()=>this.setState({modalAç:false})}>
-       <Modal.Header>
-         <Modal.Title>{this.state.siparis.ad}</Modal.Title>
-       </Modal.Header>
-       <Modal.Body>
 
-       </Modal.Body>
-       <Modal.Footer>
-         <Button onClick={()=>this.setState({modalAç:false})} appearance="subtle">
-           İptal
-         </Button>
-       </Modal.Footer>
-     </Modal>
-   )
+
    const ÖdemeTürü=({rowData, dataKey, ...props})=>{
 
      return(
@@ -121,36 +102,89 @@ class Siparisler extends Component {
        </Cell>
      )
    }
+   const Yazdırıcı=()=>(
+     <Modal full size='lg' show={this.state.siparişAç} onHide={()=>this.setState({siparişAç:false})}>
+       <Modal.Header>
+
+       </Modal.Header>
+       <Modal.Body>
+         <Print>
+          <Panel onClick={()=>window.print()}>
+            <List>
+              <List.Item>Ad</List.Item>
+              <List.Content floated='right'>
+                {sipariş.ad}
+              </List.Content>
+            </List>
+            <List>
+              <List.Item>Adres</List.Item>
+              <List.Content floated='right'>
+                {sipariş.adres}
+              </List.Content>
+            </List>
+            <Table
+              height={600 }
+              width={600}
+              data={sipariş.Urunler}
+            >
+              <Column width={120} align="center" fixed='left'>
+                <HeaderCell>Ad</HeaderCell>
+                <Cell dataKey="ad" />
+              </Column>
+              <Column width={200} align="center">
+                <HeaderCell>Adet</HeaderCell>
+                <Cell dataKey="miktar" />
+              </Column>
+              <Column width={200} align="center">
+                <HeaderCell>Fiyat</HeaderCell>
+                <Cell dataKey="fiyat" />
+              </Column>
+              <Column width={200} align="center">
+                <HeaderCell>Miktar</HeaderCell>
+                <Cell dataKey="net" />
+              </Column>
+            </Table>
+          </Panel>
+         </Print>
+       </Modal.Body>
+
+     </Modal>
+
+   )
    const Aksiyon=({rowData, dataKey, ...props})=>{
-      const urunler=(
+      const yazdırıcı=(
+        <Popover>
+          <Message type="info" description="Bir sonraki ekrada çıktı almak için ürünlerin üzerine tıklayın.
+          En iyi görüntü için 'Daha fazla ayar' bölümünden ölçeği 200 yapın" />
+          <Button onClick={()=>this.siparişAç(rowData)}>Yazdır</Button>
+        </Popover>
+      )
+     const ürünler=(
         <Popover title='Ürünler'>
           <Table
-            height={300 }
-            width={400}
+            height={360}
+            width={360}
             data={rowData.Urunler}
-            onRowClick={data => {
-              console.log(data);
-            }}
           >
-            <Column width={120} align="center" fixed='left'>
+            <Column width={90} align="center" fixed='left'>
               <HeaderCell>Ad</HeaderCell>
               <Cell dataKey="ad" />
             </Column>
-            <Column width={70} align="center">
+            <Column width={90} align="center">
               <HeaderCell>Adet</HeaderCell>
               <Cell dataKey="miktar" />
             </Column>
-            <Column width={70} align="center">
+            <Column width={90} align="center">
               <HeaderCell>Fiyat</HeaderCell>
               <Cell dataKey="fiyat" />
             </Column>
-            <Column width={70} align="center">
+            <Column width={90} align="center">
               <HeaderCell>Miktar</HeaderCell>
               <Cell dataKey="net" />
             </Column>
           </Table>
         </Popover>
-      )
+     )
       const düzenle=(
         <Popover style={{width:'300px'}} title='Düzenle'>
             <Dropdown style={{width:'100%'}} title={rowData.durum}>
@@ -167,9 +201,13 @@ class Siparisler extends Component {
       )
       return(
         <Cell {...props}>
+
           <span>
-            <Whisper trigger='hover' placement='autoHorizontal' speaker={urunler}>
+            <Whisper trigger='hover' placement='autoHorizontal' speaker={ürünler}>
               <a> <Icon icon='shopping-basket'/> </a>
+            </Whisper>|{' '}
+            <Whisper trigger='hover' placement='autoHorizontal' speaker={yazdırıcı}>
+              <a> <Icon icon='print'/> </a>
             </Whisper>|{' '}
             <Whisper trigger='hover' placement='autoHorizontalStart' speaker={düzenle}>
                 <a> <Icon icon='edit'/> </a>
@@ -178,6 +216,7 @@ class Siparisler extends Component {
         </Cell>
       )
    }
+
     const OrdersTable=()=>(
       <div>
         <Table
@@ -186,9 +225,8 @@ class Siparisler extends Component {
           loading={this.state.loading}
           height={500}
           data={this.state.tumsiparisler}
-
         >
-          <Column width={200}>
+          <Column width={180}>
             <HeaderCell>Ad</HeaderCell>
             <Cell dataKey="ad" />
           </Column>
@@ -200,7 +238,7 @@ class Siparisler extends Component {
 
           <Column width={300}>
             <HeaderCell>Adres</HeaderCell>
-            <AdresGösterici dataKey="adres"/>
+            <Cell dataKey="adres"/>
           </Column>
           <Column width={100}>
             <HeaderCell>Ücret</HeaderCell>
@@ -220,7 +258,7 @@ class Siparisler extends Component {
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={200}>
+          <Column width={180}>
             <HeaderCell>Tarih</HeaderCell>
            <Cell>
              {
@@ -230,7 +268,7 @@ class Siparisler extends Component {
              }
            </Cell>
           </Column>
-          <Column width={75} fixed="right">
+          <Column width={120} fixed="right">
             <HeaderCell>Action</HeaderCell>
             <Aksiyon dataKey='Urunler'/>
           </Column>
@@ -238,10 +276,12 @@ class Siparisler extends Component {
       </div>
     )
     return (
-      <>
-        <OrdersTable/>
-        <SiparişAçıcı/>
-      </>
+
+         <>
+           <OrdersTable/>
+           <Yazdırıcı/>
+         </>
+
     );
   }
 }
