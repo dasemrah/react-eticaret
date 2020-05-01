@@ -17,11 +17,7 @@ class DefaultHeader extends Component {
     }
   }
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-  aramaAçKapa=()=>{
-    this.setState({
-      aramaGörünürlük:!this.state.aramaGörünürlük
-    })
-}
+
   sepetAçKapa=()=>{
     console.log('tıklandı');
     this.props.sepetAçKapa(true)
@@ -55,7 +51,7 @@ class DefaultHeader extends Component {
 
         <a className="navbar-brand" href="#">Nazlı Köy</a>
         <div className="sepet_dar_ekran">
-          <Icon circular color='grey' name='search'  size='large' onClick={this.aramaAçKapa}/>
+          <Icon circular color='grey' name='search'  size='large' onClick={()=>this.props.aramaAçKapa()}/>
         </div>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 
@@ -76,8 +72,8 @@ class DefaultHeader extends Component {
 
 
         </div>
-        <Drawer className="arama_katman" size='xs' placement='top' show={aramaGörünürlük} onHide={()=>this.setState({aramaGörünürlük:false})}>
-          <Arama aramaAçKapa={this.aramaAçKapa} {...this.props} />
+        <Drawer className="arama_katman" size='xs' placement='top' show={this.props.aramaGörünürlük} onHide={()=>this.props.aramaAçKapa()}>
+          <Arama  {...this.props} />
         </Drawer>
       </nav>
         </>

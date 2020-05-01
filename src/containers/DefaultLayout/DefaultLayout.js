@@ -43,7 +43,7 @@ class DefaultLayout extends Component {
       urunGoster:false,
       begeni:[],
       listeAktif:'',
-
+      aramaGörünürlük:false,
     }
   }
 
@@ -68,7 +68,11 @@ class DefaultLayout extends Component {
 
   }
 
-
+  aramaAçKapa=()=>{
+    this.setState({
+      aramaGörünürlük:!this.state.aramaGörünürlük
+    })
+  }
 
   yanMenuAcKapa=()=>{
     this.setState({
@@ -166,8 +170,9 @@ class DefaultLayout extends Component {
   aramaSonucu=(result)=>{
     this.setState({
       seciliUrun:result,
-      urunGoster:true
+      urunGoster:true,
     })
+
   }
   sepetiBosalt=()=>{
     this.setState({
@@ -192,6 +197,7 @@ class DefaultLayout extends Component {
            tercih:tercih,
            seciliUrun:urun,
             urunGoster:true,
+          aramaGörünürlük:false
         })
       })
   }
@@ -323,7 +329,7 @@ class DefaultLayout extends Component {
             <div className="app appBackground">
               <AppHeader fixed>
                 <Suspense  >
-                  <DefaultHeader urunAç={this.urunAç}  {...this.state} aramaSonucu={this.urunAç} {...this.props}  yanMenuAcKapa={this.yanMenuAcKapa}  sepet={this.state.sepet} salla={this.state.salla} sepetAçKapa={this.seçkeAçKapa} />
+                  <DefaultHeader  aramaAçKapa={this.aramaAçKapa} {...this.state} aramaSonucu={this.urunAç} {...this.props}  yanMenuAcKapa={this.yanMenuAcKapa} />
                 </Suspense>
               </AppHeader>
               <div className="app-body">
@@ -406,6 +412,7 @@ class DefaultLayout extends Component {
                                     begen={this.begen}
                                     beneniÇıkart={this.beneniÇıkart}
                                     aramaSonucu={this.urunAç}
+                                    aramaAçKapa={this.aramaAçKapa}
                                     seçkeAçKapa={this.seçkeAçKapa}
                                     miktarDeğiştir={this.mikarDeğiştir}
                                     urunÇıkart={this.urunÇıkart}
