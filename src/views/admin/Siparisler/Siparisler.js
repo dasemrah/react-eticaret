@@ -10,27 +10,41 @@ class Siparisler extends Component {
     super(props)
     this.state={
       tumsiparisler:[],
+      siparişsayısı:[],
       loading:true,
       siparişAç:false,
-      sipariş:[]
+      sipariş:[],
+      aktifitem:0
     }
   }
   componentDidMount() {
     this.siparisleriAl()
+  }
+  siparisSayisiHesapla=(seviye)=>{
+    if(seviye==='hepsi'){
+      return (this.state.siparişsayısı.length)
+    }
+    var sayı = 0
+    this.state.siparişsayısı.map(e=>{
+      if(e.durum===seviye){
+        sayı++
+      }
+    })
+    return(sayı)
   }
   siparisleriAl=()=>{
     api
       .get('tumsiparisler')
       .then(ynt=>{
         console.log('tüm siparişler alındı',ynt.data.siparis)
-        this.setState({tumsiparisler:ynt.data.siparis,loading:false})
+        this.setState({tumsiparisler:ynt.data.siparis,siparişsayısı:ynt.data.siparis,loading:false,aktifitem:'hepsi'})
       })
   }
   sırala=(seviye)=>{
   api
     .get('siparisler/'+seviye)
     .then(ynt=>{
-      this.setState({tumsiparisler:ynt.data.orders})
+      this.setState({tumsiparisler:ynt.data.orders,aktifitem:seviye})
     })
 }
   siparişAç=(data)=>{
@@ -307,18 +321,17 @@ class Siparisler extends Component {
         </Table>
       </div>
     )
-
     const Seçici=()=>(
-      <Dropdown title="Siparişleri Sırala" toggleComponentClass={Button} appearance="default">
-        <Dropdown.Item onSelect={()=>this.siparisleriAl()}>Tüm Siparişler</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(0)}>Yeni Siparişler</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(1)}>Ödenenler</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(2)}>Hazırlanıyor</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(3)}>Hazırlandı</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(4)}>Kargoya Verilecek</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(5)}>Kargoya Verildi</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(6)}>Teslim Edildi</Dropdown.Item>
-        <Dropdown.Item onSelect={()=>this.sırala(7)}>Pasif Siparişler</Dropdown.Item>
+      <Dropdown activeKey={this.state.aktifitem} title="Siparişleri Sırala" toggleComponentClass={Button} appearance="default">
+        <Dropdown.Item eventKey='hepsi' onSelect={()=>this.siparisleriAl()}>Tümü           <Label circular>{this.siparisSayisiHesapla('hepsi')}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={0} onSelect={()=>this.sırala(0)}>Yeni Siparişler   <Label circular>{this.siparisSayisiHesapla(0)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={1} onSelect={()=>this.sırala(1)}>Ödenenler         <Label circular>{this.siparisSayisiHesapla(1)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={2} onSelect={()=>this.sırala(2)}>Hazırlanıyor      <Label circular>{this.siparisSayisiHesapla(2)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={3} onSelect={()=>this.sırala(3)}>Hazırlandı        <Label circular>{this.siparisSayisiHesapla(3)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={4} onSelect={()=>this.sırala(4)}>Kargoya Verilecek <Label circular>{this.siparisSayisiHesapla(4)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={5} onSelect={()=>this.sırala(5)}>Kargoya Verildi   <Label circular>{this.siparisSayisiHesapla(5)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={6} onSelect={()=>this.sırala(6)}>Teslim Edildi     <Label circular>{this.siparisSayisiHesapla(6)}</Label></Dropdown.Item>
+        <Dropdown.Item eventKey={7} onSelect={()=>this.sırala(7)}>Pasif Siparişler  <Label circular>{this.siparisSayisiHesapla(7)}</Label></Dropdown.Item>
       </Dropdown>
     )
 
