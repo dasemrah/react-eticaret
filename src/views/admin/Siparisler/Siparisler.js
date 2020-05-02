@@ -203,13 +203,13 @@ class Siparisler extends Component {
         <Cell {...props}>
 
           <span>
-            <Whisper trigger='hover' placement='autoHorizontal' speaker={ürünler}>
+            <Whisper trigger='click' placement='autoHorizontal' speaker={ürünler}>
               <a> <Icon icon='shopping-basket'/> </a>
             </Whisper>|{' '}
-            <Whisper trigger='hover' placement='autoHorizontal' speaker={yazdırıcı}>
+            <Whisper trigger='click' placement='autoHorizontal' speaker={yazdırıcı}>
               <a> <Icon icon='print'/> </a>
             </Whisper>|{' '}
-            <Whisper trigger='hover' placement='autoHorizontalStart' speaker={düzenle}>
+            <Whisper trigger='click' placement='autoHorizontalStart' speaker={düzenle}>
                 <a> <Icon icon='edit'/> </a>
             </Whisper>
           </span>
