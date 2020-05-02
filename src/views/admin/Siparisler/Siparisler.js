@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import PrintProvider, { Print, NoPrint } from 'react-easy-print';
-import {Table, Icon, Popover, Message, Whisper, Modal, Dropdown, Button, Panel} from "rsuite";
-import {Label, List} from "semantic-ui-react";
+import {Table, Icon,Panel, Message, Modal, Dropdown, Button,Popover,Whisper} from "rsuite";
+import {Label, List, Popup} from "semantic-ui-react";
 import SiparisKart from "./Siparis/SiparisKart";
 import api from '../../../istek'
 class Siparisler extends Component {
@@ -153,14 +153,14 @@ class Siparisler extends Component {
    )
    const Aksiyon=({rowData, dataKey, ...props})=>{
       const yazdırıcı=(
-        <Popover>
+        <>
           <Message type="info" description="Bir sonraki ekrada çıktı almak için ürünlerin üzerine tıklayın.
           En iyi görüntü için 'Daha fazla ayar' bölümünden ölçeği 200 yapın" />
           <Button onClick={()=>this.siparişAç(rowData)}>Yazdır</Button>
-        </Popover>
+        </>
       )
      const ürünler=(
-        <Popover title='Ürünler'>
+
           <Table
             height={360}
             width={360}
@@ -183,10 +183,9 @@ class Siparisler extends Component {
               <Cell dataKey="net" />
             </Column>
           </Table>
-        </Popover>
      )
       const düzenle=(
-        <Popover style={{width:'300px'}} title='Düzenle'>
+
             <Dropdown style={{width:'100%'}} title={rowData.durum}>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,0)}>Yeni Sipariş</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,1)}>Ödendi</Dropdown.Item>
@@ -197,21 +196,36 @@ class Siparisler extends Component {
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,6)}>Teslim Edildi</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,7)}>Pasif</Dropdown.Item>
             </Dropdown>
-        </Popover>
       )
       return(
         <Cell {...props}>
 
           <span>
-            <Whisper trigger='click' placement='autoHorizontal' speaker={ürünler}>
-              <a> <Icon icon='shopping-basket'/> </a>
-            </Whisper>|{' '}
-            <Whisper trigger='click' placement='autoHorizontal' speaker={yazdırıcı}>
-              <a> <Icon icon='print'/> </a>
-            </Whisper>|{' '}
-            <Whisper trigger='click' placement='autoHorizontalStart' speaker={düzenle}>
-                <a> <Icon icon='edit'/> </a>
-            </Whisper>
+           <Popup
+             pinned
+             on='click'
+              trigger={<i className="icon-basket"></i>}
+              content={ürünler}
+              size='large'
+              position='left center'
+           />
+            |{' '}
+            <Popup
+              on='click'
+              pinned
+              trigger={<i className="icon-printer"></i>}
+              content={yazdırıcı}
+              size='big'
+              position='left center'
+            />|{' '}
+            <Popup
+              on='click'
+              pinned
+              trigger={<i className="icon-pencil"></i>}
+              content={düzenle}
+              size='big'
+              position='left center'
+            />
           </span>
         </Cell>
       )
