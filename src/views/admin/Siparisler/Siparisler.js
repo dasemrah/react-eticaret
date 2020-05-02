@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import PrintProvider, { Print, NoPrint } from 'react-easy-print';
 import {Table, Icon,Panel, Message, Modal, Dropdown, Button,Popover,Whisper} from "rsuite";
 import {Label, List, Popup} from "semantic-ui-react";
+import {Row, Col} from 'reactstrap'
 import SiparisKart from "./Siparis/SiparisKart";
 import api from '../../../istek'
 class Siparisler extends Component {
@@ -15,16 +16,25 @@ class Siparisler extends Component {
     }
   }
   componentDidMount() {
+    this.siparisleriAl()
+  }
+  siparisleriAl=()=>{
     api
       .get('tumsiparisler')
       .then(ynt=>{
         console.log('tüm siparişler alındı',ynt.data.siparis)
         this.setState({tumsiparisler:ynt.data.siparis,loading:false})
       })
-
   }
-
+  sırala=(seviye)=>{
+  api
+    .get('siparisler/'+seviye)
+    .then(ynt=>{
+      this.setState({tumsiparisler:ynt.data.orders})
+    })
+}
   siparişAç=(data)=>{
+    console.log('sipariş ',data)
     this.setState({
       siparişAç:true,
       sipariş:data
@@ -107,45 +117,51 @@ class Siparisler extends Component {
        <Modal.Header>
 
        </Modal.Header>
-       <Modal.Body>
-         <Print>
-          <Panel onClick={()=>window.print()}>
-            <List>
-              <List.Item>Ad</List.Item>
-              <List.Content floated='right'>
-                {sipariş.ad}
-              </List.Content>
-            </List>
-            <List>
-              <List.Item>Adres</List.Item>
-              <List.Content floated='right'>
-                {sipariş.adres}
-              </List.Content>
-            </List>
-            <Table
-              height={600 }
-              width={600}
-              data={sipariş.Urunler}
-            >
-              <Column width={120} align="center" fixed='left'>
-                <HeaderCell>Ad</HeaderCell>
-                <Cell dataKey="ad" />
-              </Column>
-              <Column width={200} align="center">
-                <HeaderCell>Adet</HeaderCell>
-                <Cell dataKey="miktar" />
-              </Column>
-              <Column width={200} align="center">
-                <HeaderCell>Fiyat</HeaderCell>
-                <Cell dataKey="fiyat" />
-              </Column>
-              <Column width={200} align="center">
-                <HeaderCell>Miktar</HeaderCell>
-                <Cell dataKey="net" />
-              </Column>
-            </Table>
-          </Panel>
-         </Print>
+       <Modal.Body className="yazdırılan_ekran">
+          <Print>
+            <Panel onClick={()=>window.print()}>
+              <Row>
+                <Col xs='6'>
+                  <List>
+                    <List.Item>Ad</List.Item>
+                    <List.Content floated='right'>
+                      {sipariş.ad}
+                    </List.Content>
+                  </List>
+                  <List>
+                    <List.Item>Adres</List.Item>
+                    <List.Content floated='right'>
+                      {sipariş.adres}
+                    </List.Content>
+                  </List>
+                </Col>
+                <Col xs='6'>
+                  <Table height='100%' data={sipariş.Urunler} autoHeight>
+                    <Column width={50} align="center" resizable>
+                      <HeaderCell>Ad</HeaderCell>
+                      <Cell dataKey="ad" />
+                    </Column>
+
+                    <Column width={100} resizable>
+                      <HeaderCell>Adet</HeaderCell>
+                      <Cell dataKey="miktar" />
+                    </Column>
+
+                    <Column width={100} resizable>
+                      <HeaderCell>Boyut</HeaderCell>
+                      <Cell dataKey="net" />
+                    </Column>
+
+                    <Column width={200} resizable>
+                      <HeaderCell>Fiyat</HeaderCell>
+                      <Cell dataKey="fiyat" />
+                    </Column>
+
+                  </Table>
+                </Col>
+              </Row>
+            </Panel>
+          </Print>
        </Modal.Body>
 
      </Modal>
@@ -165,6 +181,7 @@ class Siparisler extends Component {
             height={360}
             width={360}
             data={rowData.Urunler}
+            autoHeight
           >
             <Column width={90} align="center" fixed='left'>
               <HeaderCell>Ad</HeaderCell>
@@ -186,7 +203,7 @@ class Siparisler extends Component {
      )
       const düzenle=(
 
-            <Dropdown style={{width:'100%'}} title={rowData.durum}>
+            <Dropdown style={{width:'100%'}} title='Sipariş Durumu'>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,0)}>Yeni Sipariş</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,1)}>Ödendi</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,2)}>Hazırlanıyor</Dropdown.Item>
@@ -234,27 +251,28 @@ class Siparisler extends Component {
     const OrdersTable=()=>(
       <div>
         <Table
+          autoHeight
           wordWrap
           rowHeight={60}
           loading={this.state.loading}
           height={500}
           data={this.state.tumsiparisler}
         >
-          <Column width={180}>
-            <HeaderCell>Ad</HeaderCell>
+          <Column width={180} resizable>
+            <HeaderCell >Ad</HeaderCell>
             <Cell dataKey="ad" />
           </Column>
 
-          <Column width={150}>
+          <Column width={150} resizable>
             <HeaderCell>Numara</HeaderCell>
             <Cell dataKey="telefon" />
           </Column>
 
-          <Column width={300}>
+          <Column width={300} resizable>
             <HeaderCell>Adres</HeaderCell>
             <Cell dataKey="adres"/>
           </Column>
-          <Column width={100}>
+          <Column width={100} resizable>
             <HeaderCell>Ücret</HeaderCell>
            <Cell>
              {rowData=>(
@@ -264,15 +282,15 @@ class Siparisler extends Component {
              )}
            </Cell>
            </Column>
-          <Column width={150}>
+          <Column width={150} resizable>
             <HeaderCell>Ödeme</HeaderCell>
             <ÖdemeTürü dataKey="odeme"/>
           </Column>
-          <Column width={120}>
+          <Column width={120} resizable>
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={180}>
+          <Column width={180} resizable>
             <HeaderCell>Tarih</HeaderCell>
            <Cell>
              {
@@ -282,16 +300,32 @@ class Siparisler extends Component {
              }
            </Cell>
           </Column>
-          <Column width={120} fixed="right">
+          <Column width={120} fixed="right" resizable>
             <HeaderCell>Action</HeaderCell>
             <Aksiyon dataKey='Urunler'/>
           </Column>
         </Table>
       </div>
     )
+
+    const Seçici=()=>(
+      <Dropdown title="Siparişleri Sırala" toggleComponentClass={Button} appearance="default">
+        <Dropdown.Item onSelect={()=>this.siparisleriAl()}>Tüm Siparişler</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(0)}>Yeni Siparişler</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(1)}>Ödenenler</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(2)}>Hazırlanıyor</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(3)}>Hazırlandı</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(4)}>Kargoya Verilecek</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(5)}>Kargoya Verildi</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(6)}>Teslim Edildi</Dropdown.Item>
+        <Dropdown.Item onSelect={()=>this.sırala(7)}>Pasif Siparişler</Dropdown.Item>
+      </Dropdown>
+    )
+
     return (
 
          <>
+           <Seçici/>
            <OrdersTable/>
            <Yazdırıcı/>
          </>

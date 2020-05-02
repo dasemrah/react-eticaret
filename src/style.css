@@ -652,6 +652,7 @@ height: 120px;
 }
 
 
+
 @keyframes animate {
   0% {
     background-position: -400%;
@@ -682,6 +683,7 @@ html{
   margin-left: -5% !important;
 
 }
+
 .aylik-grafik{
   width: 100%;
 
