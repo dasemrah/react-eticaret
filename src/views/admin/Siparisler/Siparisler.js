@@ -196,6 +196,7 @@ class Siparisler extends Component {
             width={360}
             data={rowData.Urunler}
             autoHeight
+            wordWrap
           >
             <Column width={90} align="center" fixed='left'>
               <HeaderCell>Ad</HeaderCell>
