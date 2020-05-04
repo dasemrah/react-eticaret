@@ -74,7 +74,9 @@ const Sipariş =props=>{
           odeme_yontemi :   veriler.odeme_yontemi,
           urunler       :   props.sepet,
           kapida        :   veriler.kapıda,
-          paket         :   paket
+          tarih         :   Date.now(),
+          paket         :   paket,
+          detay         :   detay
         }
       })
       .then(ynt=>{

@@ -652,7 +652,12 @@ height: 120px;
 }
 
 
-
+.rs-dropdown-menu{
+  z-index: 10 !important;
+}
+.s-dropdown-item{
+  z-index: 10 !important;
+}
 @keyframes animate {
   0% {
     background-position: -400%;

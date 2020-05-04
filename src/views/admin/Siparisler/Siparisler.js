@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
-import PrintProvider, { Print, NoPrint } from 'react-easy-print';
-import {Table, Icon,Panel, Message, Modal, Dropdown, Button,Popover,Whisper} from "rsuite";
+import { Print } from 'react-easy-print';
+import {Table, Icon,Panel, Alert, Message, Modal, Dropdown, Button, Divider, IconButton, Loader} from "rsuite";
 import {Label, List, Popup} from "semantic-ui-react";
 import {Row, Col} from 'reactstrap'
 import SiparisKart from "./Siparis/SiparisKart";
@@ -11,7 +11,7 @@ class Siparisler extends Component {
     this.state={
       tumsiparisler:[],
       siparişsayısı:[],
-      loading:true,
+      loading:false,
       siparişAç:false,
       sipariş:[],
       aktifitem:0
@@ -32,19 +32,52 @@ class Siparisler extends Component {
     })
     return(sayı)
   }
+
+  siparişSil=(s)=>{
+
+    if(s.durum===7){
+      this.setState({loading:true})
+      let index=this.state.tumsiparisler.findIndex(p=>p._id===s._id)
+      let index_1=this.state.siparişsayısı.findIndex(p=>p._id===s._id)
+      api
+        .post('siparissil',{siparisid:s._id})
+        .then(ynt=>{
+          if(index>=0 && ynt.data.olay === 1){
+            this.state.tumsiparisler.splice(index, 1)
+            this.state.siparişsayısı.splice(index_1, 1)
+            this.setState(this.state)
+            Alert.success('Sipariş silindi',2500)
+          }
+          this.setState({loading:false})
+        })
+    }else {
+      Alert.warning('Siparişi silmek için önce sipariş durumunu pasif yapın',5000);
+    }
+  }
   siparisleriAl=()=>{
+    this.setState({loading:true})
     api
       .get('tumsiparisler')
       .then(ynt=>{
         console.log('tüm siparişler alındı',ynt.data.siparis)
-        this.setState({tumsiparisler:ynt.data.siparis,siparişsayısı:ynt.data.siparis,loading:false,aktifitem:'hepsi'})
+        this.setState({
+          tumsiparisler:ynt.data.siparis,
+          siparişsayısı:ynt.data.siparis,
+          loading:false,
+          aktifitem:'hepsi'
+        })
       })
   }
   sırala=(seviye)=>{
+    this.setState({loading:true})
   api
     .get('siparisler/'+seviye)
     .then(ynt=>{
-      this.setState({tumsiparisler:ynt.data.orders,aktifitem:seviye})
+      this.setState({
+        tumsiparisler:ynt.data.orders,
+        aktifitem:seviye,
+        loading:false
+      })
     })
 }
   siparişAç=(data)=>{
@@ -217,7 +250,17 @@ class Siparisler extends Component {
           </Table>
      )
       const düzenle=(
-
+        <>
+          <h5 className="text-center">Siparişi Düzenle</h5>
+         <Panel>
+          <List>
+            <List.Item>
+              <List.Content floated='right'> <IconButton onClick={()=>this.siparişSil(rowData)} icon={<Icon icon="trash" />} color="red" circle /></List.Content>
+              <List.Content>Sil</List.Content>
+            </List.Item>
+          </List>
+         </Panel>
+          <Divider/>
             <Dropdown style={{width:'100%'}} title='Sipariş Durumu'>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,0)}>Yeni Sipariş</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,1)}>Ödendi</Dropdown.Item>
@@ -228,6 +271,7 @@ class Siparisler extends Component {
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,6)}>Teslim Edildi</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,7)}>Pasif</Dropdown.Item>
             </Dropdown>
+        </>
       )
       return(
         <Cell {...props}>
@@ -273,19 +317,27 @@ class Siparisler extends Component {
           height={500}
           data={this.state.tumsiparisler}
         >
-          <Column width={180} resizable>
+          <Column width={155} resizable>
             <HeaderCell >Ad</HeaderCell>
             <Cell dataKey="ad" />
           </Column>
 
-          <Column width={150} resizable>
+          <Column width={125} resizable>
             <HeaderCell>Numara</HeaderCell>
-            <Cell dataKey="telefon" />
+            <Cell>
+              {rowData=>(
+                <>{rowData.telefon? rowData.telefon.substring(3,rowData.telefon.length): null}</>
+              )}
+            </Cell>
           </Column>
 
-          <Column width={300} resizable>
+          <Column width={275} resizable>
             <HeaderCell>Adres</HeaderCell>
             <Cell dataKey="adres"/>
+          </Column>
+          <Column width={100} resizable>
+            <HeaderCell>Not</HeaderCell>
+            <Cell dataKey="detay"/>
           </Column>
           <Column width={100} resizable>
             <HeaderCell>Ücret</HeaderCell>
@@ -305,7 +357,7 @@ class Siparisler extends Component {
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={180} resizable>
+          <Column width={160} resizable>
             <HeaderCell>Tarih</HeaderCell>
            <Cell>
              {
@@ -315,8 +367,8 @@ class Siparisler extends Component {
              }
            </Cell>
           </Column>
-          <Column width={120} fixed="right" resizable>
-            <HeaderCell>Action</HeaderCell>
+          <Column width={90} fixed="right" resizable>
+            <HeaderCell>İşlemler</HeaderCell>
             <Aksiyon dataKey='Urunler'/>
           </Column>
         </Table>
@@ -338,11 +390,19 @@ class Siparisler extends Component {
 
     return (
 
-         <>
-           <Seçici/>
-           <OrdersTable/>
-           <Yazdırıcı/>
-         </>
+         <Panel style={{minHeight:'600px'}} bodyFill>
+           {this.state.loading ?
+             <Loader backdrop content="Yükleniyor..." vertical />
+           :
+           <>
+             <Seçici/>
+             <Divider/>
+             <OrdersTable/>
+             <Yazdırıcı/>
+           </>
+           }
+
+         </Panel>
 
     );
   }
