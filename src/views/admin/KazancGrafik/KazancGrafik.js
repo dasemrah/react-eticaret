@@ -21,11 +21,11 @@ class KazancGrafik extends Component{
           {
             data: [],
             label: 'Ücret ₺',
-            backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'rgba(255,99,132,1)',
+            backgroundColor: '#59afff',
+            borderColor: '#59afff',
             borderWidth: 1,
-            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-            hoverBorderColor: 'rgba(255,99,132,1)',
+            hoverBackgroundColor: '#0a5dc2',
+            hoverBorderColor: '#0a5dc2',
           },
         ],
       }

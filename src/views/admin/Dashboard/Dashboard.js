@@ -151,12 +151,12 @@ componentDidMount() {
 
             <Col xs="12" md="12" lg="12">
               <Row>
-                <Col xs="12" lg='6'>
+                <Col xs="12" lg='12'>
                    <Panel header="Günlük Satış Grafiği">
                      <AylikGrafik sonraki={this.sonraki}  data={this.state.sonbiray}/>
                    </Panel>
                 </Col>
-                <Col xs="12" lg='6'>
+                <Col xs="12" lg='12'>
                     <Grafik data={this.state.satın_alım}/>
                 </Col>
                 <Col xs="12" lg='12'>

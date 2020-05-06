@@ -147,10 +147,8 @@ const Sipariş =props=>{
             <div className="siparis_ucret_eleman">
               <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
               <span className="siparis_ucret_eleman_icerik">
-                {ödendi ?
-                  siparis.ucret>=250 || paket ?  <>Ücretsiz</>
-                    :<>15 ₺</>
-                  :ücret>=250 ||paket ? <>Ücretsiz</>
+                {
+                  paket ? <>Ücretsiz</>
                     : <>15 ₺</>
                   }
               </span>
@@ -171,11 +169,11 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(parseInt(siparis.ucret)>=250 ||paket ? 0 : 15)} ₺
+                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(paket ? 0 : 15)} ₺
                     </>
                     :
                     <>
-                      {ücret+(ücret>= 250 ||paket ? 0 : 15)} ₺
+                      {ücret+(paket ? 0 : 15)} ₺
                     </>
                 }
               </span>

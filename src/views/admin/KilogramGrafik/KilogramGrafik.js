@@ -22,23 +22,11 @@ class KilogramGrafik extends Component{
           {
             data: [],
             label: 'Adet',
-            fill: false,
-            lineTension: 0.5,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: '#2455E0',
-            pointBackgroundColor: '#2455E0',
-            pointBorderWidth: 3,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
+            backgroundColor: '#FFB957',
+            borderColor: '#FFB957',
+            borderWidth: 1,
+            hoverBackgroundColor: '#AF6600',
+            hoverBorderColor: '#AF6600',
           },
         ],
       }
@@ -69,7 +57,7 @@ class KilogramGrafik extends Component{
       <div className="animated fadeIn">
 
         <Panel  header='Ürünler Kaç Adet Satılmış'>
-                  <Line width={'100%'} height={600} data={this.state.veri} options={options}/>
+                  <Bar width={'100%'} height={600} data={this.state.veri} options={options}/>
         </Panel>
       </div>
     )
