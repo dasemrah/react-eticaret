@@ -1,11 +1,12 @@
 import React from 'react';
-import {CornerDialog, Button} from "evergreen-ui";
-import {Input,TextArea, Image} from "semantic-ui-react";
 import istek from '../../../istek'
-import {toaster} from "evergreen-ui";
-import ImageUploader from "react-images-upload";
-import { Modal } from 'rsuite';
 import axios from "axios";
+
+import { Button} from "evergreen-ui";
+import {Input,TextArea, Image} from "semantic-ui-react";
+import ImageUploader from "react-images-upload";
+import { Modal, Toggle, Divider, Icon, Panel} from 'rsuite';
+
 
 class Edit extends React.Component{
   constructor(props){
@@ -18,7 +19,8 @@ class Edit extends React.Component{
       pictures  :[],
       url       : '',
       file_url  : '',
-      success   :false
+      success   :false,
+      indirimde : Boolean
     }
   }
   componentWillReceiveProps(nextProps, nextContext) {
@@ -32,16 +34,7 @@ class Edit extends React.Component{
     })
     console.log('ürün değişti',nextProps)
   }
-  stok=(urunid,durum)=>{
-    istek
-      .post('/stok',{urunid:urunid,durum:durum})
-      .then(ynt=>{
-        console.log('ynt',ynt)
-        toaster.success(durum ? 'Ürün markete eklendi' : 'Ürün stoktan kaldırıldı')
-        this.props.gizle()
-      })
-      .catch(err=>console.log(err))
-  }
+
   gorselSec=(picture)=>{
     this.state.pictures.push(picture[0]);
     this.setState({
@@ -159,17 +152,13 @@ class Edit extends React.Component{
               value={net}
               onChange={e=>this.setState({net:e.target.value})}
             />
-            <br/>
-            <Button onClick={()=>this.stok(urun._id,urun.aktif ? false : true)} intent={urun.aktif ? 'warning' : ' '} iconAfter={urun.aktif ? 'cross' : 'add'} size={16} >
-              {
-                urun.aktif ===true ?
-                  <span>Satıştan Kaldır</span>
-                  :
-                  <span>Mağazaya Ekle</span>
-              }
-            </Button>
+            <Divider/>
+            <Panel header='Ürün Ayarları'>
+              <span>Stok durumu <Toggle checked={urun.aktif} onChange={e=>this.props.stok(e)} checkedChildren={<Icon icon="check" />} unCheckedChildren={<Icon icon="close" />} /></span>
+              <br/><br/>
+              <span>İndirimde  <Toggle checked={urun.indirimde} onChange={e=>this.props.indirim(e)} checkedChildren={<Icon icon="check" />} unCheckedChildren={<Icon icon="close" />} /></span>
 
-
+            </Panel>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={()=>this.props.duzenle(this.state)} intent='success' iconAfter='tick-circle'>Kaydet</Button>
@@ -178,8 +167,6 @@ class Edit extends React.Component{
             </Button>
           </Modal.Footer>
         </Modal>
-
-
       </div>
     )
   }

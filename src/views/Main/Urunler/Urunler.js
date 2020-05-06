@@ -32,7 +32,9 @@ const Urunler =props=>{
         <Grid>
           <Grid.Column width={16}>
             <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%'}} rounded size='small'/>
-
+            {
+              props.urun.indirimde ?  <span className="indirim">İndirimde</span> : null
+            }
           </Grid.Column>
           <Grid.Column  width={16}>
             <div className="urun_card_bilgi">

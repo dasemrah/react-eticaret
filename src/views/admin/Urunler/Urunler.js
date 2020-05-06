@@ -1,6 +1,7 @@
 import React, { Component, } from 'react';
 import {Col,Row} from 'reactstrap';
 import {Container, Grid, Image, List, Segment,} from 'semantic-ui-react';
+import {Alert} from "rsuite";
 import api from "../../../istek";
 import {Button, SelectMenu} from "evergreen-ui";
 import Edit from './Edit'
@@ -36,22 +37,41 @@ class Urunler extends Component {
       urunler     : kategori.urunler,
     })
   }
-  duzenle=(value)=>{
+  stok=(e)=>{
+    this.state.duzenle_urun.aktif=e
+    this.setState(this.state)
+    console.log('ürün aktivitesi', this.state.duzenle_urun)
+  }
+  indirim=(e)=>{
+    this.state.duzenle_urun.indirimde=e
+    this.setState(this.state)
+    console.log('indirim bilgisi',this.state.duzenle_urun)
+  }
+  duzenle=(urun)=>{
     let nesne=this.state.duzenle_urun;
-    console.log('düzenleme sonucu--->',value)
 
-    nesne.ad        = value.ad;
-    nesne.aciklama  = value.aciklama;
-    nesne.net       = value.net;
-    nesne.fiyat     = value.fiyat;
-    nesne.img       = value.file_url;
+    console.log('ürün parametreleri----> ', nesne)
+    const {ad, aciklama, net, fiyat, file_url} = urun
+
+    nesne.ad        = ad;
+    nesne.aciklama  = aciklama;
+    nesne.net       = net;
+    nesne.fiyat     = fiyat;
+    nesne.img       = file_url;
+
     api.post('/urunduzenle',{nesne:nesne})
       .then(ynt=>{
-        console.log('ynt',ynt)
         let {status,nesne}=ynt.data
         if(status){
           console.log('nesne--->',nesne)
-          this.props.history.push('/')
+          Alert.success('Ürün aydedildi', 5000)
+          let index = this.state.urunler.findIndex(p=>p._id===nesne._id)
+          if(index>=0){
+            this.state.urunler.slice(index,1,nesne)
+            this.setState({
+              duzenle_urun:nesne
+            })
+          }
         }
       })
   }
@@ -71,7 +91,7 @@ class Urunler extends Component {
           < Button iconAfter="caret-down" marginRight={16}>{this.props.kategori || 'Kategori seç...'}</Button>
         </SelectMenu>
         <br/>
-        <Edit duzenle={this.duzenle} urun={this.state.duzenle_urun} gorunme={this.state.edit} gizle={()=>this.setState({edit:false})}/>
+        <Edit stok={this.stok} indirim={this.indirim} duzenle={this.duzenle} urun={this.state.duzenle_urun} gorunme={this.state.edit} gizle={()=>this.setState({edit:false})}/>
         <Container>
 
           <Row>
