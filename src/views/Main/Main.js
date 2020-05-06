@@ -4,7 +4,7 @@ import {Row,Col} from "reactstrap";
 import api from "../../istek";
 import {IconButton, Message, Placeholder} from 'rsuite';
 import "react-multi-carousel/lib/styles.css";
-import {Image} from 'semantic-ui-react'
+import {Image, Label} from 'semantic-ui-react'
 import Kategoriler from "../Pages/Kategoriler";
 import {Icon, Drawer} from "rsuite";
 import YerTutucu from "../Parcalar/YerTutucu";
@@ -17,6 +17,7 @@ class Main extends React.Component{
       items:[],
       kategoriler:[],
       urunler:[],
+      etiket:'',
       ucret:0,
       sepetToggle:false,
       olay:0,
@@ -42,7 +43,10 @@ class Main extends React.Component{
       yerlesim:yerlesim
     })
   }
-
+  etiketBul(kategori_ID){
+    let index = this.props.kategoriler.findIndex(p=>p._id === kategori_ID)
+    this.setState({etiket:this.state.kategoriler[index].ad})
+  }
 
   componentWillReceiveProps(nextProps, nextContext) {
     var toplam=0
@@ -54,6 +58,9 @@ class Main extends React.Component{
       ucret:toplam,
       olay:1
     })
+    if(nextProps.urunGoster){
+      this.etiketBul(nextProps.seciliUrun.kategori)
+    }
   }
 
   render() {
@@ -77,17 +84,16 @@ class Main extends React.Component{
             <Row>
               <Col xs='12' lg='6' md='6'>
                 <Magnifier src={this.props.seciliUrun.img} width={500} />
-
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">
                   <div className="hJAUJy">
-                    <div className="kzoayf ">
-                      {
-                        this.props.seciliUrun.indirimde ?
+                    {
+                      this.props.seciliUrun.indirimde ?
                         <span className="indirim">İndirimde</span>
                         :null
-                      }
+                    }
+                    <div className="kzoayf ">
                       <h1 className="mqzOv">{this.props.seciliUrun.ad}</h1>
                       <div className="fbUCfN">
                         <div className="cqZYhV ">
@@ -116,6 +122,10 @@ class Main extends React.Component{
 
                           />
                       }
+                      <br/><br/>
+                      <span>
+                        <Label size='medium' color='green'>{this.state.etiket}</Label>
+                      </span>
                     </div>
                   </div>
                 </div>
