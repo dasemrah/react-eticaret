@@ -330,7 +330,7 @@ class Siparisler extends Component {
                   {rowData.telefon?
                     <>
                       { rowData.telefon.substring(2,rowData.telefon.length)}
-                      <a target='_blank' href={'https://wa.me/'+rowData.telefon.substring(1,rowData.telefon.length)}> <Icon  size='lg' icon='whatsapp'/></a>
+                      <a target='_blank' href={'https://wa.me/'+rowData.telefon.substring(1,rowData.telefon.length)}> <Icon style={{color:'rgb(0, 158, 127)'}}  size='lg' icon='whatsapp'/></a>
                     </>
                   : null}
                   </>
