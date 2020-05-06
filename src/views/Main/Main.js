@@ -77,12 +77,13 @@ class Main extends React.Component{
             <Row>
               <Col xs='12' lg='6' md='6'>
                 <Magnifier src={this.props.seciliUrun.img} width={500} />
-                <span className="indirim">İndirimde</span>
+
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">
                   <div className="hJAUJy">
                     <div className="kzoayf ">
+                      <span className="indirim">İndirimde</span>
                       <h1 className="mqzOv">{this.props.seciliUrun.ad}</h1>
                       <div className="fbUCfN">
                         <div className="cqZYhV ">
