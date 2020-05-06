@@ -322,11 +322,18 @@ class Siparisler extends Component {
             <Cell dataKey="ad" />
           </Column>
 
-          <Column width={125} resizable>
+          <Column width={130} resizable>
             <HeaderCell>Numara</HeaderCell>
             <Cell>
               {rowData=>(
-                <>{rowData.telefon? rowData.telefon.substring(3,rowData.telefon.length): null}</>
+                <>
+                  {rowData.telefon?
+                    <>
+                      { rowData.telefon.substring(2,rowData.telefon.length)}
+                      <a target='_blank' href={'https://wa.me/'+rowData.telefon.substring(1,rowData.telefon.length)}> <Icon  size='lg' icon='whatsapp'/></a>
+                    </>
+                  : null}
+                  </>
               )}
             </Cell>
           </Column>
