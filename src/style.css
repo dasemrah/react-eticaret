@@ -1029,6 +1029,12 @@ html{
 .rs-nav-item-active .rs-nav-item-content{
   color: rgb(0, 158, 127) !important;
 }
+.sepet_title_eleman{
+  display: inline-flex !important;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  color: rgb(0, 158, 127);
+}
 @media only screen and (max-width:767px){
   .urun_img{
     height: 155px !important;
@@ -1040,12 +1046,7 @@ html{
     align-items: center !important;
     justify-content: center !important;
   }
-  .sepet_title_eleman{
-    display: inline-flex !important;
-    -webkit-box-align: center !important;
-    align-items: center !important;
-    color: rgb(0, 158, 127);
-  }
+
   .rs-drawer-header-close{
     position: absolute !important;
     top: -60px !important;
@@ -1123,6 +1124,15 @@ html{
   border-image: initial;
   transition: all 0.3s ease 0s;
 }
+.magnifier-image{
+  width: 100%;
+  height: auto !important;
+  object-fit: scale-down !important;
+}
+.kateori_dış_iskelet{
+  margin-top: 10px;
+}
+
 @media only screen and (max-width: 767px) {
   .sol_menu_buton{
     width: 26px;
@@ -1226,13 +1236,9 @@ html{
   }
 
 }
-.magnifier-image{
-  width: 100%;
-  height: auto !important;
-  object-fit: scale-down !important;
-}
 
 @media only screen and (min-width: 767px) {
+
   .urun_img{
     height: 200px !important;
 

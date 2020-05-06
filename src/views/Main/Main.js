@@ -83,7 +83,11 @@ class Main extends React.Component{
                 <div className="tek_urun_alt">
                   <div className="hJAUJy">
                     <div className="kzoayf ">
-                      <span className="indirim">İndirimde</span>
+                      {
+                        this.props.seciliUrun.indirimde ?
+                        <span className="indirim">İndirimde</span>
+                        :null
+                      }
                       <h1 className="mqzOv">{this.props.seciliUrun.ad}</h1>
                       <div className="fbUCfN">
                         <div className="cqZYhV ">

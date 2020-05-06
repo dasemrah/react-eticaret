@@ -31,6 +31,7 @@ export default class Arama extends Component {
                 aktif:urun.aktif,
                 img:urun.img,
                 fiyat:urun.fiyat,
+                indirimde:urun.indirimde,
                 aciklama:urun.aciklama,
                 _id:urun._id
               }
