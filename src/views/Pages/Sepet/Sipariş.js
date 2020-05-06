@@ -112,7 +112,7 @@ const Sipariş =props=>{
   }
   const Adımlar=()=>(
    <Col xs='12'>
-     <Steps current={step}>
+     <Steps className='sipariş_ekran' current={step}>
        <Steps.Item  title="Bilgilerim" />
        <Steps.Item title="Adresim" />
        <Steps.Item title="Ödeme" />

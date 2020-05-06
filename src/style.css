@@ -342,9 +342,7 @@
 .📦w_400px{
   overflow: hidden;
 }
-.rs-steps-item-icon::before{
-  color: white !important;
-}
+
 .arama_katman{
   height: 80px !important;
 }
@@ -362,15 +360,8 @@
 .navbar-nav > .nav-item{
   margin-left: 20px;
 }
-.rs-steps-item-icon-wrapper{
-  background-color: rgb(0, 158, 127) !important;
-  border-color: rgb(0, 158, 127) !important;
-  color: white !important;
-}
 
-.rs-steps-item-status-finish{
-  color: white !important;
-}
+
 .siparis_panellerim{
   background-color: white !important;
   border-radius: 0 !important;

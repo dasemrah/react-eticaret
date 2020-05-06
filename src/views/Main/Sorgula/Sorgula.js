@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Input,Row,Col,Spinner} from 'reactstrap';
-import {Segment, Header, Container, List, Icon} from "semantic-ui-react";
+import {Row,Col,Spinner} from 'reactstrap';
+import {Segment, Header, List, Container} from "semantic-ui-react";
 import {Alert, Button, Table} from 'evergreen-ui'
+import {Panel, Message, Steps, Input, InputGroup, Icon} from "rsuite";
 import istek from '../../../istek'
 import '../../../style.css'
 class Sorgula extends Component{
@@ -10,15 +11,16 @@ class Sorgula extends Component{
        this.state={
          numara:'',
          sonuc:[],
-         olay:0
+         olay:0,
+         adım:0
        }
        this.onChange=this.onChange.bind(this);
        this.sorgula=this.sorgula.bind(this);
      }
      onChange(e){
+       console.log(e)
        this.setState({
-         numara:e.target.value,
-
+         numara:e
        })
      }
      sorgula(){
@@ -29,12 +31,24 @@ class Sorgula extends Component{
          console.log(res.data)
          this.setState({
            sonuc:res.data,
-           olay:2
+           olay:2,
+           adım:res.data.durum
          })
 
        })
      }
      render() {
+       const Adımlar = (e)=>(
+         <Steps vertical current={e.durum}>
+           <Steps.Item  title={'Siparişiniz alındı'} />
+           <Steps.Item  title={'Ödemeniz alınmıştır'} />
+           <Steps.Item  title={'Hazırlanıyor'} />
+           <Steps.Item  title={'Hazırlandı'} />
+           <Steps.Item  title={'Kargo için beklemede'} />
+           <Steps.Item  title={'Kargoda'} />
+           <Steps.Item  title={'Teslim edildi'} />
+         </Steps>
+       )
        const seviyeVer =(e)=>(
          <>
            {e.durum === 0 ?
@@ -56,45 +70,41 @@ class Sorgula extends Component{
          </>
        )
        const siparisView =this.state.sonuc.map((sip)=>
-         <Col md="12" lg="12" xs="12">
-           <br/>
-           <Segment>
+         <>
+           <Col xs='12' lg='3' md='3'>
+             <Adımlar durum={sip.durum}/>
+           </Col>
+         <Col md="9" lg="9" xs="12">
+           <Panel style={{backgroundColor:'white'}} shaded>
               <Row>
                 <Col xs="12">
-                  <Header as='h3' textAlign='center'>
-                    {sip.tarih.substring(0,10)} tarihli siparişiniz
-                  </Header>
-                  <br/>
-                  <Alert
-                    intent="success"
-                    title={seviyeVer(sip)}
+
+                  <Message
+                    showIcon
+                    type="success"
+                    title={sip.tarih.substring(0,10)+' tarihli siparişiniz'}
+                    description={seviyeVer(sip)}
                   />
                   <br/>
                 </Col>
                 <Col xs="12" lg="6" md="6">
                   <br/>
-                  <Segment color="purple">
-                    <Header as='h4' textAlign='center' dividing>
-                      Bilgileriniz
-                    </Header>
+                  <Panel header='Bilgilerim'>
                     <List>
-                      <List.Item><Icon name="user"/> {sip.ad}</List.Item>
-                      <List.Item><Icon name='location arrow'/> {sip.adres} </List.Item>
-                      <List.Item><Icon name='phone'/> {sip.telefon} </List.Item>
-                      <List.Item><Icon name='clock outline'/> {sip.tarih.substring(0,10)}  </List.Item>
-                      <List.Item><Icon name='tag'/> {sip.detay} </List.Item>
+                      <List.Item><Icon icon="user"/> {sip.ad}</List.Item>
+                      <List.Item><Icon icon='location-arrow'/> {sip.adres} </List.Item>
+                      <List.Item><Icon icon='phone'/> {sip.telefon} </List.Item>
+                      <List.Item><Icon icon='clock-o' spin/> {sip.tarih.substring(0,10)}  </List.Item>
+                      {sip.detay ?  <List.Item><Icon icon='tag'/> {sip.detay} </List.Item> : null}
                       <List.Item>
-                        <Icon name='money bill alternate outline'/> {parseInt(sip.ucret)+(sip.paket ? 0 : 15)+(sip.odeme==='kapıda' ? 10 : 0)} ₺
+                        <Icon icon='money'/> {parseInt(sip.ucret)+(sip.paket ? 0 : 15)+(sip.odeme==='kapıda' ? 10 : 0)} ₺
                       </List.Item>
                     </List>
-                  </Segment>
+                  </Panel>
                 </Col>
                 <Col xs="12" md="6" lg="6">
-                  <br/>
-                  <Segment color="orange">
-                    <Header as='h4' textAlign='center' dividing>
-                      Ürünler
-                    </Header>
+
+                  <Panel header='Ürünlerim'>
                     <Table>
                       <Table.Head>
                         <Table.TextHeaderCell>
@@ -113,63 +123,50 @@ class Sorgula extends Component{
                         ))}
                       </Table.Body>
                     </Table>
-                  </Segment>
+                  </Panel>
                 </Col>
               </Row>
-           </Segment>
+           </Panel>
            <br/>
          </Col>
+           </>
        )
        return(
          <Container>
-           <Row>
-             {
-               this.state.olay===1 ?
-                 <Col xs="12" className="align-items-center align-content-center"> <Spinner color="success"/></Col>
-                 : this.state.olay===2 ?
-                 this.state.sonuc.length >0 ?
-                   <Alert intent="success" title={'Toplam '+ this.state.sonuc.length+' siparişiniz bulundu...'} marginBottom={32}/>
-                   : <Alert intent="warning" title="Hiç sipariş vermemişsiniz..." marginBottom={32}/>
-                 :
-                 <Col xs="12" md="12" lg="12">
-                   <Segment>
-                     <Header as='h3' textAlign='center'>
-                       Telefon numarası ile sipariş sorgula
-                     </Header>
-                     {
-                       this.state.olay === 0 ?
-                         <Alert
-                           intent="none"
-                           title='Aşağıdaki kutucuğa telefon numaranızı yazıp "Sorgula" butonuna basınız.'
-                           marginBottom={32}
-                         />
-                         :null
-                     }
+              <Row>
+                {
+                  this.state.olay === 0 ?
+                      <Col xs='12' lg='6' md='6'>
+                        <Panel style={{backgroundColor:'white'}} header='Sipariş Sorgula' shaded>
+                          <InputGroup inside>
+                            <InputGroup.Addon>+90 </InputGroup.Addon>
+                            <Input onChange={this.onChange} type='number' placeholder='  telefon numarası' />
+                            <InputGroup.Button onClick={()=>this.sorgula()}><Icon icon="search" /></InputGroup.Button>
+                          </InputGroup>
+                        </Panel>
+                      </Col>
+                    :null
+                }
 
+                <Col xs="12" md="12" lg="12">
+                  {this.state.olay === 2 ?
+                    this.state.sonuc.length>0 ?
+                      <Row>
 
-                     <Input type="text" value={this.state.numara} placeholder="telefon numaranızı girin" onChange={this.onChange}/>
-                     <br/>
-                     {
-                       this.state.numara.length >=10 ?
-                         <Button height={24} onClick={this.sorgula} iconAfter="search" intent='warning'>
-                           Sorgula
-                         </Button>
-                         :null
-                     }
-                   </Segment>
+                        { siparisView }
+                      </Row>
+                      :
+                      <Message
+                        showIcon
+                        type='warning'
+                        title='Hiç sipariş vermemişsiniz'
+                        description='Bir hata olduğunu düşünüyorsanız mağazamızla iletişime geçiniz.'
+                      />
+                  :null}
+                </Col>
 
-                 </Col>
+              </Row>
 
-             }
-             <Col xs="12" md="12" lg="12">
-
-               <Row>
-
-                 { siparisView }
-               </Row>
-             </Col>
-
-           </Row>
          </Container>
        )
      }
