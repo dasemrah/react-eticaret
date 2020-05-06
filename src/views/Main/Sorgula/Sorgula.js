@@ -83,6 +83,9 @@ class Sorgula extends Component{
                       <List.Item><Icon name='phone'/> {sip.telefon} </List.Item>
                       <List.Item><Icon name='clock outline'/> {sip.tarih.substring(0,10)}  </List.Item>
                       <List.Item><Icon name='tag'/> {sip.detay} </List.Item>
+                      <List.Item>
+                        <Icon name='money bill alternate outline'/> {parseInt(sip.ucret)+(sip.paket ? 0 : 15)+(sip.odeme==='kapıda' ? 10 : 0)} ₺
+                      </List.Item>
                     </List>
                   </Segment>
                 </Col>
