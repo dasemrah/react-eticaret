@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import {Transition, Label, List, Icon} from "semantic-ui-react";
-import { Menu, Popover, Button,toaster } from 'evergreen-ui'
 import Arama from "../../views/Parcalar/Arama";
-import {Drawer} from "rsuite";
+import {Drawer, IconButton, Icon} from "rsuite";
 class DefaultHeader extends Component {
   constructor(props){
     super(props)
@@ -51,7 +49,7 @@ class DefaultHeader extends Component {
 
         <a className="navbar-brand" href="#">Nazlı Köy</a>
         <div className="sepet_dar_ekran">
-          <Icon circular color='grey' name='search'  size='large' onClick={()=>this.props.aramaAçKapa()}/>
+          <Icon icon='search' size='lg' onClick={()=>this.props.aramaAçKapa()}/>
         </div>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 

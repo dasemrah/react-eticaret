@@ -300,8 +300,12 @@
 .sepet_dar_ekran{
   position: absolute;
   right: 5%;
-  top: 0;
+  top: 10px;
   margin-top: -1.2rem;
+}
+.sepet_dar_ekran > i {
+  font-weight: 100 !important;
+  font-size: 24px !important;
 }
 .sidebar{
   background: coral !important;
