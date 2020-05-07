@@ -1,16 +1,14 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
-import { Container,} from 'reactstrap';
-import {List,Header,Button,Icon} from 'semantic-ui-react'
+import {Container} from 'reactstrap';
 import '../../style.css'
 import {AppFooter, AppHeader, AppSidebar, AppSidebarFooter, AppSidebarForm, AppSidebarHeader, AppSidebarMinimizer, AppBreadcrumb2 as AppBreadcrumb, AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
 import admin_nav from '../../admin_nav';
 import routes from '../../routes';
 import istek from "../../istek";
 import adminRoutes from "../../adminRoutes";
-import {SideSheet, toaster} from "evergreen-ui";
-import {Drawer} from "rsuite";
+import {Drawer, Alert} from "rsuite";
 import Sepet from "../../views/Pages/Sepet";
 import Disk from 'o.disk'
 
@@ -108,15 +106,8 @@ class DefaultLayout extends Component {
       this.setState(this.state)
       Disk.begeni=this.state.begeni
       console.log('begenilere eklendi-->',this.state.begeni)
-      toaster.success('Beğenilere Eklendi',{duration:1.5})
+
     }
-    else
-      {
-        console.log('zaten var')
-        toaster.danger(
-          'Urun beğeniler bölümünde'
-        )
-      }
   }
   beneniÇıkart=urun=>{
     const index = this.state.begeni.findIndex(p => p._id === urun._id);
@@ -124,10 +115,6 @@ class DefaultLayout extends Component {
       this.state.begeni.splice(index, 1);
       this.setState(this.state)
       Disk.begeni=this.state.begeni
-      toaster.warning(
-        'Ürün beğenilerden çıkarıldı',
-        {duration:1}
-      )
     }
   }
   ÇıkışYap=()=>{
@@ -216,7 +203,8 @@ class DefaultLayout extends Component {
         toplam:urun.miktar+this.state.toplam,
         urunGoster:false,
       })
-      toaster.success(urun.net+' '+ urun.ad+' eklendi',{duration:2.7})
+      Alert.success(urun.net+' '+ urun.ad+' eklendi',5000)
+
     }
     else
       {
@@ -238,7 +226,7 @@ class DefaultLayout extends Component {
       this.state.sepet.splice(index, 1);
       this.setState(this.state)
       this.toplamHesapla()
-      toaster.warning(urun.ad+' çıkarıldı')
+      Alert.warning(urun.ad+' çıkarıldı',5000)
     }
     this.sepetMiktar(this.state.sepet.length)
 

@@ -34,8 +34,9 @@ class Main extends React.Component{
           items:foundItems.data
         })
       })
-
-
+    var toplam=0
+    this.props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
+    this.setState({ucret:toplam})
   }
   sepetAc=(yerlesim)=>{
     this.setState({
