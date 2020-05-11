@@ -12,7 +12,8 @@ class Sorgula extends Component{
          numara:'',
          sonuc:[],
          olay:0,
-         adım:0
+         adım:0,
+         pictures:''
        }
        this.onChange=this.onChange.bind(this);
        this.sorgula=this.sorgula.bind(this);
@@ -37,6 +38,7 @@ class Sorgula extends Component{
 
        })
      }
+
      render() {
        const Adımlar = (e)=>(
          <Steps vertical current={e.durum}>

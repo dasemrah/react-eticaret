@@ -21,7 +21,8 @@ class Main extends React.Component{
       ucret:0,
       sepetToggle:false,
       olay:0,
-      yerlesim:'bottom'
+      yerlesim:'bottom',
+      seciliGorsel:''
     }
   }
 
@@ -50,6 +51,9 @@ class Main extends React.Component{
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    api
+      .post('gorselver',{gorselID:nextProps.seciliUrun.gorsel})
+      .then(cvp=>this.setState({seciliGorsel:cvp.data.img.data}))
     var toplam=0
     nextProps.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
     this.setState({
@@ -84,7 +88,7 @@ class Main extends React.Component{
            <div className="tek_urun">
             <Row>
               <Col xs='12' lg='6' md='6'>
-                <Magnifier src={this.props.seciliUrun.img} width={500} />
+                <Magnifier src={this.state.seciliGorsel} width={500} />
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">
@@ -165,7 +169,7 @@ class Main extends React.Component{
                           <span>{e.miktar}</span>
                           <Icon className='sepet_count' icon='plus'  onClick={()=>this.props.miktarDeğiştir(1,e)} />
                         </div>
-                        <Image onClick={()=>this.props.urunAç(e)} size='mini' src={e.img} className="sepet_gorsel" alt=""/>
+                        <Image onClick={()=>this.props.urunAç(e)} size='mini' src={e.gorsel.data} className="sepet_gorsel" alt=""/>
                         <div className="sepet_detay">
                           <span className="sepet_urun_ad">
                             {e.ad}

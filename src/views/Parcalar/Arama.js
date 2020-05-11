@@ -19,10 +19,10 @@ export default class Arama extends Component {
       .then(ynt=>{
         ynt.data.foundUrun.map(kategori=>{
           kategori.urunler.map(urun=>{
+
               var source={
                 title: urun.ad,
                 description:urun.net,
-                image: urun.img,
                 price: String(urun.fiyat+' ₺'),
                 key:urun._id,
                 net:urun.net,
@@ -32,6 +32,7 @@ export default class Arama extends Component {
                 img:urun.img,
                 fiyat:urun.fiyat,
                 indirimde:urun.indirimde,
+                gorsel:urun.gorsel,
                 aciklama:urun.aciklama,
                 _id:urun._id
               }

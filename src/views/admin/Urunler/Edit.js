@@ -18,9 +18,10 @@ class Edit extends React.Component{
       net       :'',
       pictures  :[],
       url       : '',
-      file_url  : '',
+      gorsel    : '',
       success   :false,
-      indirimde : Boolean
+      indirimde : Boolean,
+      imgData:Buffer
     }
   }
   componentWillReceiveProps(nextProps, nextContext) {
@@ -30,75 +31,56 @@ class Edit extends React.Component{
       aciklama : urun.aciklama,
       net      : urun.net,
       fiyat    : urun.fiyat,
-      file_url : urun.img
+      gorsel   : urun.gorsel,
+      imgData  : urun.gorsel ? urun.gorsel.data : null
     })
+    this.gorselver(urun.gorsel)
     console.log('ürün değişti',nextProps)
   }
 
+  arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return window.btoa(binary);
+  }
+  gorselver = (gorselID)=>{
+    istek
+      .post('gorselver',{gorselID:gorselID})
+      .then(ynt=>{
+        console.log('görsel alındı',ynt.data.img)
+        this.setState({
+          gorsel:ynt.data.img,
+          imgData:ynt.data.img.data
+        })
+      })
+  }
   gorselSec=(picture)=>{
-    this.state.pictures.push(picture[0]);
-    this.setState({
-      url:"",
-      success:true
-    })
-    this.handleUpload()
-  }
+    let {name, type} = picture[0]
+    let imageData=Buffer
+    console.log('dosya bilgileri',name,'---->',type)
+    let okuyucu=new FileReader()
+    okuyucu.readAsDataURL(picture[0])
+    okuyucu.onload=()=>{
+      istek
+        .post('yukle',{
+          name,
+          type,
+          data:okuyucu.result
+        })
+        .then(ynt=>{
+          console.log('kayıtlı veri-->',ynt.data.img._id)
 
-  handleUpload = (ev) => {
-    this.setState({
-      loading:1
-    })
-    console.log('Resimler:---->',this.state.pictures);
-    let file = this.state.pictures[0];
-
-    let fileName = file.name;
-    let fileType = file.type;
-    console.log("Preparing the upload");
-
-    istek.post('/sign',{
-      fileName : fileName,
-      fileType : fileType
-    })
-      .then(response => {
-        var returnData = response.data.data.returnData;
-        console.log('return data: ',response.data)
-        var signedRequest = returnData.signedRequest;
-        var url = returnData.url;
-        this.setState({url: url})
-        console.log("Recieved a signed request " + signedRequest);
-
-        // Put the fileType in the headers for the upload
-        var options = {
-          headers: {
-            'Content-Type': fileType
-          }
-        };
-        axios.put(signedRequest,file,options)
-          .then(result => {
-            console.log("Response from s3")
-            console.log(result)
-
-            let fileUrl=result.config.url.slice(0,result.config.url.indexOf('?'))
-            console.log('Dosya adresi: ',fileUrl);
-            this.setState({
-              success: true,
-              file_url:fileUrl
-            });
-      })
-          .catch(error => {
-            console.log(error)
+          this.setState({
+            imgData : ynt.data.img.data,
+            gorsel  : ynt.data.img
           })
-      })
-      .catch(error => {
-        console.log(error)
-      })
-
-
-
+        })
+        .catch(err=>console.log(err))
+    }
+    okuyucu.onerror=err=>console.log(err)
 
   }
-
-
 
   render() {
     const {ad,aciklama,net,fiyat,success}=this.state;
@@ -111,7 +93,7 @@ class Edit extends React.Component{
           </Modal.Header>
           <Modal.Body>
 
-            <Image src={this.state.file_url} size='tiny' style={{width:'40%', marginLeft:'30%'}} bordered/>
+            <Image src={this.state.imgData} size='tiny' style={{width:'40%', marginLeft:'30%'}} bordered/>
             <ImageUploader
               withIcon={true}
               buttonText='Görsel Seç'

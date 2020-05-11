@@ -1,24 +1,24 @@
 import React,{useState,useEffect} from 'react';
 import {Image, Grid} from 'semantic-ui-react'
-import {Panel} from "rsuite";
+import {Panel, Placeholder} from "rsuite";
 import {IconButton, Icon , Animation, Message} from "rsuite";
-
+import istek from '../../../istek';
 const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
   const [sepetteymiş,setSepette]       = useState(false)
   const [yerlesim, Yerlesim] = useState('')
   const [goster, Goster] =useState(false)
+  const [gorsel, Gorsel] = useState('');
   useEffect(()=>{
-
-    var index=props.begeni.findIndex(p=>p._id===props.urun._id);
-    if(index>-1){
-      setBeğenilmiş(true)
-    }
+  console.log('ürün props',props.urun)
+    istek
+      .post('gorselver',{gorselID:props.urun.gorsel})
+      .then(cvp=>Gorsel(cvp.data.img.data))
     var sepetsırası = props.sepet.findIndex(p=>p._id===props.urun._id);
     if(sepetsırası>-1){
       setSepette(true)
     }
-  })
+  },[])
   const sepetEkle=(urun)=>{
     props.sepeteEkle(urun)
     Goster(true)
@@ -31,7 +31,10 @@ const Urunler =props=>{
       <Panel className="urun_card" >
         <Grid>
           <Grid.Column width={16}>
-            <Image onClick={()=>props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width:'100%'}} rounded size='small'/>
+            {gorsel.length ===0  ? <Placeholder.Graph active/> :
+              <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={gorsel} style={{width: '100%'}}
+                     rounded size='small'/>
+            }
             {
               props.urun.indirimde ?  <span className="indirim">İndirimde</span> : null
             }

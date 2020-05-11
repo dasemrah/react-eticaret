@@ -27,14 +27,36 @@ class Urunler extends Component {
         kategoriAdı : foundUrun[0].ad,
         urunler     : foundUrun[0].urunler
       })
+      this.state.urunler.map(e=>{
+        this.gorselver(e.gorsel,e._id)
+      })
       console.log(this.state.kategoriler)
     }).catch((err)=>console.log(err));
+  }
+  componentWillUpdate(nextProps, nextState, nextContext) {
+
+  }
+
+  gorselver = (gorselID,urunID)=>{
+    let index = this.state.urunler.findIndex(p=>p._id=== urunID )
+    if(index >=0 && gorselID !==null){
+      api
+        .post('gorselver',{gorselID:gorselID})
+        .then(ynt=>{
+          console.log('görsel alındı',ynt.data.img)
+          this.state.urunler[index].gorsel=ynt.data.img
+          this.setState(this.state)
+        })
+    }
   }
   kategoriSec=(kategori)=>{
     this.setState({
       kategori    : kategori,
       kategoriAdı : kategori.ad,
       urunler     : kategori.urunler,
+    })
+    this.state.urunler.map(e=>{
+      this.gorselver(e.urun,e._id)
     })
   }
   stok=(e)=>{
@@ -51,13 +73,13 @@ class Urunler extends Component {
     let nesne=this.state.duzenle_urun;
 
     console.log('ürün parametreleri----> ', nesne)
-    const {ad, aciklama, net, fiyat, file_url} = urun
+    const {ad, aciklama, net, gorsel, fiyat} = urun
 
     nesne.ad        = ad;
     nesne.aciklama  = aciklama;
     nesne.net       = net;
     nesne.fiyat     = fiyat;
-    nesne.img       = file_url;
+    nesne.gorsel    = gorsel;
 
     api.post('/urunduzenle',{nesne:nesne})
       .then(ynt=>{
@@ -99,7 +121,7 @@ class Urunler extends Component {
               <Col xs="12" md='6' lg='4' key={e._id}>
                 <Segment raised color="teal">
                   <Grid>
-                    <Grid.Column width={5}> <Image src={e.img} rounded size='small'/></Grid.Column>
+                    <Grid.Column width={5}> <Image src={e.gorsel.data} rounded size='small'/></Grid.Column>
                     <Grid.Column width={11}>
                       <List>
                         <List.Item><span className="text-dark h6 text-uppercase text-center floated">{e.ad}</span></List.Item>

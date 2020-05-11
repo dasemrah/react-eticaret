@@ -3,7 +3,7 @@ import axios from 'axios'
 const saglayici = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:4000/' : "https://svglback.herokuapp.com/",
   withCredentials: true,
-  timeout: 20000
+  timeout: 50000
 })
 saglayici.interceptors.request.use(ayar => {
   return ayar

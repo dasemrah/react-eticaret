@@ -189,8 +189,10 @@ class DefaultLayout extends Component {
       })
   }
   sepeteEkle=(urun)=>{
-    console.log(typeof urun)
 
+    istek
+      .post('gorselver',{gorselID:urun.gorsel})
+      .then(cvp=>urun.gorsel=cvp.data.img)
     console.log( urun)
     let urun_id=urun._id
     const index= this.state.sepet.findIndex(p => p._id === urun_id)
