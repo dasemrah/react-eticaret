@@ -10,7 +10,6 @@ const Urunler =props=>{
   const [goster, Goster] =useState(false)
   const [gorsel, Gorsel] = useState('');
   useEffect(()=>{
-  console.log('ürün props',props.urun)
     istek
       .post('gorselver',{gorselID:props.urun.gorsel})
       .then(cvp=>Gorsel(cvp.data.img.data))
