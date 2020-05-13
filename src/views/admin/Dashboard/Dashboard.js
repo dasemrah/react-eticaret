@@ -20,7 +20,7 @@ class Dashboard extends Component {
       satın_alım:[],
       toplamkazanç:0,
       sonbiray:[],
-      ay:0,
+      ay:1,
 
     }
     api.get('/uruntum').then((ynt)=>{
@@ -35,32 +35,32 @@ class Dashboard extends Component {
       console.log('tarih:-->',gunluk)
       this.grafigedok(gunluk)
     })
+    api.get('/tumsiparisler').then((ynt)=>{
+      this.setState({tumsiparisler:ynt.data.siparis})
+      var kazanç=0
+      var miktar=0
+      this.state.tumurunler.map(e=>{
+        ynt.data.siparis.map(s => {
+          s.Urunler.map(u=>{
+            if(e._id===u._id&&u.miktar!==null){
+              miktar+=u.miktar
+            }
+          })
+        })
+        this.setState({ satın_alım: [...this.state.satın_alım, {id:e._id, urun:e, miktar:miktar} ] })
+        miktar=0
+      })
+      this.state.satın_alım.map(e=>{
+          this.setState({
+            toplamkazanç:this.state.toplamkazanç+(e.miktar*e.urun.fiyat)
+          })
+        }
+      )
+
+    })
 
   }
 componentDidMount() {
-  api.get('/tumsiparisler').then((ynt)=>{
-    this.setState({tumsiparisler:ynt.data.siparis})
-    var kazanç=0
-    var miktar=0
-    this.state.tumurunler.map(e=>{
-      ynt.data.siparis.map(s => {
-        s.Urunler.map(u=>{
-          if(e._id===u._id&&u.miktar!==null){
-            miktar+=u.miktar
-          }
-        })
-      })
-      this.setState({ satın_alım: [...this.state.satın_alım, {id:e._id, urun:e, miktar:miktar} ] })
-      miktar=0
-    })
-    this.state.satın_alım.map(e=>{
-        this.setState({
-          toplamkazanç:this.state.toplamkazanç+(e.miktar*e.urun.fiyat)
-        })
-      }
-    )
-
-  })
 
 
 

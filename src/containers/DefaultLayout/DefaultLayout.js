@@ -47,11 +47,9 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-   if(Disk.begeni!==null){
-     Disk.begeni.map(e=>{
-       this.state.begeni.push(e)
-     })
-   }
+    if(Disk.kullanıcı === undefined){
+      Disk.kullanıcı = null
+    }
     this.setState({
       user:Disk.kullanıcı
     })
