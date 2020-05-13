@@ -116,7 +116,6 @@ class DefaultLayout extends Component {
     }
   }
   ÇıkışYap=()=>{
-    Disk.kullanıcı=null
     this.setState({
       user:null
     })
@@ -135,7 +134,6 @@ class DefaultLayout extends Component {
     this.setState({
       user:user
     })
-    Disk.kullanıcı=user
     console.log(user.username,' giriş yaptı')
   }
   sepetMiktar=(veri)=>{
