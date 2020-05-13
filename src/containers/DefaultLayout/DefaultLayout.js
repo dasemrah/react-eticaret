@@ -43,16 +43,15 @@ class DefaultLayout extends Component {
       listeAktif:'',
       aramaGörünürlük:false,
     }
+
   }
 
 
   componentDidMount() {
-    if(Disk.kullanıcı === undefined){
-      Disk.kullanıcı = null
-    }
     this.setState({
       user:Disk.kullanıcı
     })
+
     istek.get('/urunler').then((ynt)=>{
       this.setState({
         kategoriler:ynt.data.foundUrun,
