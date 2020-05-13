@@ -48,9 +48,9 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-    Disk.user=null
+    Disk.kullanıcı=null
     this.setState({
-      user:Disk.kullanıcı
+      user:null
     })
 
     istek.get('/urunler').then((ynt)=>{
