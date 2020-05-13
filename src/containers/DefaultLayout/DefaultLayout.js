@@ -48,9 +48,11 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-
+    if(Disk.kullanıcı  === undefined){
+      Disk.kullanıcı = null
+    }
     this.setState({
-      user:null
+      user:Disk.kullanıcı
     })
 
     istek.get('/urunler').then((ynt)=>{
@@ -119,6 +121,7 @@ class DefaultLayout extends Component {
     this.setState({
       user:null
     })
+    Disk.kullanıcı= null
     istek.get('/signout').then(ynt=>{
       console.log(ynt.data.user,ynt.data.msg)
     })
@@ -134,6 +137,7 @@ class DefaultLayout extends Component {
     this.setState({
       user:user
     })
+    Disk.kullanıcı= user
     console.log(user.username,' giriş yaptı')
   }
   sepetMiktar=(veri)=>{
