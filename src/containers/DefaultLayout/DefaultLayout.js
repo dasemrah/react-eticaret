@@ -48,7 +48,7 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-    Disk.kullanıcı=null
+
     this.setState({
       user:null
     })
