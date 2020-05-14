@@ -21,6 +21,7 @@ class Dashboard extends Component {
       toplamkazanç:0,
       sonbiray:[],
       ay:0,
+      musteriler:[]
 
     }
     api.get('/uruntum').then((ynt)=>{
@@ -60,11 +61,19 @@ componentDidMount() {
     )
 
   })
-
+  this.musteriAL()
 }
 
 
-
+  musteriAL=()=>{
+    api
+      .get('musteriler')
+      .then(cvp=>{
+        console.log(cvp.data)
+        this.setState({musteriler:cvp.data.musteri})
+        console.log('eklendiler',this.state.musteriler)
+      })
+  }
   sonraki=(ay)=>{
 
     var buay=this.state.ay+ay;
@@ -107,8 +116,8 @@ componentDidMount() {
 
 
   componentWillUpdate(nextProps, nextState, nextContext) {
-    console.log('ürün sayısı --->',nextState.tumurunler.length)
-    console.log('satın alım sayısı---->',nextState.satın_alım.length)
+   // console.log('ürün sayısı --->',nextState.tumurunler.length)
+   // console.log('satın alım sayısı---->',nextState.satın_alım.length)
   }
 
   render() {
@@ -118,15 +127,20 @@ componentDidMount() {
       <div className="app fadeIn">
         <br/>
         <Row>
-          <Col xs='12' md='6' lg='3'>
-            <Widget01 color="white" className="vidget" mainText="Mağaza Toplam Kazancı" value={this.state.toplamkazanç} smallText='Simdiye kadar satılan tüm ürünlerden gelen kazancı gösterir.'
-                      color="danger" header={this.state.toplamkazanç +' ₺'}/>
+          <Col xs='6' md='6' lg='3'>
+            <Widget01 color="danger" className="vidget" mainText="Mağaza Toplam Kazancı" value={this.state.toplamkazanç} smallText='Simdiye kadar satılan tüm ürünlerden gelen kazancı gösterir.'
+                     header={this.state.toplamkazanç +' ₺'}/>
+            <br/>
+          </Col>
+          <Col xs='6' md='6' lg='3'>
+            <Widget01 color="success" className="vidget" mainText="Müşteriler" value={this.state.toplamkazanç} smallText='Alışveriş yapan müşteri sayısı'
+                      header={this.state.musteriler.length}/>
             <br/>
           </Col>
           <Col xs="6" md="6" lg="3">
             <Link to="/urunler">
               <Widget01 color="blue" className="vidget" mainText="Mağazadaki Ürünler" value={this.state.tumurunler.length} smallText="Güncel Durum"
-                        color="success" header={this.state.tumurunler.length}
+                         header={this.state.tumurunler.length}
               />
             </Link>
             <br/>
