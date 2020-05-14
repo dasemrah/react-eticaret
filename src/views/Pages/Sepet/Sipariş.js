@@ -355,6 +355,7 @@ const Sipariş =props=>{
                         <TextInput
                           name="telefon"
                           value={tel}
+                          type='number'
                           placeholder="Telefon numarası"
                           onChange={e => setTel(e.target.value)}
                           width={'100%'}
