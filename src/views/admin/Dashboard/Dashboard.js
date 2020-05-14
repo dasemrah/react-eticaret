@@ -20,7 +20,7 @@ class Dashboard extends Component {
       satın_alım:[],
       toplamkazanç:0,
       sonbiray:[],
-      ay:1,
+      ay:0,
 
     }
     api.get('/uruntum').then((ynt)=>{
