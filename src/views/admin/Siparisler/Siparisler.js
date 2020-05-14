@@ -9,17 +9,16 @@ class Siparisler extends Component {
   constructor(props){
     super(props)
     this.state={
-      tumsiparisler:[],
-      siparişsayısı:[],
-      loading:false,
-      siparişAç:false,
-      sipariş:[],
-      aktifitem:0
+      tumsiparisler : [],
+      siparişsayısı : [],
+      loading       : false,
+      siparişAç     : false,
+      sipariş       : [],
+      aktifitem     : 0
     }
   }
   componentDidMount() {
     this.siparisleriAl()
-
   }
   siparisSayisiHesapla=(seviye)=>{
     if(seviye==='hepsi'){
@@ -229,24 +228,25 @@ class Siparisler extends Component {
             height={360}
             width={400}
             data={rowData.Urunler}
-
+            wordWrap
           >
-            <Column width={130} align="center" fixed='left'>
+            <Column width={200} align="center" fixed='left'>
               <HeaderCell>Ad</HeaderCell>
               <Cell dataKey="ad" />
             </Column>
-            <Column width={90} align="center">
+            <Column width={55} align="center">
               <HeaderCell>Adet</HeaderCell>
               <Cell dataKey="miktar" />
-            </Column>
-            <Column width={90} align="center">
-              <HeaderCell>Fiyat</HeaderCell>
-              <Cell dataKey="fiyat" />
             </Column>
             <Column width={90} align="center">
               <HeaderCell>Miktar</HeaderCell>
               <Cell dataKey="net" />
             </Column>
+            <Column width={55} align="center">
+              <HeaderCell>Fiyat</HeaderCell>
+              <Cell dataKey="fiyat" />
+            </Column>
+
           </Table>
      )
       const düzenle=(
@@ -338,15 +338,15 @@ class Siparisler extends Component {
             </Cell>
           </Column>
 
-          <Column width={275} resizable>
+          <Column width={300} resizable>
             <HeaderCell>Adres</HeaderCell>
             <Cell dataKey="adres"/>
           </Column>
-          <Column width={100} resizable>
+          <Column width={120} resizable>
             <HeaderCell>Not</HeaderCell>
             <Cell dataKey="detay"/>
           </Column>
-          <Column width={100} resizable>
+          <Column width={75} resizable>
             <HeaderCell>Ücret</HeaderCell>
            <Cell>
              {rowData=>(
@@ -356,7 +356,7 @@ class Siparisler extends Component {
              )}
            </Cell>
            </Column>
-          <Column width={150} resizable>
+          <Column width={120} resizable>
             <HeaderCell>Ödeme</HeaderCell>
             <ÖdemeTürü dataKey="odeme"/>
           </Column>
@@ -364,7 +364,7 @@ class Siparisler extends Component {
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={160} resizable>
+          <Column width={120} resizable>
             <HeaderCell>Tarih</HeaderCell>
            <Cell>
              {
@@ -382,7 +382,7 @@ class Siparisler extends Component {
       </div>
     )
     const Seçici=()=>(
-      <Dropdown activeKey={this.state.aktifitem} title="Siparişleri Sırala" toggleComponentClass={Button} appearance="default">
+      <Dropdown activeKey={this.state.aktifitem} title="Siparişleri Sırala" appearance="default">
         <Dropdown.Item eventKey='hepsi' onSelect={()=>this.siparisleriAl()}>Tümü           <Label circular>{this.siparisSayisiHesapla('hepsi')}</Label></Dropdown.Item>
         <Dropdown.Item eventKey={0} onSelect={()=>this.sırala(0)}>Yeni Siparişler   <Label circular>{this.siparisSayisiHesapla(0)}</Label></Dropdown.Item>
         <Dropdown.Item eventKey={1} onSelect={()=>this.sırala(1)}>Ödenenler         <Label circular>{this.siparisSayisiHesapla(1)}</Label></Dropdown.Item>
