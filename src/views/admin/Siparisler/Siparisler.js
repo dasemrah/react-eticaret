@@ -19,6 +19,7 @@ class Siparisler extends Component {
   }
   componentDidMount() {
     this.siparisleriAl()
+
   }
   siparisSayisiHesapla=(seviye)=>{
     if(seviye==='hepsi'){
@@ -226,12 +227,11 @@ class Siparisler extends Component {
 
           <Table
             height={360}
-            width={360}
+            width={400}
             data={rowData.Urunler}
-            autoHeight
-            wordWrap
+
           >
-            <Column width={90} align="center" fixed='left'>
+            <Column width={130} align="center" fixed='left'>
               <HeaderCell>Ad</HeaderCell>
               <Cell dataKey="ad" />
             </Column>

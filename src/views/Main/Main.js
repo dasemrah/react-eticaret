@@ -1,14 +1,16 @@
 import React from 'react';
+import api from "../../istek";
+
+
+import {IconButton, Message, Placeholder} from 'rsuite';
+import {Image, Label} from 'semantic-ui-react'
+import {Icon, Drawer} from "rsuite";
+
+import Sepet from "../Pages/Sepet";
+import Magnifier from "react-magnifier";
+import Kategoriler from "../Pages/Kategoriler";
 import Arama from "../Parcalar/Arama";
 import {Row,Col} from "reactstrap";
-import api from "../../istek";
-import {IconButton, Message, Placeholder} from 'rsuite';
-import "react-multi-carousel/lib/styles.css";
-import {Image, Label} from 'semantic-ui-react'
-import Kategoriler from "../Pages/Kategoriler";
-import {Icon, Drawer} from "rsuite";
-import YerTutucu from "../Parcalar/YerTutucu";
-import Magnifier from "react-magnifier";
 class Main extends React.Component{
   constructor(props){
     super(props)
@@ -55,7 +57,10 @@ class Main extends React.Component{
   componentWillReceiveProps(nextProps, nextContext) {
     api
       .post('gorselver',{gorselID:nextProps.seciliUrun.gorsel})
-      .then(cvp=>this.setState({seciliGorsel:cvp.data.img.data}))
+      .then(cvp=>{
+        console.log('seçili değişim')
+        this.setState({seciliGorsel:cvp.data.img.data})
+      })
     var toplam=0
     nextProps.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
     this.setState({
@@ -163,48 +168,9 @@ class Main extends React.Component{
               <div className="sepet_duzen">
                 <div className="sepet_yerlesimi">
                   <>
-                  {
-                    this.props.sepet.map(e=>(
-                      <div className='sepet_eleman'>
-                        <div className="counter">
-                          <Icon className='sepet_count' icon='data-decrease' onClick={()=>this.props.miktarDeğiştir(-1,e)} />
-                          <span>{e.miktar}</span>
-                          <Icon className='sepet_count' icon='plus'  onClick={()=>this.props.miktarDeğiştir(1,e)} />
-                        </div>
-                        <Image onClick={()=>this.props.urunAç(e)} size='mini' src={e.gorsel.data} className="sepet_gorsel" alt=""/>
-                        <div className="sepet_detay">
-                          <span className="sepet_urun_ad">
-                            {e.ad}
-                          </span>
-                          <span className="sepet_urun_fiyat">
-                            {e.fiyat} ₺
-                          </span>
-                          <span className="sepet_urun_adet">
-                            {e.miktar} X {e.net}
-                          </span>
-                        </div>
-                        <span className="sepet_urun_ucret">
-                            {e.ucret}₺
-                          </span>
-                        <span className="sepet_urun_remove">
-                          <Icon onClick={()=>this.props.urunÇıkart(e)} icon='close'/>
-                        </span>
-                      </div>
-                    ))
-                  }
+                    <Sepet {...this.props}/>
                   </>
-                  {
-                    this.props.sepet.length> 0 ?
-                      <div className="tamamla">
-                        <button onClick={()=> this.props.history.push('/siparis')} className="tamamla_buton">
-                          <a> Siparişi Tamamla</a>
-                          <span className="tamamla_ucret">
-                      {this.state.ucret}₺
-                    </span>
-                        </button>
-                      </div>
-                      :null
-                  }
+
                 </div>
 
               </div>

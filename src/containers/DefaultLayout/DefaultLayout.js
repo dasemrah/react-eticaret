@@ -11,8 +11,9 @@ import adminRoutes from "../../adminRoutes";
 import {Drawer, Alert} from "rsuite";
 import Sepet from "../../views/Pages/Sepet";
 import Disk from 'o.disk'
+import api from "../../istek";
 
-const data = require('../../data')
+
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 const AdminFooter   = React.lazy(()=>import('../AdminLayout/AdminFooter'))
@@ -191,7 +192,8 @@ class DefaultLayout extends Component {
   sepeteEkle=(urun)=>{
     console.log( urun)
     let urun_id=urun._id
-    const index= this.state.sepet.findIndex(p => p._id === urun_id)
+
+    const index = this.state.sepet.findIndex(p => p._id === urun_id)
     if(index === -1)
     {
       urun.miktar=1;

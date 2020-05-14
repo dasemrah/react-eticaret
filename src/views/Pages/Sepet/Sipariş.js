@@ -54,12 +54,25 @@ const Sipariş =props=>{
   const siparişTamamla=(yöntem,kapıdaYontemi)=>{
 
     console.log('yöntem ic fonk',yöntem, kapıdaYontemi)
+    let urunDizi=[]
+    props.sepet.map(e=>{
+      let urunNesne={
+        ad      : e.ad,
+        fiyat   : e.fiyat,
+        miktar  : e.miktar,
+        net     : e.net,
+        ucret   : e.ucret,
+        aktif   : e.aktif,
+        kategori: e.kategori
+      }
+      urunDizi.push(urunNesne)
+    })
     let veriler={
-      ad:   ad,
-      adres:il+' '+ilce+ ' '+mahalle+' '+tamAdres,
-      tel:  tel,
-      odeme_yontemi:yöntem,
-      kapıda       : kapıdaYontemi
+      ad            :  ad,
+      adres         :  il+' '+ilce+ ' '+mahalle+' '+tamAdres,
+      tel           :  tel,
+      odeme_yontemi :  yöntem,
+      kapıda        :  kapıdaYontemi
     }
 
     var ucret=0
@@ -72,7 +85,7 @@ const Sipariş =props=>{
           adres         :   veriler.adres,
           ucret         :   ucret,
           odeme_yontemi :   veriler.odeme_yontemi,
-          urunler       :   props.sepet,
+          urunler       :   urunDizi,
           kapida        :   veriler.kapıda,
           tarih         :   Date.now(),
           paket         :   paket,
