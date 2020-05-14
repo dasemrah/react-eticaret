@@ -5,23 +5,23 @@ import axios from "axios";
 import { Button} from "evergreen-ui";
 import {Input,TextArea, Image} from "semantic-ui-react";
 import ImageUploader from "react-images-upload";
-import { Modal, Toggle, Divider, Icon, Panel} from 'rsuite';
+import { Modal, Toggle, Divider, Icon, Panel, Placeholder} from 'rsuite';
 
 
 class Edit extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      ad        :'',
-      aciklama  :'',
-      fiyat     :0,
-      net       :'',
-      pictures  :[],
+      ad        : '',
+      aciklama  : '',
+      fiyat     : 0,
+      net       : '',
+      pictures  : [],
       url       : '',
       gorsel    : '',
-      success   :false,
+      success   : false,
       indirimde : Boolean,
-      imgData:Buffer
+      imgData   : ''
     }
   }
   componentWillReceiveProps(nextProps, nextContext) {
@@ -87,53 +87,65 @@ class Edit extends React.Component{
     const {urun} = this.props
     return(
       <div>
-        <Modal show={this.props.gorunme} onHide={()=>this.props.gizle()}>
+        <Modal size='lg' full show={this.props.gorunme} onHide={()=>this.props.gizle()}>
+          {
+            this.state.imgData?
+              <>
           <Modal.Header>
             <Modal.Title>Düzenle</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-
-            <Image src={this.state.imgData} size='tiny' style={{width:'40%', marginLeft:'30%'}} bordered/>
-            <ImageUploader
-              withIcon={true}
-              buttonText='Görsel Seç'
-              onChange={this.gorselSec}
-              imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
-              label="Maksimum görsel boytu 5 megabayt."
-              withPreview={true}
-              maxFileSize={5242880}
-              withLabel={true}
-              fileSizeError="Görsel Boyutu Çok Büyük"
-              singleImage={true}
-            />
-
-            <Input
-              fluid
-              placeholder={urun.ad}
-              value={ad}
-              onChange={e=>this.setState({ad:e.target.value})}
-            />
-            <br/>
-            <TextArea
-              placeholder={urun.aciklama}
-              value={aciklama}
-              onChange={e=>this.setState({aciklama:e.target.value})}
-              style={{ minHeight: 100,width:'100%' }}
-            />
-            <br/>
-            <Input
-              fluid
-              placeholder={urun.fiyat}
-              value={fiyat}
-              onChange={e=>this.setState({fiyat:e.target.value})}
-            />
-            <br/>
-            <Input
-              fluid
-              placeholder={urun.net}
-              value={net}
-              onChange={e=>this.setState({net:e.target.value})}
-            />
+            <Panel header='Ürün Görseli'>
+              {
+                this.state.imgData.length === 0?
+                  <Placeholder.Graph active/>
+                  :
+                  <>
+                    <Image src={this.state.imgData} size='tiny' style={{width:'40%', marginLeft:'30%'}} bordered/>
+                    <ImageUploader
+                      withIcon={true}
+                      buttonText='Görsel Seç'
+                      onChange={this.gorselSec}
+                      imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
+                      label="Maksimum görsel boytu 5 megabayt."
+                      withPreview={true}
+                      maxFileSize={5242880}
+                      withLabel={true}
+                      fileSizeError="Görsel Boyutu Çok Büyük"
+                      singleImage={true}
+                    />
+                  </>
+              }
+            </Panel>
+            <Panel header='Ürün Bilgileri' shaded>
+              <Input
+                fluid
+                placeholder={urun.ad}
+                value={ad}
+                onChange={e=>this.setState({ad:e.target.value})}
+              />
+              <br/>
+              <TextArea
+                placeholder={urun.aciklama}
+                value={aciklama}
+                onChange={e=>this.setState({aciklama:e.target.value})}
+                style={{ minHeight: 100,width:'100%' }}
+              />
+              <br/>
+              <Input
+                fluid
+                placeholder={urun.fiyat}
+                value={fiyat}
+                onChange={e=>this.setState({fiyat:e.target.value})}
+              />
+              <br/>
+              <Input
+                fluid
+                placeholder={urun.net}
+                value={net}
+                onChange={e=>this.setState({net:e.target.value})}
+              />
+            </Panel>
             <Divider/>
             <Panel header='Ürün Ayarları'>
               <span>Stok durumu <Toggle checked={urun.aktif} onChange={e=>this.props.stok(e)} checkedChildren={<Icon icon="check" />} unCheckedChildren={<Icon icon="close" />} /></span>
@@ -148,6 +160,9 @@ class Edit extends React.Component{
               İptal
             </Button>
           </Modal.Footer>
+          </>
+            : <Placeholder.Graph active/>
+          }
         </Modal>
       </div>
     )

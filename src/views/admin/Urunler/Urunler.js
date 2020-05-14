@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import {Col,Row} from 'reactstrap';
-import {Container, Grid, Image, List, Segment,} from 'semantic-ui-react';
-import {Alert} from "rsuite";
+import {Container, Grid, Image, List} from 'semantic-ui-react';
+import {Alert, Panel} from "rsuite";
 import api from "../../../istek";
 import {Button, SelectMenu} from "evergreen-ui";
 import Edit from './Edit'
@@ -119,7 +119,7 @@ class Urunler extends Component {
           <Row>
             {urunler.map(e=>
               <Col xs="12" md='6' lg='4' key={e._id}>
-                <Segment raised color="teal">
+                <Panel shaded>
                   <Grid>
                     <Grid.Column width={5}> <Image src={e.gorsel.data} rounded size='small'/></Grid.Column>
                     <Grid.Column width={11}>
@@ -143,7 +143,7 @@ class Urunler extends Component {
                       </List>
                     </Grid.Column>
                   </Grid>
-                </Segment>
+                </Panel>
                 <br/>
               </Col>
             )}
