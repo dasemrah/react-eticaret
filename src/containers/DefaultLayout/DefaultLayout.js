@@ -188,6 +188,12 @@ class DefaultLayout extends Component {
     const index = this.state.sepet.findIndex(p => p._id === urun_id)
     if(index === -1)
     {
+      api
+        .post('gorselver',{gorselID:urun.gorsel})
+        .then(cvp=>{
+          console.log('cvp', cvp.data.img)
+          urun.gorsel=cvp.data.img
+        })
       urun.miktar=1;
       urun.ucret=urun.miktar*urun.fiyat
       this.setState({
@@ -197,10 +203,6 @@ class DefaultLayout extends Component {
       Alert.success(urun.net+' '+ urun.ad+' eklendi',5000)
 
     }
-    else
-      {
-      this.mikarDeğiştir(1,urun)
-      }
   }
 
   ucret=()=> {

@@ -3,6 +3,7 @@ import {Icon} from "rsuite";
 import {Image} from "semantic-ui-react";
 import SepetGorsel from "./SepetGorsel";
 const Sepet = props=>{
+  console.log('sepet props',props.sepet)
   const [ucret, Ucret] = useState(0);
 
   useEffect(()=>{
@@ -15,13 +16,13 @@ const Sepet = props=>{
     <>
       {
         props.sepet.map(e=>(
-          <div className='sepet_eleman'>
+          <div key={e._id} className='sepet_eleman'>
             <div className="counter">
               <Icon className='sepet_count' icon='data-decrease' onClick={()=>props.miktarDeğiştir(-1,e)} />
               <span>{e.miktar}</span>
               <Icon className='sepet_count' icon='plus'  onClick={()=>props.miktarDeğiştir(1,e)} />
             </div>
-          <SepetGorsel {...props} urun={e}/>
+            <Image onClick={()=>props.urunAç(e)} size='mini' src={e.gorsel.data} className="sepet_gorsel" alt=""/>
             <div className="sepet_detay">
                           <span className="sepet_urun_ad">
                             {e.ad}

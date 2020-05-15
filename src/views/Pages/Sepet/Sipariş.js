@@ -57,13 +57,13 @@ const Sipariş =props=>{
     let urunDizi=[]
     props.sepet.map(e=>{
       let urunNesne={
+        _id     : e._id,
         ad      : e.ad,
         fiyat   : e.fiyat,
         miktar  : e.miktar,
         net     : e.net,
         ucret   : e.ucret,
         aktif   : e.aktif,
-        kategori: e.kategori
       }
       urunDizi.push(urunNesne)
     })
