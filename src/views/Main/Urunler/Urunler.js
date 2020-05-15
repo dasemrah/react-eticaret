@@ -1,26 +1,34 @@
 import React,{useState,useEffect} from 'react';
 import {Image, Grid} from 'semantic-ui-react'
-import {Panel, Placeholder} from "rsuite";
-import {IconButton, Icon , Animation, Message} from "rsuite";
+import {IconButton, Icon , Animation, Message, Panel, Placeholder} from "rsuite";
 import istek from '../../../istek';
 const Urunler =props=>{
   const [beğenilmiş,setBeğenilmiş] = useState(false)
-  const [sepetteymiş,setSepette]       = useState(false)
   const [yerlesim, Yerlesim] = useState('')
-  const [goster, Goster] =useState(false)
+  const [goster, Goster] =useState(true)
   const [gorsel, Gorsel] = useState('');
+  const [animasyon, Animasyon] = useState('')
+  const [sepette, Sepette] = useState(Boolean)
+  const [miktar, Miktar]  = useState(0)
   useEffect(()=>{
     istek
       .post('gorselver',{gorselID:props.urun.gorsel})
       .then(cvp=>Gorsel(cvp.data.img.data))
     var sepetsırası = props.sepet.findIndex(p=>p._id===props.urun._id);
+
     if(sepetsırası>-1){
-      setSepette(true)
+      Sepette(true)
+      Miktar(props.sepet[sepetsırası].miktar)
+    }else {
+      Sepette(false)
     }
-  },[])
+  })
+
+
+
   const sepetEkle=(urun)=>{
     props.sepeteEkle(urun)
-    Goster(true)
+    Goster(false)
   }
 
   const {Slide} = Animation
@@ -30,9 +38,19 @@ const Urunler =props=>{
       <Panel className="urun_card" >
         <Grid>
           <Grid.Column width={16}>
-            {gorsel.length ===0  ? <Placeholder.Graph active/> :
+            {gorsel.length ===0  ?
+              <Placeholder.Graph active/> :
+              <>
               <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={gorsel} style={{width: '100%'}}
                      rounded size='small'/>
+                { /*
+                  <Slide timeout={5000} onExited={()=>Goster(true)} className={(goster ? 'kayan_gorsel_gizli' : 'devam_ediyor')+' '+(animasyon)} in={goster} placement={'bottom'}>
+                    {(props, ref) =><Image {...props} ref={ref} src={gorsel} />}
+                  </Slide>
+                  */
+                }
+
+              </>
             }
             {
               props.urun.indirimde ?  <span className="indirim">İndirimde</span> : null
@@ -49,7 +67,19 @@ const Urunler =props=>{
               </div>
               {
                 props.urun.aktif ?
-                  <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} circle />
+                  <>
+                    {
+                      sepette ?
+                        <div className="urun_counter_katman">
+                            <Icon className='urun_counter' icon='data-decrease' onClick={()=>props.miktarDeğiştir(-1,props.urun)} />
+                          <span>{miktar}</span>
+                            <Icon className='urun_counter' icon='plus'  onClick={()=>props.miktarDeğiştir(1,props.urun)} />
+                        </div>
+                        :
+                        <IconButton onClick={()=>sepetEkle(props.urun)} icon={<Icon className="urun_buton" icon="shopping-basket" />} circle />
+
+                    }
+                  </>
                   :
 
                   <Message

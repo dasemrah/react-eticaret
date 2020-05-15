@@ -6,8 +6,6 @@ const Sepet = props=>{
   const [ucret, Ucret] = useState(0);
 
   useEffect(()=>{
-    console.log('sepet içeriği',props.sepet)
-
     var toplam=0
     props.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
     Ucret(toplam)

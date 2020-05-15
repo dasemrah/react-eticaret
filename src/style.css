@@ -492,6 +492,73 @@
   color: rgb(119, 121, 140);
   margin-left: auto;
 }
+
+.devam_ediyor{
+  left: 0;
+  height: 75px;
+  width: 40%;
+  min-width: 75px !important;
+  border-radius: 75px;
+  margin-left: 30%;
+  position: sticky !important;
+  animation-fill-mode: both !important;
+  animation-duration: 800ms !important;
+  animation-delay: 150ms !important;
+  animation-iteration-count: 1 !important;
+  opacity: 1 !important;
+  box-shadow: 10px 14px 23px 0px rgba(0,0,0,0.75);
+}
+.kayan_gorsel_gizli{
+  width: 0;
+  height: 0;
+  display: none;
+  visibility: hidden;
+}
+.bitti{
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.devam_ediyor{
+  border-radius: 100px;
+  animation-duration: 0.5s;
+  box-shadow: 10px 14px 23px 0px rgba(0,0,0,0.75);
+}
+.urun_counter_katman{
+  display: flex;
+  background-color: rgb(0, 158, 127);
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+  font-weight: 700;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 104px;
+  height: 36px;
+  border-radius: 200px;
+  overflow: hidden;
+}
+.urun_counter{
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  padding: 10px;
+  font-weight: 100 !important;
+}
 @media screen and (max-width: 767px){
   .sepet_kapsam{
     max-height: 370px;
