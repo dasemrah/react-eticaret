@@ -175,19 +175,11 @@ class DefaultLayout extends Component {
   }
 
   urunAç=(urun)=>{
-    let {kategori} = urun
-    istek
-      .post('/benzer', {kategori,urun})
-      .then(ynt => {
-        let {benzer,tercih} = ynt.data
-        this.setState({
-           benzer:benzer,
-           tercih:tercih,
-           seciliUrun:urun,
-            urunGoster:true,
-          aramaGörünürlük:false
-        })
-      })
+    this.setState({
+      seciliUrun:urun,
+      urunGoster:true,
+      aramaGörünürlük:false
+    })
   }
   sepeteEkle=(urun)=>{
     console.log( urun)
