@@ -24,7 +24,9 @@ class Main extends React.Component{
       sepetToggle:false,
       olay:0,
       yerlesim:'bottom',
-      seciliGorsel:''
+      seciliGorsel:'',
+      sepette:Boolean,
+      miktar:0
     }
   }
 
@@ -49,8 +51,6 @@ class Main extends React.Component{
   }
   etiketBul(kategori_ID){
     let index = this.props.kategoriler.findIndex(p=>p._id === kategori_ID)
-    console.log('index',index)
-    console.log('ad',this.state.kategoriler[index].ad)
     this.setState({etiket:this.state.kategoriler[index].ad})
   }
 
@@ -63,6 +63,19 @@ class Main extends React.Component{
       })
     var toplam=0
     nextProps.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
+    ////
+    var sepetsırası = nextProps.sepet.findIndex(p=>p._id===nextProps.seciliUrun._id);
+    if(sepetsırası>-1){
+      this.setState({
+        sepette:true,
+        miktar:nextProps.sepet[sepetsırası].miktar
+      })
+    }else {
+     this.setState({
+       sepette:false
+     })
+    }
+    /////
     this.setState({
       kategoriler:nextProps.kategoriler,
       kategori:nextProps.kategori,
@@ -122,10 +135,21 @@ class Main extends React.Component{
                     <div className="jiwWyF ">
                       {
                         this.props.seciliUrun.aktif ?
-                          <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
-                            <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
-                            <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
-                          </div>
+                          <>
+                            {this.state.sepette ?
+                              <div className="urun_counter_katman">
+                                <Icon className='urun_counter' icon='data-decrease' onClick={()=>this.props.miktarDeğiştir(-1,this.props.seciliUrun)} />
+                                <span>{this.state.miktar}</span>
+                                <Icon className='urun_counter' icon='plus'  onClick={()=>this.props.miktarDeğiştir(1,this.props.seciliUrun)} />
+                              </div>
+                            :
+                              <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
+                                <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                                <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
+                              </div>
+                            }
+
+                          </>
                           :
                           <Message
                             showIcon

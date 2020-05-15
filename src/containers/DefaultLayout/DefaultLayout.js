@@ -193,7 +193,6 @@ class DefaultLayout extends Component {
       this.setState({
         sepet:[...this.state.sepet,urun],
         toplam:urun.miktar+this.state.toplam,
-        urunGoster:false,
       })
       Alert.success(urun.net+' '+ urun.ad+' eklendi',5000)
 
@@ -232,9 +231,7 @@ class DefaultLayout extends Component {
     {
       this.urunÇıkart(urun)
     }
-    this.setState({
-      urunGoster:false
-    });
+
     this.toplamHesapla();
   }
   toplamHesapla=()=>{
