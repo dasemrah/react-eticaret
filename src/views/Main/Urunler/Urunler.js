@@ -11,9 +11,10 @@ const Urunler =props=>{
   const [sepette, Sepette] = useState(Boolean)
   const [miktar, Miktar]  = useState(0)
   useEffect(()=>{
-    istek
-      .post('gorselver',{gorselID:props.urun.gorsel})
-      .then(cvp=>Gorsel(cvp.data.img.data))
+
+    if(props.urun?.gorsel?.data){
+      Gorsel(props.urun.gorsel.data)
+    }
     var sepetsırası = props.sepet.findIndex(p=>p._id===props.urun._id);
 
     if(sepetsırası>-1){

@@ -121,7 +121,7 @@ class Urunler extends Component {
               <Col xs="12" md='6' lg='4' key={e._id}>
                 <Panel shaded>
                   <Grid>
-                    <Grid.Column width={5}> <Image src={e.gorsel.data} rounded size='small'/></Grid.Column>
+                    <Grid.Column width={5}> <Image src={e.gorsel?.data} rounded size='small'/></Grid.Column>
                     <Grid.Column width={11}>
                       <List>
                         <List.Item><span className="text-dark h6 text-uppercase text-center floated">{e.ad}</span></List.Item>

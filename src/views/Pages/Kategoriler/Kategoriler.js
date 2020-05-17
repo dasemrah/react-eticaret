@@ -25,6 +25,7 @@ class Kategoriler extends React.Component{
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+
     this.setState({
       kategori:nextProps.kategori,
       urunler:nextProps.urunler,
@@ -38,6 +39,8 @@ class Kategoriler extends React.Component{
       active:activeKey
     })
   }
+
+
   render() {
     const {active} = this.state
     const styles = { width: 100 };

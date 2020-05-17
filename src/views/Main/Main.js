@@ -55,12 +55,7 @@ class Main extends React.Component{
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    api
-      .post('gorselver',{gorselID:nextProps.seciliUrun.gorsel})
-      .then(cvp=>{
-        console.log('seçili değişim')
-        this.setState({seciliGorsel:cvp.data.img.data})
-      })
+
     var toplam=0
     nextProps.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
     ////
@@ -108,7 +103,7 @@ class Main extends React.Component{
            <div className="tek_urun">
             <Row>
               <Col xs='12' lg='6' md='6'>
-                <Magnifier src={this.state.seciliGorsel} width={500} />
+                <Magnifier src={this.props.seciliUrun.gorsel?.data} width={500} />
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">
@@ -144,7 +139,7 @@ class Main extends React.Component{
                               </div>
                             :
                               <div onClick={()=>this.props.sepeteEkle(this.props.seciliUrun)} className="EWA-dv">
-                                <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} color="white" circle />
+                                <IconButton  icon={<Icon className="urun_buton" icon="shopping-basket" />} circle />
                                 <span className="tek_urun_sepete_ekle">Sepete Ekle</span>
                               </div>
                             }

@@ -63,10 +63,19 @@ class DefaultLayout extends Component {
         urunler:ynt.data.foundUrun[4].urunler,
         kategori:ynt.data.foundUrun[4].ad
       })
+     this.gorselAl(ynt.data.foundUrun[4]._id)
     }).catch((err)=>console.log(err));
 
   }
-
+  gorselAl(kategori_id){
+    istek
+      .get('kategori/'+kategori_id)
+      .then(cvp=>{
+        if(cvp.data.status===true){
+          this.setState({urunler:cvp.data.urunler})
+        }
+      })
+  }
   aramaAçKapa=()=>{
     this.setState({
       aramaGörünürlük:!this.state.aramaGörünürlük
@@ -85,7 +94,9 @@ class DefaultLayout extends Component {
       urunler:secim.urunler,
       yanMenu:false
     })
+    this.gorselAl(secim._id)
   }
+
   sayfa=(e)=>{
     this.setState({
       listeAktif:e,
@@ -180,9 +191,18 @@ class DefaultLayout extends Component {
       urunGoster:true,
       aramaGörünürlük:false
     })
+    if(urun.gosel?.data===undefined){
+      api
+        .post('gorselver',{gorselID:urun.gorsel})
+        .then(cvp=>{
+          urun.gorsel=cvp.data.img
+          this.setState({
+            seciliUrun:urun
+          })
+        })
+    }
   }
   sepeteEkle=(urun)=>{
-    console.log( urun)
     let urun_id=urun._id
 
     const index = this.state.sepet.findIndex(p => p._id === urun_id)
@@ -191,7 +211,6 @@ class DefaultLayout extends Component {
       api
         .post('gorselver',{gorselID:urun.gorsel})
         .then(cvp=>{
-          console.log('cvp', cvp.data.img)
           urun.gorsel=cvp.data.img
         })
       urun.miktar=1;
