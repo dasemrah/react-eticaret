@@ -30,12 +30,18 @@ class Sorgula extends Component{
        })
        istek.get('/sorgula/'+this.state.numara).then(res=>{
          console.log(res.data)
+        res.data.map(e=>{
+          if(e.odeme === 'kapıda' && e.durum === 0) {
+            e.durum=1
+          }
+        })
+
          this.setState({
            sonuc:res.data,
            olay:2,
            adım:res.data.durum
          })
-
+        console.log('state de',this.state.sonuc)
        })
      }
 
@@ -43,7 +49,11 @@ class Sorgula extends Component{
        const Adımlar = (e)=>(
          <Steps vertical current={e.durum}>
            <Steps.Item  title={'Siparişiniz alındı'} />
-           <Steps.Item  title={'Ödemeniz alınmıştır'} />
+           {
+             e.siparis.odeme === 'havale' ?
+               <Steps.Item  title={'Ödemeniz alınmıştır'} />
+               : <Steps.Item  title={'Kapıda Ödeme Seçildi'} />
+           }
            <Steps.Item  title={'Hazırlanıyor'} />
            <Steps.Item  title={'Hazırlandı'} />
            <Steps.Item  title={'Kargo için beklemede'} />
@@ -74,7 +84,7 @@ class Sorgula extends Component{
        const siparisView =this.state.sonuc.map((sip)=>
          <>
            <Col xs='12' lg='3' md='3'>
-             <Adımlar durum={sip.durum}/>
+             <Adımlar siparis={sip} durum={sip.durum}/>
            </Col>
          <Col md="9" lg="9" xs="12">
            <Panel style={{backgroundColor:'white'}} shaded>
