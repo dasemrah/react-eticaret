@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
 import { Header, List} from 'semantic-ui-react'
 import { Menu,toaster ,TextInput, Textarea ,Pane ,Label,} from 'evergreen-ui'
-import {Steps, Panel ,Message, Icon, Modal, Button} from "rsuite";
+import {Steps, Panel ,Message, Icon, Modal, Button, Notification} from "rsuite";
 import api from "../../../istek";
 
 
@@ -27,7 +27,26 @@ const Sipariş =props=>{
   const onChange = nextStep => {
     setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
   };
-
+  const Ucretlendirme= ()=>(
+    <Panel>
+      <Message
+        description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
+      />
+      <List>
+        <List.Item>1-5 kg arası 13.60 ₺</List.Item>
+        <List.Item>5-10 kg arası 19.87 ₺</List.Item>
+        <List.Item>10-15 kg arası 27 ₺</List.Item>
+        <List.Item>15-20 kg arası 29.30 ₺</List.Item>
+      </List>
+    </Panel>
+  )
+  function KargoBildirim() {
+    Notification.open({
+      title: 'Kargo ücretlendirmesi',
+      duration:7500,
+      description:<Ucretlendirme/>
+    });
+  }
   useEffect(()=>{
       console.log('kategoriler',props.kategoriler)
       props.kategoriler.map(e=>{
@@ -226,35 +245,31 @@ const Sipariş =props=>{
         description="Siparişlerin hazırlanmaya başlanması için sipariş ücretini ödemeniz gerekmekte.
         Mağazamızın anlaşmalı hesaplarına sipariş ücretini ödeyebilirsiniz. Ödemeyi yaptıktan sonra bize haber veriniz. "
       />
+      <Panel>
+        <Button onClick={KargoBildirim} color="blue" >
+          <Icon icon="info"  /> Kargo Ücretlendirmesi
+        </Button>
+      </Panel>
       <List>
         <List.Item>
-          <Header block as='a' textAlign='center' dividing>
-            Ziraat Bankası
-            <Header.Subheader>
-              <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
-              <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
-              <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
-              <span> SEVGÜL BATUR</span>
-            </Header.Subheader>
-          </Header>
+          <Panel header='Ziraat Bankası'>
+            <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
+            <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
+            <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
+            <span> SEVGÜL BATUR</span>
+          </Panel>
         </List.Item>
         <List.Item>
-          <Header as='a' block textAlign='center'>
-            Garanti Bankası
-            <Header.Subheader>
-              <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
-              <span>Sevgül Batur</span>
-            </Header.Subheader>
-          </Header>
+          <Panel header='Garanti Bankası'>
+            <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
+            <span>Sevgül Batur</span>
+          </Panel>
         </List.Item>
         <List.Item>
-          <Header as='a' block textAlign='center'>
-            İş Bankası
-            <Header.Subheader>
-              <span> IBAN:TR380006400000130211158527</span><br/>
-              <span>Sevgül Batur</span>
-            </Header.Subheader>
-          </Header>
+          <Panel header='İş Bankası'>
+            <span> IBAN:TR380006400000130211158527</span><br/>
+            <span>Sevgül Batur</span>
+          </Panel>
         </List.Item>
       </List>
     </Panel>
