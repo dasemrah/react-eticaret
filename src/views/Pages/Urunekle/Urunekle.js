@@ -1,12 +1,13 @@
 import React,{Component} from 'react';
-import {Row, Col,CardHeader,CardBody,Toast,ToastHeader,ToastBody, Card, Input, InputGroup, InputGroupText, InputGroupAddon,Button} from 'reactstrap';
-import istek from '../../../istek';
 import axios from 'axios';
-import ImageUploader from 'react-images-upload';
-import {Alert,Popover,Menu} from "evergreen-ui";
-import {Label} from "semantic-ui-react";
-import {Drawer} from "rsuite";
+import istek from '../../../istek';
 
+
+import {CardHeader,CardBody,Toast,ToastHeader,ToastBody, Card, InputGroup, InputGroupAddon,Button} from 'reactstrap';
+import {Drawer, Panel, Input ,Message, Alert, Dropdown} from "rsuite";
+import ImageUploader from 'react-images-upload';
+import {Image} from "semantic-ui-react";
+import {Pane} from "evergreen-ui";
 
 class Urunekle extends Component{
   constructor(props){
@@ -17,10 +18,9 @@ class Urunekle extends Component{
       aciklama:'',
       fiyat:'',
       net:  '',
-      pictures:[],
-      success : false,
-      url : "",
-      file_url:'',
+      gorsel:'',
+      imgData:'',
+      status : false,
       olay:0,
       kategoriler:[],
       kategori:'',
@@ -29,11 +29,7 @@ class Urunekle extends Component{
       loading:0,
       modal:false,
       yeni_urun:'',
-      resim:''
     };
-    this.handleChange=this.handleChange.bind(this);
-
-
   }
   componentDidMount() {
     istek.get('/kategoriler').then(ynt=>{
@@ -41,100 +37,53 @@ class Urunekle extends Component{
       this.setState({kategoriler:ynt.data})
     })
   }
-
-  handleChange(e){
-    let {name,value}=e.target;
-    this.setState({
-      [name]:value
-    })
-    console.log(this.state)
+  componentWillUpdate(nextProps, nextState, nextContext) {
+    console.log('state',this.state)
   }
+
   setModal=()=>{
     this.setState({
       modal:!this.state.modal,
       yenikategori:''
     });
   }
-
-
   gorselSec=(picture)=>{
-    this.state.pictures.push(picture[0]);
-    this.setState({
-      url:"",
-      success:false
-    })
-  }
-  handleUpload = (ev) => {
-    this.setState({
-      loading:1
-    })
-    console.log('Resimler:---->',this.state.pictures);
-    let file = this.state.pictures[0];
+    let {name, type} = picture[0]
+    let imageData=Buffer
+    console.log('dosya bilgileri',name,'---->',type)
+    let okuyucu=new FileReader()
+    okuyucu.readAsDataURL(picture[0])
+    okuyucu.onload=()=>{
+      istek
+        .post('yukle',{
+          name,
+          type,
+          data:okuyucu.result
+        })
+        .then(ynt=>{
+          console.log('kayıtlı veri-->',ynt.data.img._id)
 
-    // Split the filename to get the name and type
-    let fileName = file.name;
-    let fileType = file.type;
-    console.log("Preparing the upload");
-
-    istek.post('/sign',{
-      fileName : fileName,
-      fileType : fileType
-    })
-      .then(response => {
-        var returnData = response.data.data.returnData;
-        console.log('return data: ',response.data)
-        var signedRequest = returnData.signedRequest;
-        var url = returnData.url;
-        this.setState({url: url})
-        console.log("Recieved a signed request " + signedRequest);
-
-        // Put the fileType in the headers for the upload
-        var options = {
-          headers: {
-            'Content-Type': fileType
-          }
-        };
-        axios.put(signedRequest,file,options)
-          .then(result => {
-            console.log("Response from s3")
-            console.log(result)
-
-            let fileUrl=result.config.url.slice(0,result.config.url.indexOf('?'))
-            console.log('Dosya adresi: ',fileUrl);
-            this.setState({
-              success: true,
-              file_url:fileUrl
-            });
-
-            istek.post('/urunekle',this.state)
-              .then(ynt=>{
-                console.log('ürün eklendi dönen yanıt:>>>>>>>>>',ynt.data)
-                  this.setState({
-                    yeni_urun:ynt.data
-                  })
-                console.log(ynt)
-              })
-              .catch(err=>console.log(err))
-
-
+          this.setState({
+            imgData : ynt.data.img.data,
+            gorsel  : ynt.data.img
           })
-
-          .catch(error => {
-            console.log(error)
-          })
-
-
-
-
-      })
-      .catch(error => {
-        console.log(error)
-      })
-
-
-
+        })
+        .catch(err=>console.log(err))
+    }
+    okuyucu.onerror=err=>console.log(err)
 
   }
+
+  urunuKaydet = () => {
+    istek
+      .post('/urunekle',this.state)
+      .then(ynt=>{
+        console.log('ürün eklendi dönen yanıt:>>>>>>>>>',ynt.data)
+        this.setState({yeni_urun:ynt.data.urun, status:ynt.data.status})
+        console.log(ynt)})
+      .catch(err=>console.log(err))
+  }
+
 
   kategorisec=(id,kategori)=>{
     this.setState({
@@ -158,178 +107,138 @@ class Urunekle extends Component{
       yenikategori:event.target.value
     })
   }
+
  render() {
-   const SuccessMessage = () => (
+   const {ad, net, fiyat, aciklama, kategori, imgData} = this.state
+   const Başarılı = () => (
       <>
-        <Card>
-          <CardHeader>
-           <Alert className="text-dark text-capitalize h3 alert-info">Yeni Ürün Oluşturuldu</Alert>
-          </CardHeader>
-          <CardBody>
-            <Toast>
-              <ToastHeader>
-                <span><i className="icon-bag"></i>{this.state.yeni_urun.ad}</span>
-              </ToastHeader>
-              <ToastBody>
+        <Panel header='Yeni ürün eklendi'>
+                <p><i className="icon-bag"></i>{this.state.yeni_urun.ad}</p>
                 <p><i className="icon-tag"></i>{this.state.yeni_urun.aciklama}</p>
                 <p><i className="icon-credit-card"></i>{this.state.yeni_urun.fiyat}</p>
-                <img src={this.state.yeni_urun.img} style={{widht:'55px'}} className="img-thumbnail" alt=""/>
-              </ToastBody>
-            </Toast>
-          </CardBody>
-        </Card>
+                <img src={this.state.imgData} style={{widht:'55px'}} className="img-thumbnail" alt=""/>
+        </Panel>
 
       </>
    )
+  const KategoriSecici =()=>(
+    <div className="kategori_secici">
+      <Dropdown placement='topStart' title={this.state.kategori.length>0 ? this.state.kategori : 'Kategori seç'}>
+        {
+          this.state.kategoriler.map(e=>(
+            <Dropdown.Item  onSelect={()=>this.kategorisec(e._id,e.ad)}>{e.ad}</Dropdown.Item>
+          ))
+        }
+      </Dropdown>
+    </div>
+  )
+   const GörselYükleyici = () =>(
+    <Panel title={'Ürün görseli'} style={{backgroundColor:'white'}}>
+      <ImageUploader
+        withIcon={true}
+        buttonText={this.state.imgData.length > 0 ? 'Değiştir' : 'Görsel Seç'}
+        onChange={this.gorselSec}
+        imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
+        label="Görsel boyutu en falza 150kb olmalı"
+        withPreview={true}
+        maxFileSize={250000}
+        withLabel={true}
+        fileSizeError="Görsel Boyutu Çok Büyük"
+        singleImage={true}
+      />
+      <Image src={this.state.imgData} size='small' style={{width:'100%'}}/>
+    </Panel>
+   )
 
+   const YeniKategoriEkletici = () => (
+     <Drawer size='xs' show={this.state.modal}
+             onHide={()=>this.setModal()} className="modal-warning">
+       <Drawer.Header>
+         <Drawer.Title>
+           Yeni Kategori Ekle
+         </Drawer.Title>
+       </Drawer.Header>
+       <Drawer.Body>
+         <InputGroup>
+           <InputGroupAddon addonType="append" >
+             Kategori Adı
+           </InputGroupAddon>
+           <Input value={this.state.yenikategori} placeholder="ad gir" type="text" onChange={this.kategoriChange}/>
+         </InputGroup>
+       </Drawer.Body>
+       <Drawer.Footer>
+         {this.state.yenikategori.length>0 ?
+           <Button color="primary" onClick={()=>this.kategoriEkle()}><i className="icon-plus">Kategoriyi Kaydet</i></Button>
+           :null}
+         <Button color="danger" onClick={()=>this.setModal()}>İptal</Button>
+       </Drawer.Footer>
+     </Drawer>
+   )
     return(
-      <>
-        <Drawer size='xs' show={this.state.modal}
-               onHide={()=>this.setModal()} className="modal-warning">
-          <Drawer.Header>
-            <Drawer.Title>
-              Yeni Kategori Ekle
-            </Drawer.Title>
-          </Drawer.Header>
-          <Drawer.Body>
-            <Alert
-              intent="none"
-              title="Kategori adını yazıp ekleyiniz"
-              marginBottom={32}
-            />
-              <InputGroup>
-                <InputGroupAddon addonType="append" >
-                  Kategori Adı
-                </InputGroupAddon>
-                <Input value={this.state.yenikategori} placeholder="ad gir" type="text" onChange={this.kategoriChange}/>
-              </InputGroup>
-          </Drawer.Body>
-          <Drawer.Footer>
-            {this.state.yenikategori.length>0 ?
-              <Button color="primary" onClick={()=>this.kategoriEkle()}><i className="icon-plus">Kategoriyi Kaydet</i></Button>
-            :null}
-            <Button color="danger" onClick={()=>this.setModal()}>İptal</Button>
-          </Drawer.Footer>
-        </Drawer>
-        <>
-          <Row>
+
+
+        <div>
             {
-              this.state.success ?
-               <SuccessMessage/>
+              this.state.status === true ?
+               <Başarılı/>
                 :
-                <Col xs="12">
+                <>
+                  <YeniKategoriEkletici/>
 
-                  <Card>
-                    <ToastHeader>
-                      <h1>Ürün Ekle</h1>
-                    </ToastHeader>
-                    <ToastBody>
-                      <Alert
-                        intent="none"
-                        title="Ürün bilgilerini girip yan taraftan kategori seçimi yapınız"
-                        marginBottom={32}
-                      />
-                      <InputGroup>
-                        <Popover
-                          content={
-                            <Menu>
-                              <Menu.Group>
-                                {this.state.kategoriler.map(kategori=>
-                                  <Menu.Item onSelect={()=>this.kategorisec(kategori._id,kategori.ad)}>{kategori.ad}
-                                    <Label circular key={kategori._id}>
-                                      {kategori.urunler.length}
-                                    </Label>
-                                  </Menu.Item>
-                                )}
-                              </Menu.Group>
-                              <Menu.Divider />
-                              <Menu.Group>
-                                <Menu.Item icon="plus" intent="warning" onSelect={this.setModal}>
-                                  Kategori Ekle...
-                                </Menu.Item>
-                              </Menu.Group>
-                            </Menu>
-                          }
-                        >
-                          <Button>{this.state.kategori.length>0 ? <span>{this.state.kategori}</span>:  <span>Kategori Seç</span>}</Button>
-                        </Popover>
-                      </InputGroup>
-                      <br/>
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-user"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input name="ad" value={this.state.ad} onChange={this.handleChange} type="text" placeholder="Ürün Adı" autoComplete="text" />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-info"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input name="net" value={this.state.net} onChange={this.handleChange} type="text" placeholder="Ürün miktarı gram" autoComplete="text" />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-tag"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input name="aciklama" value={this.state.aciklama} onChange={this.handleChange} type="text" placeholder="Ürün Bilgisi" autoComplete="text" />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-credit-card"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input name="fiyat" value={this.state.fiyat} onChange={this.handleChange} type="number" placeholder="Fiyat" autoComplete="text" />
-                      </InputGroup>
-                      <ImageUploader
-                        withIcon={true}
-                        buttonText='Görsel Seç'
-                        onChange={this.gorselSec}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
-                        label="Maksimum görsel boytu 5 megabayt."
-                        withPreview={true}
-                        maxFileSize={5242880}
-                        withLabel={true}
-                        fileSizeError="Görsel Boyutu Çok Büyük"
-                        singleImage={true}
-                      />
-
-
-
-                      {this.state.file_url.length>0 ?
-                        <img style={{maxWidht:'55px'}} src={this.state.url} alt=""/>
-                      :null}
-
-                    </ToastBody>
+                  <Panel className="urun_ekle_katman" header='Yeni ürün ekle'>
+                    <GörselYükleyici/>
                     <br/>
-                    {this.state.kategori.length>0 ?
-                      <Button color="warning" onClick={this.handleUpload}>
-                        {this.state.loading ===0 ?  <>Gönder <i className="icon-rocket"></i></>
-                          :<p>Yükleniyor...</p>
-                        }
-                      </Button>
-                      :null
-                    }
-                  </Card>
-
-                </Col>
-
+                    <br/>
+                    <Panel className="urun_bilgisi" style={{backgroundColor:'white'}} title={'Ürün bilgisi'}>
+                      <Input
+                        name="ad"
+                        value={this.state.ad}
+                        onChange={e=>this.setState({ad:e})}
+                        type="text"
+                        placeholder="Ürün Adı"
+                        width={300}
+                      />
+                      <Input
+                        name="net"
+                        value={this.state.net}
+                        onChange={e=>this.setState({net:e})}
+                        type="text"
+                        placeholder="Paket miktarı"
+                      />
+                      <Input
+                        name="aciklama"
+                        value={this.state.aciklama}
+                        onChange={e=>this.setState({aciklama:e})}
+                        type="text"
+                        placeholder="Ürünün detaylı açıklaması"
+                        componentClass="textarea"
+                        rows={3}
+                        style={{ width: '100%', resize: 'auto' }}
+                      />
+                      <Input
+                        name="fiyat"
+                        value={this.state.fiyat}
+                        onChange={e=>this.setState({fiyat:e})}
+                        type="number"
+                        placeholder="Ürün fiyatı"
+                      />
+                    </Panel>
+                    <br/>
+                    <KategoriSecici/>
+                    <br/>
+                  </Panel>
+                  {
+                    ad.length > 0 && net.length > 0 && fiyat.length > 0 && aciklama.length > 0 && kategori.length > 0 && imgData.length > 0 ?
+                      <div className="urun_ekle_alt">
+                        <button onClick={()=>this.urunuKaydet()} className="urun_olustur_butonu">
+                          Ürünü Oluştur
+                        </button>
+                      </div>
+                      : null
+                  }
+                  </>
             }
-
-          </Row>
-        </>
-
-      </>
-
+        </div>
     )};
 
 

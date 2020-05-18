@@ -559,7 +559,72 @@
   padding: 10px;
   font-weight: 100 !important;
 }
+.urun_bilgisi >.rs-panel-body> input{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.urun_ekle_alt{
+  padding: 20px 30px;
+  position: fixed;
+  bottom: 0;
+  width: 120%;
+  margin-left: -10%;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 3px;
+  background-color: rgb(255, 255, 255);
+}
+.urun_olustur_butonu{
+  width: 50%;
+  background-color: rgb(0, 197, 141);
+  color: rgb(255, 255, 255);
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  margin-right: 0px;
+  margin-left: 10%;
+  cursor: pointer;
+  transition-property: background;
+  -webkit-appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+  outline: none;
+  border-style: none;
+  border-width: 0px;
+  line-height: 24px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+urun_ekle_katman{
+
+  height: 100%;
+  overflow: auto;
+  margin-bottom: 25px;
+}
+.kategori_secici{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.kategori_secici > div > ul {
+  width: 250px !important;
+
+}
 @media screen and (max-width: 767px){
+  .urun_ekle_katman{
+    width: 100%;
+  }
   .sepet_kapsam{
     max-height: 370px;
   }
@@ -622,7 +687,10 @@
   }
 }
 @media screen and (min-width: 767px) {
-
+  .urun_ekle_katman{
+    width: 80%;
+    margin-left: 10%;
+  }
   .sepet_dar_ekran{
     visibility: hidden;
     display: none;
