@@ -157,15 +157,26 @@ const Sipariş =props=>{
               <span className="siparis_ucret_eleman_baslik">Ara Toplam</span>
               <span className="siparis_ucret_eleman_icerik">{ödendi ? siparis.ucret : ücret} ₺</span>
             </div>
-            <div className="siparis_ucret_eleman">
-              <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
-              <span className="siparis_ucret_eleman_icerik">
+            {
+              ödendi ?
+                <div className="siparis_ucret_eleman">
+                  <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
+                  <span className="siparis_ucret_eleman_icerik">
                 {
                   paket ? <>Ücretsiz</>
-                    : <>15 ₺</>
-                  }
+                    : siparis.odeme === 'kapıda' ? <>15 ₺</> : <> Alıcı Ödemeli</>
+                }
               </span>
-            </div>
+                </div>
+                :
+                paket ?
+                <div className="siparis_ucret_eleman">
+                  <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
+                  <span className="siparis_ucret_eleman_icerik">Ücretsiz</span>
+                </div>
+                  :null
+
+            }
             {
               ödendi ?
                 siparis.odeme === 'kapıda' ?
@@ -182,11 +193,11 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(paket ? 0 : 15)} ₺
+                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(paket ? 0 : siparis.odeme==='kapıda' ? 15 : 0)} ₺
                     </>
                     :
                     <>
-                      {ücret+(paket ? 0 : 15)} ₺
+                      {ücret} ₺
                     </>
                 }
               </span>
