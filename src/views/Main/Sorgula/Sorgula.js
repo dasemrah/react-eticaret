@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Row,Col,Spinner} from 'reactstrap';
 import {Segment, Header, List, Container} from "semantic-ui-react";
-import {Alert, Button, Table} from 'evergreen-ui'
-import {Panel, Message, Steps, Input, InputGroup, Icon} from "rsuite";
+import { Table} from 'evergreen-ui'
+import {Panel, Message, Steps, Input, InputGroup, Icon, Notification, Button} from "rsuite";
 import istek from '../../../istek'
 import '../../../style.css'
 class Sorgula extends Component{
@@ -46,6 +46,46 @@ class Sorgula extends Component{
      }
 
      render() {
+       const Ucretlendirme= ()=>(
+         <Panel>
+          <Panel header='Kargo bilgisi'>
+            <Message
+              description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
+            />
+            <List>
+              <List.Item>1-5 kg arası 13.60 ₺</List.Item>
+              <List.Item>5-10 kg arası 19.87 ₺</List.Item>
+              <List.Item>10-15 kg arası 27 ₺</List.Item>
+              <List.Item>15-20 kg arası 29.30 ₺</List.Item>
+            </List>
+          </Panel>
+           <Panel header='Mağaza heapları'>
+             <List>
+               <List.Item>
+                 <Panel header='Ziraat Bankası'>
+                   <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
+                   <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
+                   <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
+                   <span> SEVGÜL BATUR</span>
+                 </Panel>
+               </List.Item>
+               <List.Item>
+                 <Panel header='Garanti Bankası'>
+                   <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
+                   <span>Sevgül Batur</span>
+                 </Panel>
+               </List.Item>
+               <List.Item>
+                 <Panel header='İş Bankası'>
+                   <span> IBAN:TR380006400000130211158527</span><br/>
+                   <span>Sevgül Batur</span>
+                 </Panel>
+               </List.Item>
+             </List>
+           </Panel>
+         </Panel>
+       )
+
        const Adımlar = (e)=>(
          <Steps vertical current={e.durum}>
            <Steps.Item  title={'Siparişiniz alındı'} />
@@ -136,6 +176,13 @@ class Sorgula extends Component{
                       </Table.Body>
                     </Table>
                   </Panel>
+                </Col>
+                <Col xs='12'>
+                  {
+                    sip.odeme === 'havale' ?
+                      <Ucretlendirme/>
+                      :null
+                  }
                 </Col>
               </Row>
            </Panel>
