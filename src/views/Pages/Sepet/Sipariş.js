@@ -132,7 +132,7 @@ const Sipariş =props=>{
     if(ad.length>0 && tel.length>0){
       onChange(step+1)
     }else {
-      toaster.warning('Ad ve Soyad bilgilerinizi tamamlayınız')
+      toaster.warning('Ad Soyad ve Telefon bilgilerinizi tamamlayınız')
     }
   }
   const ödemeEkranKontrol = () =>{

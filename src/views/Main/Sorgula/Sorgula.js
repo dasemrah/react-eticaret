@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Row,Col,Spinner} from 'reactstrap';
 import {Segment, Header, List, Container} from "semantic-ui-react";
 import { Table} from 'evergreen-ui'
-import {Panel, Message, Steps, Input, InputGroup, Icon, Notification, Button} from "rsuite";
+import {Panel, Message, Steps, Input, InputGroup, Icon, Notification, IconButton, ButtonToolbar, Button, Alert} from "rsuite";
 import istek from '../../../istek'
 import '../../../style.css'
 class Sorgula extends Component{
@@ -45,7 +45,54 @@ class Sorgula extends Component{
        })
      }
 
+
      render() {
+       const iptalEt = (ID) => {
+         console.log('iptal_id', ID)
+         Notification.close()
+         istek
+           .post('iptal',{siparisID:ID})
+           .then(cvp => {
+             let {status, msg} = cvp.data
+             console.log(msg)
+
+             if(status) {
+               Alert.info('Sipariş silindi', 50000)
+               let index = this.state.sonuc.findIndex(p => p._id === ID)
+               console.log('eski sipariş bulundu')
+               this.state.sonuc[index].iptal=true
+               this.setState(this.state)
+             }
+           })
+       }
+       function iptalBildirim(siparis, ID) {
+         let yapar = (siparis.durum <=1 && siparis.odeme==='kapıda') || (siparis.durum ===0 && siparis.odeme === 'havale')
+         Notification['warning']({
+           duration:5000,
+           title: 'Sipariş iptali',
+           description: (
+               <div>
+                 <p>{yapar? 'Siparişinizi iptal etmek istediğinizden emin misiniz?': 'Siparişiniz hazırlanmakta veya ücreti ödemiş durumdasınız. Bu aşamada iptal etmek için mağaza yönetimi ile iletişime geçmeniz gerekmekte.'}</p>
+                 <ButtonToolbar style={{marginTop:'20px'}}>
+                   {
+                     yapar ?
+                       <Button onClick={() =>iptalEt(ID)}>Onayla</Button>
+                       :null
+                   }
+                 </ButtonToolbar>
+               </div>
+             )
+         });
+       }
+      const gorselVer=(gorsel) => {
+         istek
+           .post('gorselver',{gorselID:gorsel})
+           .then(cvp => {
+             let img = cvp.data.img.data
+             console.log('cvp alındı',img)
+             return img
+           })
+       }
        const Ucretlendirme= ()=>(
          <Panel>
           <Panel header='Kargo bilgisi'>
@@ -104,91 +151,103 @@ class Sorgula extends Component{
        const seviyeVer =(e)=>(
          <>
            {e.durum === 0 ?
-             <span>Siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
+             <span>siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
              : e.durum ===1 ?
-               <span>{e.odeme === 'kapıda' ? <>Siparişiniz kapıda ödeme seçeneği ile kaydedilmiştir.</> : <>Ödemeniz alınmıştır.</>}</span>
+               <span>{e.odeme === 'kapıda' ? <>siparişiniz kapıda ödeme seçeneği ile kaydedilmiştir.</> : <>Ödemeniz alınmıştır.</>}</span>
                :e.durum === 2 ?
-                 <span>Siparişiniz hazırlanıyor.</span>
+                 <span>siparişiniz hazırlanıyor.</span>
                  :e.durum === 3 ?
-                   <span>Siparişiniz hazırlandı.</span>
+                   <span>siparişiniz hazırlandı.</span>
                    : e.durum === 4 ?
-                     <span>Siparişiniz hazırlandı. Önümüzdeki kargo günü kargoya verilecektir.</span>
+                     <span>siparişiniz hazırlandı. Önümüzdeki kargo günü kargoya verilecektir.</span>
                      :e.durum===5 ?
-                       <span>Siparişiz kargoya verilmiştir. </span>
+                       <span>siparişiz kargoya verilmiştir. </span>
                        :e.durum===6 ?
-                         <span>Siparişiniz teslim edilmiştir.</span>
+                         <span>siparişiniz teslim edilmiştir.</span>
                          :null
            }
          </>
        )
+
        const siparisView =this.state.sonuc.map((sip)=>
-         <>
-           <Col xs='12' lg='3' md='3'>
-             <Adımlar siparis={sip} durum={sip.durum}/>
-           </Col>
-         <Col md="9" lg="9" xs="12">
-           <Panel style={{backgroundColor:'white'}} shaded>
-              <Row>
-                <Col xs="12">
+         <Row key={sip._id}>
+           <>
+             {sip.iptal ?
+              <Panel style={{width:'80%', marginLeft:'10%'}}>
+                <Message
+                  description='Bu sipariş iptal edildi'
+                  type={'warning'}
+                />
+              </Panel>
+               :
+               <>
+                 <Col xs='12' lg='3' md='3'>
+                   <Adımlar siparis={sip} durum={sip.durum}/>
+                 </Col>
+                 <Col md="9" lg="9" xs="12">
+                   <Panel style={{backgroundColor: 'white'}}
+                          header={<>{sip.tarih.substring(0, 10)} tarihli {seviyeVer(sip)}</>}>
+                     <Row>
+                       <Col xs="12" lg="6" md="6">
+                         <br/>
+                         <Panel header='Bilgilerim'>
+                           <List>
+                             <List.Item><Icon icon="user"/> {sip.ad}</List.Item>
+                             <List.Item><Icon icon='location-arrow'/> {sip.adres} </List.Item>
+                             <List.Item><Icon icon='phone'/> {sip.telefon} </List.Item>
+                             <List.Item><Icon icon='clock-o' spin/> {sip.tarih.substring(0, 10)}  </List.Item>
+                             {sip.detay ? <List.Item><Icon icon='tag'/> {sip.detay} </List.Item> : null}
+                             <List.Item>
+                               <Icon
+                                 icon='money'/> {parseInt(sip.ucret) + (sip.paket ? 0 : 15) + (sip.odeme === 'kapıda' ? 10 : 0)} ₺
+                             </List.Item>
+                           </List>
+                         </Panel>
+                       </Col>
+                       <Col xs="12">
 
-                  <Message
-                    showIcon
-                    type="success"
-                    title={sip.tarih.substring(0,10)+' tarihli siparişiniz'}
-                    description={seviyeVer(sip)}
-                  />
-                  <br/>
-                </Col>
-                <Col xs="12" lg="6" md="6">
-                  <br/>
-                  <Panel header='Bilgilerim'>
-                    <List>
-                      <List.Item><Icon icon="user"/> {sip.ad}</List.Item>
-                      <List.Item><Icon icon='location-arrow'/> {sip.adres} </List.Item>
-                      <List.Item><Icon icon='phone'/> {sip.telefon} </List.Item>
-                      <List.Item><Icon icon='clock-o' spin/> {sip.tarih.substring(0,10)}  </List.Item>
-                      {sip.detay ?  <List.Item><Icon icon='tag'/> {sip.detay} </List.Item> : null}
-                      <List.Item>
-                        <Icon icon='money'/> {parseInt(sip.ucret)+(sip.paket ? 0 : 15)+(sip.odeme==='kapıda' ? 10 : 0)} ₺
-                      </List.Item>
-                    </List>
-                  </Panel>
-                </Col>
-                <Col xs="12" md="6" lg="6">
-
-                  <Panel header='Ürünlerim'>
-                    <Table>
-                      <Table.Head>
-                        <Table.TextHeaderCell>
-                          Ürün
-                        </Table.TextHeaderCell>
-                        <Table.TextHeaderCell>
-                          Miktar
-                        </Table.TextHeaderCell>
-                      </Table.Head>
-                      <Table.Body>
-                        {sip.Urunler.map(urun => (
-                          <Table.Row height='auto' key={urun._id} isSelectable>
-                            <Table.TextCell>{urun.ad}</Table.TextCell>
-                            <Table.TextCell isNumber>{urun.miktar}</Table.TextCell>
-                          </Table.Row>
-                        ))}
-                      </Table.Body>
-                    </Table>
-                  </Panel>
-                </Col>
-                <Col xs='12'>
-                  {
-                    sip.odeme === 'havale' ?
-                      <Ucretlendirme/>
-                      :null
-                  }
-                </Col>
-              </Row>
-           </Panel>
-           <br/>
-         </Col>
-           </>
+                         <Panel header='Ürünlerim'>
+                           <Table>
+                             <Table.Head>
+                               <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
+                               <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
+                               <Table.TextHeaderCell>Fiyat</Table.TextHeaderCell>
+                             </Table.Head>
+                             <Table.Body>
+                               {sip.Urunler.map(urun => (
+                                 <Table.Row height='auto' key={urun._id} isSelectable>
+                                   <Table.TextCell>{urun.ad}</Table.TextCell>
+                                   <Table.TextCell isNumber>{urun.miktar}</Table.TextCell>
+                                   <Table.TextCell>{urun.fiyat} ₺</Table.TextCell>
+                                 </Table.Row>
+                               ))}
+                             </Table.Body>
+                           </Table>
+                         </Panel>
+                       </Col>
+                       <Col xs='12'>
+                         {
+                           sip.odeme === 'havale' ?
+                             <Ucretlendirme/>
+                             : null
+                         }
+                       </Col>
+                       <Col xs='12'>
+                         <Panel>
+                           <IconButton onClick={() => iptalBildirim(sip, sip._id)} icon={<Icon icon="close"/>}
+                                       placement="right">
+                             İptal et
+                           </IconButton>
+                         </Panel>
+                       </Col>
+                     </Row>
+                   </Panel>
+                   <br/>
+                 </Col>
+               </>
+             }
+             </>
+           </Row>
        )
        return(
          <Container>
@@ -197,6 +256,8 @@ class Sorgula extends Component{
                   this.state.olay === 0 ?
                       <Col xs='12' lg='6' md='6'>
                         <Panel style={{backgroundColor:'white'}} header='Sipariş Sorgula' shaded>
+                          <p>Siparişinizi sorgulamak için aşağıdaki kutucuğa telefon numaranızı girdikten sonra arama butonuna dokunun.</p>
+                            <br/>
                           <InputGroup inside>
                             <InputGroup.Addon>+90 </InputGroup.Addon>
                             <Input onChange={this.onChange} type='number' placeholder='  telefon numarası' />
@@ -210,10 +271,10 @@ class Sorgula extends Component{
                 <Col xs="12" md="12" lg="12">
                   {this.state.olay === 2 ?
                     this.state.sonuc.length>0 ?
-                      <Row>
+                      <>
 
                         { siparisView }
-                      </Row>
+                      </>
                       :
                       <Message
                         showIcon
