@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from "react";
 import {Row,Col,Container} from 'reactstrap'
 import { Header, List} from 'semantic-ui-react'
-import { Menu,toaster ,TextInput, Textarea ,Pane ,Label,} from 'evergreen-ui'
-import {Steps, Panel ,Message, Icon, Modal, Button, Notification} from "rsuite";
+import { Menu ,TextInput, Textarea ,Pane ,Label} from 'evergreen-ui'
+import {Steps, Panel ,Message, Icon, Modal, Button, Notification,Alert} from "rsuite";
 import api from "../../../istek";
 import Disk from 'o.disk'
 
@@ -123,12 +123,12 @@ const Sipariş =props=>{
           onChange(3)
           setSiparis(ynt.data.siparis)
           console.log('sipariş oluştu',ynt.data.siparis)
-          toaster.success('Siparişiniz '+ynt.data.siparis.tarih+' tarihinde oluşturuldu')
+          Alert.success('Siparişiniz '+ynt.data.siparis.tarih+' tarihinde oluşturuldu',5000)
           props.sepetiBosalt()
         }
         else {
           setÖdendi(false)
-          toaster.danger('Siparişiniz oluşturulamadı')
+          Alert.error('Siparişiniz oluşturulamadı',5000)
         }
       })
       .catch(err=>console.log(err))
@@ -136,18 +136,16 @@ const Sipariş =props=>{
   const adresEkranKontrol=()=>{
     if(ad.length>0 && tel.length>0){
       onChange(step+1)
-      let musteri = {...Disk.musteri}
-      musteri.ad=ad
-      musteri.telefon=tel
-      Disk.musteri=musteri
       console.log('bilgiler',Disk.musteri)
     }else {
-      toaster.warning('Ad Soyad ve Telefon bilgilerinizi tamamlayınız')
+      Alert.warning('Ad Soyad ve Telefon bilgilerinizi tamamlayınız',5000)
     }
   }
   const ödemeEkranKontrol = () =>{
     if(il.length>0 && ilce.length>0 && mahalle.length>0 &&tamAdres.length>0){
       let musteri ={...Disk.musteri}
+      musteri.ad=ad
+      musteri.telefon=tel
       musteri.il=il
       musteri.ilce=ilce
       musteri.mahalle=mahalle
@@ -155,7 +153,7 @@ const Sipariş =props=>{
       Disk.musteri=musteri
       onChange(step+1)
     }else {
-      toaster.warning('Lütfen adres bilgilerinizi tamamlayınız')
+      Alert.warning('Lütfen adres bilgilerinizi tamamlayınız',5000)
     }
   }
   const Adımlar=()=>(

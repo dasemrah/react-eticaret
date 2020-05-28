@@ -50,7 +50,14 @@ class DefaultLayout extends Component {
 
   componentDidMount() {
     if(Disk.musteri === undefined || Disk.musteri === null){
-      Disk.musteri = {}
+      Disk.musteri = {
+        ad:'',
+        telefon:'',
+        il:'',
+        ilce:'',
+        mahalle:'',
+        tamAdres:''
+      }
       console.log('disk müşteri',Disk.musteri)
     }else {
       console.log('müşteri',Disk.musteri)
