@@ -4,7 +4,7 @@ import { Header, List} from 'semantic-ui-react'
 import { Menu,toaster ,TextInput, Textarea ,Pane ,Label,} from 'evergreen-ui'
 import {Steps, Panel ,Message, Icon, Modal, Button, Notification} from "rsuite";
 import api from "../../../istek";
-
+import Disk from 'o.disk'
 
 const Sipariş =props=>{
   const [ad, setAd]         =useState("");
@@ -48,7 +48,12 @@ const Sipariş =props=>{
     });
   }
   useEffect(()=>{
-      console.log('kategoriler',props.kategoriler)
+    setAd(Disk.musteri.ad)
+    setTel(Disk.musteri.telefon)
+    setIl(Disk.musteri.il)
+    setIlce(Disk.musteri.ilce)
+    setMahalle(Disk.musteri.mahalle)
+    setTamAdres(Disk.musteri.tamAdres)
       props.kategoriler.map(e=>{
         if(e.ad==='Ramazan Paketleri'){
 
@@ -131,12 +136,23 @@ const Sipariş =props=>{
   const adresEkranKontrol=()=>{
     if(ad.length>0 && tel.length>0){
       onChange(step+1)
+      let musteri = {...Disk.musteri}
+      musteri.ad=ad
+      musteri.telefon=tel
+      Disk.musteri=musteri
+      console.log('bilgiler',Disk.musteri)
     }else {
       toaster.warning('Ad Soyad ve Telefon bilgilerinizi tamamlayınız')
     }
   }
   const ödemeEkranKontrol = () =>{
     if(il.length>0 && ilce.length>0 && mahalle.length>0 &&tamAdres.length>0){
+      let musteri ={...Disk.musteri}
+      musteri.il=il
+      musteri.ilce=ilce
+      musteri.mahalle=mahalle
+      musteri.tamAdres=tamAdres
+      Disk.musteri=musteri
       onChange(step+1)
     }else {
       toaster.warning('Lütfen adres bilgilerinizi tamamlayınız')

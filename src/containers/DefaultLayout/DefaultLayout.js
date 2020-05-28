@@ -49,6 +49,18 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
+    if(Disk.musteri === undefined || Disk.musteri === null){
+      Disk.musteri = {}
+      console.log('disk müşteri',Disk.musteri)
+    }else {
+      console.log('müşteri',Disk.musteri)
+    }
+    if(Disk.sepet === undefined || Disk.sepet ===null){
+      Disk.sepet =[]
+    }
+    else if(Disk.sepet.length >0){
+      this.setState({sepet:Disk.sepet})
+    }
     if(Disk.kullanıcı  === undefined){
       Disk.kullanıcı = null
     }
@@ -66,6 +78,9 @@ class DefaultLayout extends Component {
      this.gorselAl(ynt.data.foundUrun[4]._id)
     }).catch((err)=>console.log(err));
 
+  }
+  componentWillUpdate(nextProps, nextState, nextContext) {
+    Disk.sepet=nextState.sepet
   }
   gorselAl(kategori_id){
     istek
