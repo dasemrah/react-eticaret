@@ -4,6 +4,7 @@
   font-family: Lato, sans-serif;
 
 }
+
 *{
   font-family: Lato, sans-serif ;
   font-weight: 700 !important;
@@ -350,6 +351,9 @@
   color: rgb(0, 158, 127) !important;
   font-size: 2em;
   margin-left: 15px;
+}
+.navbar-brand > img {
+  width: 100%;
 }
 .navbar-nav > .nav-item > .nav-link{
  font-size: 1.2em;

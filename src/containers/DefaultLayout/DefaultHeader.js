@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Arama from "../../views/Parcalar/Arama";
 import {Drawer, IconButton, Icon} from "rsuite";
+import {Image} from "semantic-ui-react";
+
 class DefaultHeader extends Component {
   constructor(props){
     super(props)
@@ -47,12 +49,13 @@ class DefaultHeader extends Component {
           <span></span>
         </div>
 
-        <a className="navbar-brand" href="#">Nazlı Köy</a>
+        <a className="navbar-brand" href="#">
+          <img className="logo" src={require('../../assets/img/logo.png')} alt=""/>
+        </a>
         <div className="sepet_dar_ekran">
           <Icon icon='search' size='lg' onClick={()=>this.props.aramaAçKapa()}/>
         </div>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-
 
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
             <li className="nav-item active">
