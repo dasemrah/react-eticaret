@@ -266,7 +266,7 @@ class DefaultLayout extends Component {
 
   };
   mikarDeğiştir=(girdi,urun)=>{
-    let urunIndex = this.state.sepet.indexOf(urun)
+    let urunIndex = this.state.sepet.findIndex(p => p._id ===urun._id)
     let guncelle = this.state.sepet[urunIndex]
     guncelle.miktar+=girdi
     guncelle.ucret=guncelle.fiyat*guncelle.miktar

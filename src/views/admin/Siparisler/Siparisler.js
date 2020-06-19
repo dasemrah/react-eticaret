@@ -120,9 +120,11 @@ class Siparisler extends Component {
 
         console.log('değişen sipariş',order)
         let index= this.state.goster.findIndex(p=>p._id===order._id)
+        let index1 = this.state.tumsiparisler.findIndex( p => p._id === order._id)
         console.log('ürün index',index)
         order.durum=seviye
         this.state.goster[index]=order
+        this.state.tumsiparisler[index1] = order
         this.setState({
           loading:false
         })
@@ -432,7 +434,7 @@ class Siparisler extends Component {
                       <Seçici/>
                     </Col>
                     <Col xs='6'>
-                      <Arama {...this.props} sonuc={this.aramaSonucu}/>
+                      <Arama {...this.props} siparisler={this.state.tumsiparisler} sonuc={this.aramaSonucu}/>
                     </Col>
                   </Row>
                 </Col>
