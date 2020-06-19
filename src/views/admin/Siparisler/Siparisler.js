@@ -3,7 +3,7 @@ import { Print } from 'react-easy-print';
 import {Table, Icon,Panel, Alert, Message, Modal, Dropdown, Button, Divider, IconButton, Loader} from "rsuite";
 import {Label, List, Popup} from "semantic-ui-react";
 import {Row, Col} from 'reactstrap'
-import SiparisKart from "./Siparis/SiparisKart";
+import Arama from "./Ara";
 import api from '../../../istek'
 class Siparisler extends Component {
   constructor(props){
@@ -14,7 +14,9 @@ class Siparisler extends Component {
       loading       : false,
       siparişAç     : false,
       sipariş       : [],
-      aktifitem     : 0
+      aktifitem     : 0,
+      alındı:false,
+      goster:[]
     }
   }
   componentDidMount() {
@@ -37,13 +39,13 @@ class Siparisler extends Component {
 
     if(s.durum===7){
       this.setState({loading:true})
-      let index=this.state.tumsiparisler.findIndex(p=>p._id===s._id)
+      let index=this.state.goster.findIndex(p=>p._id===s._id)
       let index_1=this.state.siparişsayısı.findIndex(p=>p._id===s._id)
       api
         .post('siparissil',{siparisid:s._id})
         .then(ynt=>{
           if(index>=0 && ynt.data.olay === 1){
-            this.state.tumsiparisler.splice(index, 1)
+            this.state.goster.splice(index, 1)
             this.state.siparişsayısı.splice(index_1, 1)
             this.setState(this.state)
             Alert.success('Sipariş silindi',2500)
@@ -66,17 +68,37 @@ class Siparisler extends Component {
           loading:false,
           aktifitem:'hepsi'
         })
+        this.sırala(0)
       })
+  }
+  aramaSonucu=(sonuc) => {
+    let fakedizi = []
+    fakedizi.push(sonuc)
+    console.log('sonuç geldi', sonuc)
+    this.setState({loading:true})
+    this.setState({
+      goster:fakedizi,
+      loading:false,
+    })
   }
   sırala=(seviye)=>{
     this.setState({loading:true})
+    if(seviye === 'tümü'){
+      this.setState({
+        goster:this.state.tumsiparisler,
+        aktifitem:seviye,
+        loading:false,
+        alındı:true
+      })
+    }
   api
     .get('siparisler/'+seviye)
     .then(ynt=>{
       this.setState({
-        tumsiparisler:ynt.data.orders,
+        goster:ynt.data.orders,
         aktifitem:seviye,
-        loading:false
+        loading:false,
+        alındı:true
       })
     })
 }
@@ -97,15 +119,16 @@ class Siparisler extends Component {
         let order=ynt.data.order
 
         console.log('değişen sipariş',order)
-        let index= this.state.tumsiparisler.findIndex(p=>p._id===order._id)
+        let index= this.state.goster.findIndex(p=>p._id===order._id)
         console.log('ürün index',index)
         order.durum=seviye
-        this.state.tumsiparisler[index]=order
+        this.state.goster[index]=order
         this.setState({
           loading:false
         })
       })
   }
+
 
   render() {
     const {sipariş} = this.state
@@ -315,7 +338,7 @@ class Siparisler extends Component {
           rowHeight={60}
           loading={this.state.loading}
           height={500}
-          data={this.state.tumsiparisler}
+          data={this.state.goster}
         >
           <Column width={155} resizable>
             <HeaderCell >Ad</HeaderCell>
@@ -382,8 +405,8 @@ class Siparisler extends Component {
       </div>
     )
     const Seçici=()=>(
-      <Dropdown activeKey={this.state.aktifitem} title="Siparişleri Sırala" appearance="default">
-        <Dropdown.Item eventKey='hepsi' onSelect={()=>this.siparisleriAl()}>Tümü           <Label circular>{this.siparisSayisiHesapla('hepsi')}</Label></Dropdown.Item>
+      <Dropdown className="siparis_secici" activeKey={this.state.aktifitem} title="Siparişleri Sırala" appearance="default">
+        <Dropdown.Item eventKey='hepsi' onSelect={()=>this.sırala('tümü')}>Tümü           <Label circular>{this.siparisSayisiHesapla('hepsi')}</Label></Dropdown.Item>
         <Dropdown.Item eventKey={0} onSelect={()=>this.sırala(0)}>Yeni Siparişler   <Label circular>{this.siparisSayisiHesapla(0)}</Label></Dropdown.Item>
         <Dropdown.Item eventKey={1} onSelect={()=>this.sırala(1)}>Ödenenler         <Label circular>{this.siparisSayisiHesapla(1)}</Label></Dropdown.Item>
         <Dropdown.Item eventKey={2} onSelect={()=>this.sırala(2)}>Hazırlanıyor      <Label circular>{this.siparisSayisiHesapla(2)}</Label></Dropdown.Item>
@@ -398,17 +421,26 @@ class Siparisler extends Component {
     return (
 
          <Panel style={{minHeight:'600px'}} bodyFill>
-           {this.state.loading ?
-             <Loader backdrop content="Yükleniyor..." vertical />
-           :
-           <>
-             <Seçici/>
+            <div className="siparis_header">
+              <Row>
+                <Col className='head' xs='3'>
+                  <h2>Siparişler</h2>
+                </Col>
+                <Col className="ozel" xs='9'>
+                  <Row>
+                    <Col xs='6'>
+                      <Seçici/>
+                    </Col>
+                    <Col xs='6'>
+                      <Arama {...this.props} sonuc={this.aramaSonucu}/>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </div>
              <Divider/>
              <OrdersTable/>
              <Yazdırıcı/>
-           </>
-           }
-
          </Panel>
 
     );
