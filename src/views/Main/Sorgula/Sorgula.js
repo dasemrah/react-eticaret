@@ -100,10 +100,22 @@ class Sorgula extends Component{
               description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
             />
             <List>
-              <List.Item>1-5 kg arası 13.60 ₺</List.Item>
-              <List.Item>5-10 kg arası 19.87 ₺</List.Item>
-              <List.Item>10-15 kg arası 27 ₺</List.Item>
-              <List.Item>15-20 kg arası 29.30 ₺</List.Item>
+              <List.Header>EFT ve Havalede</List.Header>
+              <List.Item>1-5 kg arası 19₺</List.Item>
+              <List.Item>6-10 kg arası 25₺</List.Item>
+              <List.Item>11-15 kg arası 31₺</List.Item>
+              <List.Item>16-20 kg arası 34₺</List.Item>
+              <List.Item>21-25 kg arası 41₺</List.Item>
+              <List.Item>26-30 kg arası 48₺</List.Item>
+            </List>
+            <List>
+              <List.Header>Kapıda Ödemede</List.Header>
+              <List.Item>1-5 kg arası 19+10 = 29₺</List.Item>
+              <List.Item>6-10 kg arası 25+10 = 35₺</List.Item>
+              <List.Item>11-15 kg arası 31+10 = 45₺</List.Item>
+              <List.Item>16-20 kg arası 34+10 = 44₺</List.Item>
+              <List.Item>21-25 kg arası 41+10 = 51₺</List.Item>
+              <List.Item>26-30 kg arası 48+10 = 58₺</List.Item>
             </List>
           </Panel>
            <Panel header='Mağaza heapları'>
@@ -226,11 +238,7 @@ class Sorgula extends Component{
                          </Panel>
                        </Col>
                        <Col xs='12'>
-                         {
-                           sip.odeme === 'havale' ?
-                             <Ucretlendirme/>
-                             : null
-                         }
+                         <Ucretlendirme/>
                        </Col>
                        <Col xs='12'>
                          <Panel>

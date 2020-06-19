@@ -33,10 +33,22 @@ const Sipariş =props=>{
         description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
       />
       <List>
-        <List.Item>1-5 kg arası 13.60 ₺</List.Item>
-        <List.Item>5-10 kg arası 19.87 ₺</List.Item>
-        <List.Item>10-15 kg arası 27 ₺</List.Item>
-        <List.Item>15-20 kg arası 29.30 ₺</List.Item>
+        <List.Header>EFT ve Havalede</List.Header>
+        <List.Item>1-5 kg arası 19₺</List.Item>
+        <List.Item>6-10 kg arası 25₺</List.Item>
+        <List.Item>11-15 kg arası 31₺</List.Item>
+        <List.Item>16-20 kg arası 34₺</List.Item>
+        <List.Item>21-25 kg arası 41₺</List.Item>
+        <List.Item>26-30 kg arası 48₺</List.Item>
+      </List>
+      <List>
+        <List.Header>Kapıda Ödemede</List.Header>
+        <List.Item>1-5 kg arası 19+10 = 29₺</List.Item>
+        <List.Item>6-10 kg arası 25+10 = 35₺</List.Item>
+        <List.Item>11-15 kg arası 31+10 = 45₺</List.Item>
+        <List.Item>16-20 kg arası 34+10 = 44₺</List.Item>
+        <List.Item>21-25 kg arası 41+10 = 51₺</List.Item>
+        <List.Item>26-30 kg arası 48+10 = 58₺</List.Item>
       </List>
     </Panel>
   )
@@ -197,7 +209,7 @@ const Sipariş =props=>{
                   <span className="siparis_ucret_eleman_icerik">
                 {
                   paket ? <>Ücretsiz</>
-                    : siparis.odeme === 'kapıda' ? <>15 ₺</> : <> Alıcı Ödemeli</>
+                    :  <> Alıcı Ödemeli</>
                 }
               </span>
                 </div>
@@ -226,7 +238,7 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)+(paket ? 0 : siparis.odeme==='kapıda' ? 15 : 0)} ₺
+                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)} ₺
                     </>
                     :
                     <>
@@ -248,6 +260,11 @@ const Sipariş =props=>{
         title="Kapıda Ödeme Seçildi"
         description={'Sipariş ücretini kapıda, ürünü teslim aldıktan sonra '+siparis.kapida+' ödeyebilirsiniz. Kargonuz yola çıktığında sizi bilgilendireceğiz'}
       />
+      <Panel>
+        <Button onClick={KargoBildirim} color="blue" >
+          <Icon icon="info"  /> Kargo Ücretlendirmesi
+        </Button>
+      </Panel>
     </Panel>
   )
   const Banka=()=>(
