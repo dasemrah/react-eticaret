@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { Print } from 'react-easy-print';
-import {Table, Icon,Panel, Alert, Message, Modal, Dropdown, Button, Divider, IconButton, Loader} from "rsuite";
+import {Table, Icon,Panel, Alert, Message, Modal, Dropdown, Button, Divider, IconButton, Whisper, Popover} from "rsuite";
 import {Label, List, Popup} from "semantic-ui-react";
 import {Row, Col} from 'reactstrap'
 import Arama from "./Ara";
@@ -275,8 +275,7 @@ class Siparisler extends Component {
           </Table>
      )
       const düzenle=(
-        <>
-          <h5 className="text-center">Siparişi Düzenle</h5>
+        <Popover title='Sipariş Ayarları'>
          <Panel>
           <List>
             <List.Item>
@@ -296,7 +295,7 @@ class Siparisler extends Component {
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,6)}>Teslim Edildi</Dropdown.Item>
               <Dropdown.Item onSelect={()=>this.seviye(rowData._id,7)}>Pasif</Dropdown.Item>
             </Dropdown>
-        </>
+        </Popover>
       )
       return(
         <Cell {...props}>
@@ -319,14 +318,9 @@ class Siparisler extends Component {
               size='big'
               position='left center'
             />|{' '}
-            <Popup
-              on='click'
-              pinned
-              trigger={<i className="icon-pencil"></i>}
-              content={düzenle}
-              size='big'
-              position='left center'
-            />
+          <Whisper placement='leftStart' trigger='click' speaker={düzenle}>
+            <Icon icon='edit' />
+          </Whisper>
           </span>
         </Cell>
       )
