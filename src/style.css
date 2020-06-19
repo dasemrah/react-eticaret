@@ -1691,3 +1691,6 @@ html{
 .siparis_secici > ul >a {
   border-radius: 0 !important;
 }
+.rs-popover.in{
+  opacity: 1 !important;
+}
