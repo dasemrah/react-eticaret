@@ -1,16 +1,29 @@
 import React, {Component} from 'react';
 import {Row,Col,Spinner} from 'reactstrap';
-import {Segment, Header, List, Container} from "semantic-ui-react";
-import { Table} from 'evergreen-ui'
-import {Panel, Message, Steps, Input, InputGroup, Icon, Notification, IconButton, ButtonToolbar, Button, Alert} from "rsuite";
+import {Segment, Header, List, Container, Label} from "semantic-ui-react";
+import {
+  Panel,
+  Message,
+  Steps,
+  Input,
+  InputGroup,
+  Icon,
+  Notification,
+  Table,
+  ButtonToolbar,
+  Button,
+  Alert,
+  Divider
+} from "rsuite";
 import istek from '../../../istek'
 import '../../../style.css'
+import Disk from "o.disk/index";
 class Sorgula extends Component{
      constructor(props){
        super(props)
        this.state={
          numara:'',
-         sonuc:[],
+         siparisler:[],
          olay:0,
          adım:0,
          pictures:''
@@ -24,29 +37,47 @@ class Sorgula extends Component{
          numara:e
        })
      }
-     sorgula(){
+    componentDidMount() {
+      console.log('sorgula phone',Disk?.musteri.telefon)
+      if(Disk?.musteri?.telefon) {
+        this.sorgula(Disk?.musteri?.telefon)
+      }else {
+        this.setState({
+          olay:2
+        })
+      }
+    }
+     sorgula(numara){
        this.setState({
          olay:1
        })
-       istek.get('/sorgula/'+this.state.numara).then(res=>{
-         console.log(res.data)
-        res.data.map(e=>{
-          if(e.odeme === 'kapıda' && e.durum === 0) {
-            e.durum=1
-          }
-        })
+       istek.get('/sorgula/'+numara).then(res=>{
+         console.log('bulunan siparişler--->',res.data)
+         let {siparis, msg, status} = res.data
+         if(status) {
+           siparis.map(e=>{
+             if(e.odeme === 'kapıda' && e.durum === 0) {
+               e.durum=1
+             }
+           })
+           this.setState({
+             siparisler:siparis,
+             olay:3
+           })
+         }else {
+           this.setState({
+             olay:4
+           })
+         }
 
-         this.setState({
-           sonuc:res.data,
-           olay:2,
-           adım:res.data.durum
-         })
         console.log('state de',this.state.sonuc)
        })
      }
 
 
      render() {
+       const { Column, HeaderCell, Cell, Pagination } = Table;
+       const {siparisler} = this.state
        const iptalEt = (ID) => {
          console.log('iptal_id', ID)
          Notification.close()
@@ -94,11 +125,7 @@ class Sorgula extends Component{
            })
        }
        const Ucretlendirme= ()=>(
-         <Panel>
-          <Panel header='Kargo bilgisi'>
-            <Message
-              description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
-            />
+         <>
             <List>
               <List.Header>EFT ve Havalede</List.Header>
               <List.Item>1-5 kg arası 19₺</List.Item>
@@ -117,34 +144,35 @@ class Sorgula extends Component{
               <List.Item>21-25 kg arası 41+10 = 51₺</List.Item>
               <List.Item>26-30 kg arası 48+10 = 58₺</List.Item>
             </List>
-          </Panel>
-           <Panel header='Mağaza heapları'>
-             <List>
-               <List.Item>
-                 <Panel header='Ziraat Bankası'>
-                   <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
-                   <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
-                   <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
-                   <span> SEVGÜL BATUR</span>
-                 </Panel>
-               </List.Item>
-               <List.Item>
-                 <Panel header='Garanti Bankası'>
-                   <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
-                   <span>Sevgül Batur</span>
-                 </Panel>
-               </List.Item>
-               <List.Item>
-                 <Panel header='İş Bankası'>
-                   <span> IBAN:TR380006400000130211158527</span><br/>
-                   <span>Sevgül Batur</span>
-                 </Panel>
-               </List.Item>
-             </List>
-           </Panel>
-         </Panel>
-       )
 
+         </>
+       )
+       const BankaHesapları =()=>(
+         <>
+           <List>
+             <List.Item>
+               <Panel header='Ziraat Bankası'>
+                 <span> Şube: PAZARKÖY-NAZİLLİ/AYDIN ŞUBESİ</span><br/>
+                 <span>   Hesap Numarası: 2311-45204995-5004</span><br/>
+                 <span> IBAN: TR 4900 0100 2311 4520 4995 5004</span><br/>
+                 <span> SEVGÜL BATUR</span>
+               </Panel>
+             </List.Item>
+             <List.Item>
+               <Panel header='Garanti Bankası'>
+                 <span> IBAN:TR14 0006 2000 4820 0006 6618 62</span><br/>
+                 <span>Sevgül Batur</span>
+               </Panel>
+             </List.Item>
+             <List.Item>
+               <Panel header='İş Bankası'>
+                 <span> IBAN:TR380006400000130211158527</span><br/>
+                 <span>Sevgül Batur</span>
+               </Panel>
+             </List.Item>
+           </List>
+         </>
+       )
        const Adımlar = (e)=>(
          <Steps vertical current={e.durum}>
            <Steps.Item  title={'Siparişiniz alındı'} />
@@ -163,113 +191,141 @@ class Sorgula extends Component{
        const seviyeVer =(e)=>(
          <>
            {e.durum === 0 ?
-             <span>siparişiniz yeni alınmış durumda. Sipariş ücretini yatırdığınızda ürünleri hazırlamaya başlıyoruz.</span>
+             <span>Yeni alındı</span>
              : e.durum ===1 ?
-               <span>{e.odeme === 'kapıda' ? <>siparişiniz kapıda ödeme seçeneği ile kaydedilmiştir.</> : <>Ödemeniz alınmıştır.</>}</span>
+               <span>{e.odeme === 'kapıda' ? <>Kapıda ödeme seçildi</> : <>Ödemeniz alınmıştır.</>}</span>
                :e.durum === 2 ?
-                 <span>siparişiniz hazırlanıyor.</span>
+                 <span>Hazırlanıyor</span>
                  :e.durum === 3 ?
-                   <span>siparişiniz hazırlandı.</span>
+                   <span> Hazırlandı.</span>
                    : e.durum === 4 ?
-                     <span>siparişiniz hazırlandı. Önümüzdeki kargo günü kargoya verilecektir.</span>
+                     <span>Kargo için beklemede</span>
                      :e.durum===5 ?
-                       <span>siparişiz kargoya verilmiştir. </span>
+                       <span>Kargoya verildi</span>
                        :e.durum===6 ?
-                         <span>siparişiniz teslim edilmiştir.</span>
+                         <span>Teslim edildi</span>
                          :null
            }
          </>
        )
 
-       const siparisView =this.state.sonuc.map((sip)=>
-         <Row key={sip._id}>
-           <>
-             {sip.iptal ?
-              <Panel style={{width:'80%', marginLeft:'10%'}}>
-                <Message
-                  description='Bu sipariş iptal edildi'
-                  type={'warning'}
-                />
-              </Panel>
-               :
-               <>
-                 <Col xs='12' lg='3' md='3'>
-                   <Adımlar siparis={sip} durum={sip.durum}/>
-                 </Col>
-                 <Col md="9" lg="9" xs="12">
-                   <Panel style={{backgroundColor: 'white'}}
-                          header={<>{sip.tarih.substring(0, 10)} tarihli {seviyeVer(sip)}</>}>
-                     <Row>
-                       <Col xs="12" lg="6" md="6">
-                         <br/>
-                         <Panel header='Bilgilerim'>
-                           <List>
-                             <List.Item><Icon icon="user"/> {sip.ad}</List.Item>
-                             <List.Item><Icon icon='location-arrow'/> {sip.adres} </List.Item>
-                             <List.Item><Icon icon='phone'/> {sip.telefon} </List.Item>
-                             <List.Item><Icon icon='clock-o' spin/> {sip.tarih.substring(0, 10)}  </List.Item>
-                             {sip.detay ? <List.Item><Icon icon='tag'/> {sip.detay} </List.Item> : null}
-                             <List.Item>
-                               <Icon
-                                 icon='money'/> {parseInt(sip.ucret) + (sip.paket ? 0 : 15) + (sip.odeme === 'kapıda' ? 10 : 0)} ₺
-                             </List.Item>
-                           </List>
-                         </Panel>
-                       </Col>
-                       <Col xs="12">
-
-                         <Panel header='Ürünlerim'>
-                           <Table>
-                             <Table.Head>
-                               <Table.TextHeaderCell>Ürün</Table.TextHeaderCell>
-                               <Table.TextHeaderCell>Miktar</Table.TextHeaderCell>
-                               <Table.TextHeaderCell>Fiyat</Table.TextHeaderCell>
-                             </Table.Head>
-                             <Table.Body>
-                               {sip.Urunler.map(urun => (
-                                 <Table.Row height='auto' key={urun._id} isSelectable>
-                                   <Table.TextCell>{urun.ad}</Table.TextCell>
-                                   <Table.TextCell isNumber>{urun.miktar}</Table.TextCell>
-                                   <Table.TextCell>{urun.fiyat} ₺</Table.TextCell>
-                                 </Table.Row>
-                               ))}
-                             </Table.Body>
-                           </Table>
-                         </Panel>
-                       </Col>
-                       <Col xs='12'>
-                         <Ucretlendirme/>
-                       </Col>
-                       <Col xs='12'>
-                         <Panel>
-                           <IconButton onClick={() => iptalBildirim(sip, sip._id)} icon={<Icon icon="close"/>}
-                                       placement="right">
-                             İptal et
-                           </IconButton>
-                         </Panel>
-                       </Col>
-                     </Row>
-                   </Panel>
+       const SiparisView =()=>
+         <>
+           {siparisler.map(e =>
+             <Col xs={12}>
+               <Panel
+                 className="sonuclar"
+                 key={e._id}
+                 collapsible
+                 header={
+                   <div className='header'>
+                     <span className="num">Sipariş <span>#{1+siparisler.findIndex(p => p._id === e._id)}</span></span>
+                     <span className="durum">{seviyeVer(e)}</span>
+                   </div>} >
+                 <div className='detay_tepe'>
+                   <div>Sipariş Tarihi:<span>{e?.tarih?.substring(0,10)}</span></div>
+                   <div>Ad soyad: <span>{e.ad}</span></div>
+                   <div>Telefon: <span>{e.telefon}</span></div>
+                   <div>Toplam Ücret: <span>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 10) }₺</span></div>
+                 </div>
+                 <div className="detay_orta">
+                   <div className="adres">
+                     <h3>Teslimat Adresi</h3>
+                     <span>{e.adres}</span>
+                   </div>
+                   <div className="cost">
+                     <div className="eleman">Ara Toplam  <div>{e.ucret}₺</div></div>
+                     {
+                       e.odeme === 'kapıda' ?
+                         <div className="eleman">Kapıda Ödeme Ücreti <div>+10₺</div></div>
+                         :null
+                     }
+                     <div className="eleman">Kargo Ücreti (Yurtiçi Kargo)  <div>Alıcı ödemeli</div></div>
+                     <div className="eleman">
+                       Ödeme Türü
+                       <div>
+                         {
+                           e.odeme === 'havale' ?
+                             <Label size='mini' color='teal'>Havale</Label>
+                             :e.odeme === 'kapıda' ?
+                             <Label size='mini'>Kapıda {e.kapida === 'nakit' ?
+                               <Label size='mini' color='green'>nakit</Label> : <Label color='yellow' size='mini'>kartla</Label>}
+                             </Label>
+                             :null
+                         }
+                       </div>
+                     </div>
+                     <div style={{color:' rgb(13, 17, 54)'}} className="eleman">Toplam  <div>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 10)} ₺</div></div>
+                   </div>
+                   <div className="step">
+                     <Adımlar siparis={e} durum={e.durum}/>
+                   </div>
+                   {
+                     e.odeme === 'havale' ?
+                       <Panel header='Banka Hesapları' collapsible>
+                         <BankaHesapları/>
+                       </Panel>
+                       :null
+                   }
                    <br/>
-                 </Col>
-               </>
-             }
-             </>
-           </Row>
-       )
+                   <Panel header='Kargo ücretlendirmesi' collapsible className="ucretlendirme">
+                     <Ucretlendirme/>
+                   </Panel>
+                   <Divider/>
+                   <div>
+                     <Table
+
+                       autoHeight
+                       rowHeight={60}
+                       data={e.Urunler}
+                       onRowClick={data => {
+                         console.log(data);
+                       }}
+                     >
+
+                       <Column flexGrow={2} align="center">
+                         <HeaderCell>Ürün</HeaderCell>
+                         <Cell dataKey="ad" />
+                       </Column>
+
+                       <Column flexGrow={1}>
+                         <HeaderCell>Adet</HeaderCell>
+                         <Cell dataKey="miktar" />
+                       </Column>
+                       <Column flexGrow={1}>
+                         <HeaderCell>Ürün boyutu</HeaderCell>
+                         <Cell dataKey="net" />
+                       </Column>
+                       <Column flexGrow={1}>
+                         <HeaderCell>Fiyat</HeaderCell>
+                         <Cell>
+                           {rowData => (
+                             <span>{rowData.fiyat}₺</span>
+                           )}
+                         </Cell>
+                       </Column>
+                     </Table>
+                   </div>
+                 </div>
+               </Panel>
+             </Col>
+           )
+           }
+         </>
+
        return(
-         <Container>
+         <div className="sonuclar_page">
               <Row>
                 {
-                  this.state.olay === 0 ?
-                      <Col xs='12' lg='6' md='6'>
-                        <Panel style={{backgroundColor:'white'}} header='Sipariş Sorgula' shaded>
+                  this.state.olay === 2 ?
+                      <Col xs='12'>
+                        <Panel className="siparis_hata" style={{backgroundColor:'white'}} header='Sipariş Sorgula' shaded>
                           <p>Siparişinizi sorgulamak için aşağıdaki kutucuğa telefon numaranızı girdikten sonra arama butonuna dokunun.</p>
                             <br/>
                           <InputGroup inside>
                             <InputGroup.Addon>+90 </InputGroup.Addon>
                             <Input onChange={this.onChange} type='number' placeholder='  telefon numarası' />
-                            <InputGroup.Button onClick={()=>this.sorgula()}><Icon icon="search" /></InputGroup.Button>
+                            <InputGroup.Button onClick={()=>this.sorgula(this.state.numara)}><Icon icon="search" /></InputGroup.Button>
                           </InputGroup>
                         </Panel>
                       </Col>
@@ -277,25 +333,31 @@ class Sorgula extends Component{
                 }
 
                 <Col xs="12" md="12" lg="12">
-                  {this.state.olay === 2 ?
-                    this.state.sonuc.length>0 ?
-                      <>
-
-                        { siparisView }
-                      </>
-                      :
+                  {this.state.olay === 3 ?
+                      <div className="sonuclar_katman">
+                        <Row>
+                          <SiparisView/>
+                        </Row>
+                      </div>
+                  : this.state.olay ===4 ?
+                    <Panel className="siparis_hata">
                       <Message
                         showIcon
                         type='warning'
                         title='Hiç sipariş vermemişsiniz'
                         description='Bir hata olduğunu düşünüyorsanız mağazamızla iletişime geçiniz.'
                       />
-                  :null}
+                      <Button color='blue' onClick={() => this.setState({olay:2})}>
+                        Farklı bir numara ile sorgula
+                      </Button>
+                    </Panel>
+                      :null
+                  }
                 </Col>
 
               </Row>
 
-         </Container>
+         </div>
        )
      }
 }

@@ -626,6 +626,19 @@ urun_ekle_katman{
 
 }
 @media screen and (max-width: 767px){
+  .siparis_hata{
+    width: 90%;
+    margin-left: 5%;
+    padding: 30px 0;
+  }
+  .sonuclar_katman {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .login_page{
+    width: 80%;
+    margin-left: 10%;
+  }
   .siparis_kart {
     width: 100% !important;
     height: 100% !important;
@@ -699,6 +712,15 @@ urun_ekle_katman{
   }
 }
 @media screen and (min-width: 767px) {
+  .siparis_hata{
+    width: 50%;
+    margin-left: 25%;
+    padding: 20px 30px;
+  }
+  .login_page{
+    width: 50%;
+    margin-left: 25%;
+  }
   .urun_ekle_katman{
     width: 80%;
     margin-left: 10%;
@@ -1782,4 +1804,162 @@ html{
 }
 .collapse.in {
   display: block !important;
+}
+.login_page {
+  background-color: white;
+  margin-bottom: 100px;
+
+  border-radius: 0 !important;
+
+}
+.login_page > .rs-panel-body {
+  padding: 30px;
+}
+.login_page > .rs-panel-body > input {
+  margin-bottom: 20px;
+}
+.sonuclar_katman {
+  width: calc(100% - 330px);
+  padding: 0px 20px 20px;
+  margin-top: 50px;
+  margin-left: 30px;
+
+}
+.sonuclar {
+  background-color: rgb(247, 247, 247) ;
+  margin-bottom: 20px;
+}
+
+.sorgula_katman {
+  width: 100%;
+  padding-top: 30px;
+  margin-top: -21px;
+  padding-bottom: 400px;
+  background-color: white;
+}
+.sonuclar > .rs-panel-heading {
+  display: flex !important;
+  -webkit-box-pack: justify !important;
+  justify-content: space-between !important;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  padding: 15px 20px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+}
+.sonuclar > .rs-panel-heading > .rs-panel-title {
+
+}
+.sonuclar > .rs-panel-heading > .rs-panel-title >.num  {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 700 !important;
+  color: rgb(13, 17, 54);
+}
+.sonuclar > .rs-panel-heading > .rs-panel-title >.num > span {
+  font-weight: 400;
+}
+.sonuclar > .rs-panel-heading > .rs-panel-title > .durum {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(46, 112, 250);
+  line-height: 1;
+  background-color: rgba(46, 112, 250, 0.1);
+  padding: 10px;
+  border-radius: 6px;
+  margin-left: 20px;
+}
+.sonuclar > .rs-panel-body > .detay_tepe {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.sonuclar > .rs-panel-body > .detay_tepe > div {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(13, 17, 54);
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.sonuclar > .rs-panel-body > .detay_orta {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgb(241, 241, 241);
+  border-bottom: 1px solid rgb(241, 241, 241);
+}
+.sonuclar > .rs-panel-body > .detay_orta > .adres {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-bottom: 1px solid rgb(241, 241, 241);
+  border-right: 0px;
+}
+.sonuclar > .rs-panel-body > .detay_orta > .adres > h1 {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(13, 17, 54);
+  margin-bottom: 10px;
+}
+.sonuclar > .rs-panel-body > .detay_orta > .adres > span{
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  line-height: 1.5;
+}
+.sonuclar > .rs-panel-body > .detay_orta > .cost {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 20px;
+}
+.sonuclar > .rs-panel-body > .detay_orta > .cost > .eleman {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.sonuclar > .rs-panel-body > .detay_orta > .cost > .eleman > div {
+  color: rgb(13, 17, 54);
+}
+.sonuclar > .rs-panel-body > .detay_orta > .step {
+  width: 100%;
+  display: flex;
+  padding: 30px 25px;
+  border-bottom: 1px solid rgb(241, 241, 241);
+}
+.sonuclar_page {
+  background-color: white;
+  width: 100%;
+  margin-top: -30px;
+  padding-bottom: 200px;
+}
+.siparis_hata {
+  background-color: rgb(247, 247, 247);
+  margin-top: 30px;
+}
+.siparis_hata > div >button {
+  margin-top: 20px;
+}
+.telefonla_sorgula{
+  width: 100%;
+ margin-left: 5%;
 }

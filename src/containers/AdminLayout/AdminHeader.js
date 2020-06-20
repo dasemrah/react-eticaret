@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
-
+import {Icon, IconButton} from "rsuite";
 import {  AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
@@ -44,16 +44,16 @@ class AdminHeader extends Component {
 
 
         <Nav className="ml-auto" navbar>
-          <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
-          </NavItem>
-
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <i className="icon-user"> </i>
+              <IconButton circle icon={  <Icon  icon='cog' />} />
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={()=>this.props.ÇıkışYap()}><i className="fa fa-lock"></i>Çıkış Yap</DropdownItem>
+              <DropdownItem onClick={()=>this.props.ÇıkışYap()}>
+                <IconButton placement='right' icon={<Icon icon='exit' />}>
+                  Çıkış
+                </IconButton>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>

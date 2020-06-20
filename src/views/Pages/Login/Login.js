@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import {Container, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import {Segment} from "semantic-ui-react";
-import {Button, Alert} from 'evergreen-ui'
+import {Panel, Button, IconButton, Icon, Alert, Input} from "rsuite";
 import api from "../../../istek";
 const data=require('../../../data')
 class Login extends Component {
@@ -14,16 +11,10 @@ class Login extends Component {
       olay:false,
       hata:false
     }
-    this.handleChange=this.handleChange.bind(this);
-    this.submit=this.submit.bind(this);
+
   }
-  handleChange(e){
-    const {name,value}=e.target;
-    this.setState({
-      [name]:value
-    })
-  }
-  submit(){
+
+  submit= () =>{
     api.post('/signin',this.state)
       .then((resolve)=>{
         if(resolve.data.status===1){
@@ -31,6 +22,7 @@ class Login extends Component {
           console.log('Kullanıcı',data.user)
           this.props.history.push('/')
         }else if(resolve.data.status===0){
+          Alert.error('Kulanıcı adı veya parola yanlış girildi', 5000)
           this.setState({hata:true})
         }
         console.log(resolve)
@@ -43,44 +35,27 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-            <Container>
-              <Segment color="orange">
-                {this.state.hata ?
-                  <Alert
-                    intent="danger"
-                    title="Kullanıcı adı veya şifre hatalı girildi"
-                  />
-                  :
-                  <Alert
-                    intent="warning"
-                    title="Bu sayfa sadece yöneticiler içindir"
-                    marginBottom={32}
-                  />}
-                <InputGroup className="mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="icon-user text-info"></i>
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input name="username" value={this.state.username} onChange={this.handleChange} type="text" placeholder="Username" autoComplete="username" />
-                </InputGroup>
-                <InputGroup className="mb-4">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="icon-lock text-danger"></i>
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input type="password" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" autoComplete="current-password" />
-                </InputGroup>
-                <Button onClick={this.submit} intent="success" height={24} iconAfter="arrow-right">
+              <Panel className="login_page" header='Yönetici Girişi'>
+                <span>Kullanıcı adı</span>
+                <Input
+                  value={this.state.username}
+                  onChange={e => this.setState({username:e})}
+                  type="text"
+                  placeholder="kullanıcı adı"
+                  autoComplete="username"
+                />
+                <span>Şifre</span>
+                <Input
+                  type="password"
+                  value={this.state.password}
+                  onChange={e => this.setState({password:e})}
+                  placeholder="şifre"
+                  autoComplete="current-password"
+                />
+                <IconButton onClick={() => this.submit()} placement='right' color='green' icon={<Icon icon='angle-right' />}>
                   Giriş Yap
-                </Button>
-
-              </Segment>
-            </Container>
-
-      </div>
+                </IconButton>
+              </Panel>
     );
   }
 }
