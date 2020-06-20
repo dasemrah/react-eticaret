@@ -626,6 +626,14 @@ urun_ekle_katman{
 
 }
 @media screen and (max-width: 767px){
+  .siparis_kart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .siparis_kart > div > div > .rs-modal-body {
+    max-height: 100% !important;
+  }
+
   .urun_ekle_katman{
     width: 100%;
   }
@@ -1693,4 +1701,85 @@ html{
 }
 .rs-popover.in{
   opacity: 1 !important;
+}
+.siparis_layout > .rs-panel-body > .detay {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.siparis_layout > .rs-panel-body > .detay > div {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(13, 17, 54);
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.siparis_layout > .rs-panel-body > .detay > div > span > a {
+  color: rgb(13, 17, 54);
+}
+.siparis_layout > .rs-panel-body > .orta {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.siparis_layout > .rs-panel-body > .orta > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgb(241, 241, 241);
+  border-bottom: 1px solid rgb(241, 241, 241);
+}
+
+.siparis_layout > .rs-panel-body > .orta > div > .bolum {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-bottom: 1px solid rgb(241, 241, 241);
+  border-right: 0px;
+}
+.siparis_layout > .rs-panel-body > .orta > div > .bolum > span {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  line-height: 1.5;
+}
+.siparis_layout > .rs-panel-body > .orta > div > .cost {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 20px;
+}
+.siparis_layout > .rs-panel-body > .orta > div > .cost > div {
+  font-family: Lato, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(119, 121, 140);
+  margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.siparis_layout > .rs-panel-body > .orta > div > .cost > div > div {
+  color: rgb(13, 17, 54);
+}
+.siparis_layout > .rs-panel-body> .extra {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.collapse.in {
+  display: block !important;
 }

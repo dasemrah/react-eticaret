@@ -80,7 +80,7 @@ export default class Arama extends Component {
             results={results}
             value={value}
             noResultsMessage="Böyle bir sipariş yok"
-            noResultsDescription="Başka bir ürün aramayı deneyin"
+            noResultsDescription="Başka bir sipariş aramayı deneyin"
 
           />
 

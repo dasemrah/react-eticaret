@@ -3,8 +3,11 @@ import { Print } from 'react-easy-print';
 import {Table, Icon,Panel, Alert, Message, Modal, Dropdown, Button, Divider, IconButton, Whisper, Popover} from "rsuite";
 import {Label, List, Popup} from "semantic-ui-react";
 import {Row, Col} from 'reactstrap'
+
 import Arama from "./Ara";
+import Edit from "./Edit";
 import api from '../../../istek'
+import SiparisKart from "./SiparisKart";
 class Siparisler extends Component {
   constructor(props){
     super(props)
@@ -16,12 +19,16 @@ class Siparisler extends Component {
       sipariş       : [],
       aktifitem     : 0,
       alındı:false,
-      goster:[]
+      goster:[],
+      edit:{},
+      show:false,
+      ac:{}
     }
   }
   componentDidMount() {
     this.siparisleriAl()
   }
+
   siparisSayisiHesapla=(seviye)=>{
     if(seviye==='hepsi'){
       return (this.state.siparişsayısı.length)
@@ -34,7 +41,15 @@ class Siparisler extends Component {
     })
     return(sayı)
   }
-
+  ac=(siparis) => {
+    this.setState({
+      ac:siparis,
+      show:true
+    })
+  }
+  kapat =() => {
+    this.setState({show:false})
+  }
   siparişSil=(s)=>{
 
     if(s.durum===7){
@@ -168,112 +183,11 @@ class Siparisler extends Component {
    }
 
 
-   const ÖdemeTürü=({rowData, dataKey, ...props})=>{
 
-     return(
-       <Cell {...props}>
-         {
-           rowData.odeme === 'havale' ?
-             <Label size='mini' color='teal'>Havale</Label>
-             :rowData.odeme === 'kapıda' ?
-             <Label size='mini'>Kapıda {rowData.kapida === 'nakit' ?
-               <Label size='mini' color='green'>nakit</Label> : <Label color='yellow' size='mini'>kartla</Label>}
-             </Label>
-             :null
-         }
-       </Cell>
-     )
-   }
-   const Yazdırıcı=()=>(
-     <Modal full size='lg' show={this.state.siparişAç} onHide={()=>this.setState({siparişAç:false})}>
-       <Modal.Header>
 
-       </Modal.Header>
-       <Modal.Body className="yazdırılan_ekran">
-          <Print>
-            <Panel onClick={()=>window.print()}>
-              <Row>
-                <Col xs='6'>
-                  <List>
-                    <List.Item>Ad</List.Item>
-                    <List.Content floated='right'>
-                      {sipariş.ad}
-                    </List.Content>
-                  </List>
-                  <List>
-                    <List.Item>Adres</List.Item>
-                    <List.Content floated='right'>
-                      {sipariş.adres}
-                    </List.Content>
-                  </List>
-                </Col>
-                <Col xs='6'>
-                  <Table height='100%' data={sipariş.Urunler} autoHeight>
-                    <Column width={50} align="center" resizable>
-                      <HeaderCell>Ad</HeaderCell>
-                      <Cell dataKey="ad" />
-                    </Column>
 
-                    <Column width={100} resizable>
-                      <HeaderCell>Adet</HeaderCell>
-                      <Cell dataKey="miktar" />
-                    </Column>
-
-                    <Column width={100} resizable>
-                      <HeaderCell>Boyut</HeaderCell>
-                      <Cell dataKey="net" />
-                    </Column>
-
-                    <Column width={200} resizable>
-                      <HeaderCell>Fiyat</HeaderCell>
-                      <Cell dataKey="fiyat" />
-                    </Column>
-
-                  </Table>
-                </Col>
-              </Row>
-            </Panel>
-          </Print>
-       </Modal.Body>
-
-     </Modal>
-
-   )
    const Aksiyon=({rowData, dataKey, ...props})=>{
-      const yazdırıcı=(
-        <>
-          <Message type="info" description="Bir sonraki ekrada çıktı almak için ürünlerin üzerine tıklayın.
-          En iyi görüntü için 'Daha fazla ayar' bölümünden ölçeği 200 yapın" />
-          <Button onClick={()=>this.siparişAç(rowData)}>Yazdır</Button>
-        </>
-      )
-     const ürünler=(
 
-          <Table
-            height={360}
-            width={400}
-            data={rowData.Urunler}
-            wordWrap
-          >
-            <Column width={200} align="center" fixed='left'>
-              <HeaderCell>Ad</HeaderCell>
-              <Cell dataKey="ad" />
-            </Column>
-            <Column width={55} align="center">
-              <HeaderCell>Adet</HeaderCell>
-              <Cell dataKey="miktar" />
-            </Column>
-            <Column width={90} align="center">
-              <HeaderCell>Miktar</HeaderCell>
-              <Cell dataKey="net" />
-            </Column>
-            <Column width={55} align="center">
-              <HeaderCell>Fiyat</HeaderCell>
-              <Cell dataKey="fiyat" />
-            </Column>
-
-          </Table>
-     )
       const düzenle=(
         <Popover title='Sipariş Ayarları'>
          <Panel>
@@ -301,26 +215,11 @@ class Siparisler extends Component {
         <Cell {...props}>
 
           <span>
-           <Popup
-             pinned
-             on='click'
-              trigger={<i className="icon-basket"></i>}
-              content={ürünler}
-              size='large'
-              position='left center'
-           />
-            |{' '}
-            <Popup
-              on='click'
-              pinned
-              trigger={<i className="icon-printer"></i>}
-              content={yazdırıcı}
-              size='big'
-              position='left center'
-            />|{' '}
           <Whisper placement='leftStart' trigger='click' speaker={düzenle}>
-            <Icon icon='edit' />
+           <IconButton size='sm' circle color='grey' icon={<Icon icon='cog' />}/>
           </Whisper>
+            |{' '}
+            <IconButton color='green' icon={<Icon icon='info' />} size='md'  onClick={() => this.ac(rowData)} />
           </span>
         </Cell>
       )
@@ -336,64 +235,36 @@ class Siparisler extends Component {
           height={500}
           data={this.state.goster}
         >
-          <Column width={155} resizable>
+          <Column flexGrow={2}>
             <HeaderCell >Ad</HeaderCell>
             <Cell dataKey="ad" />
           </Column>
-
-          <Column width={130} resizable>
-            <HeaderCell>Numara</HeaderCell>
-            <Cell>
-              {rowData=>(
-                <>
-                  {rowData.telefon?
-                    <>
-                      { rowData.telefon.substring(2,rowData.telefon.length)}
-                      <a target='_blank' href={'https://wa.me/'+rowData.telefon.substring(1,rowData.telefon.length)}> <Icon style={{color:'rgb(0, 158, 127)'}}  size='lg' icon='whatsapp'/></a>
-                    </>
-                  : null}
-                  </>
-              )}
-            </Cell>
-          </Column>
-
-          <Column width={300} resizable>
-            <HeaderCell>Adres</HeaderCell>
-            <Cell dataKey="adres"/>
-          </Column>
-          <Column width={120} resizable>
-            <HeaderCell>Not</HeaderCell>
-            <Cell dataKey="detay"/>
-          </Column>
-          <Column width={75} resizable>
+          <Column  flexGrow={1}>
             <HeaderCell>Ücret</HeaderCell>
            <Cell>
              {rowData=>(
                <>
-                 {parseInt(rowData.ucret)+(rowData.paket ? 0 : rowData.odeme==='kapıda' ? 15 : 0)+(rowData.odeme==='kapıda' ? 10 : 0)} ₺
+                 {parseInt(rowData.ucret)+(rowData.odeme==='kapıda' ? 10 : 0)} ₺
                </>
              )}
            </Cell>
            </Column>
-          <Column width={120} resizable>
-            <HeaderCell>Ödeme</HeaderCell>
-            <ÖdemeTürü dataKey="odeme"/>
-          </Column>
-          <Column width={120} resizable>
+
+          <Column flexGrow={2}>
             <HeaderCell>Durum</HeaderCell>
             <DurumGöster dataKey="durum"/>
           </Column>
-          <Column width={120} resizable>
+          <Column flexGrow={1}>
             <HeaderCell>Tarih</HeaderCell>
            <Cell>
              {
                rowData=>(
-                 <> {rowData.tarih.substring(0,10)+'  |  '+rowData.tarih.substring(12,19)}</>
+                 <> {rowData.tarih.substring(0,10)}</>
                )
              }
            </Cell>
           </Column>
-          <Column width={90} fixed="right" resizable>
+          <Column flexGrow={2}>
             <HeaderCell>İşlemler</HeaderCell>
             <Aksiyon dataKey='Urunler'/>
           </Column>
@@ -434,9 +305,12 @@ class Siparisler extends Component {
                 </Col>
               </Row>
             </div>
-             <Divider/>
+            <SiparisKart
+              siparis={this.state.ac}
+              show={this.state.show}
+              kapat={this.kapat}
+            />
              <OrdersTable/>
-             <Yazdırıcı/>
          </Panel>
 
     );
