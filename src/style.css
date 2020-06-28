@@ -13,7 +13,7 @@
   color: rgba(0, 0, 0, 0.5) !important;
   font-family: 'Montserrat Alternates', sans-serif !important;
 }
- .rs-picker-menu .fade.in{
+ .rs-picker-menu.fade.in{
   opacity: 1 !important;
 }
 .enCokAltCizgi{
