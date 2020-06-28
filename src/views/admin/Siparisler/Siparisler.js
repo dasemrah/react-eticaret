@@ -85,7 +85,7 @@ class Siparisler extends Component {
   }
   kapat =() => {
     Alert.info('Önizleme kapatıldı',3000)
-    this.setState({show:false})
+    this.setState({show:false, editor:false})
   }
   onizle = () => {
     Alert.info('Önizlemeye geçildi',5000)
