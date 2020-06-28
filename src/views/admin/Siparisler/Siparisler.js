@@ -22,6 +22,7 @@ class Siparisler extends Component {
       goster:[],
       edit:{},
       show:false,
+      editor:false,
       ac:{}
     }
   }
@@ -29,6 +30,36 @@ class Siparisler extends Component {
     this.siparisleriAl()
   }
 
+
+  siparisGuncelle=(siparis) => {
+
+    let index = this.state.goster.findIndex(p => p._id  === siparis._id)
+    let asılNesne = this.state.goster[index]
+    console.log('bulunan sipariş-->',asılNesne)
+    asılNesne={...siparis}
+    api
+      .post('siparisduzenle', asılNesne)
+      .then(ynt => {
+
+        console.log('düzenle cevap',ynt.data)
+        if(ynt.data.status){
+          Alert.success('Sipariş güncellendi', 5000)
+          this.state.goster[index] = asılNesne
+          this.setState({
+            editor:false,
+            ac:asılNesne,
+          })
+        }else {
+          console.log(ynt.data)
+          Alert.error('bir hata oluştu')
+        }
+
+      })
+      .catch(err => {
+        Alert.error('Bir hata oluştu')
+        console.log(err)
+      })
+  }
   siparisSayisiHesapla=(seviye)=>{
     if(seviye==='hepsi'){
       return (this.state.siparişsayısı.length)
@@ -41,14 +72,24 @@ class Siparisler extends Component {
     })
     return(sayı)
   }
+  duzenle = () => {
+    Alert.info('Düzenlemek istediğiniz bilgileri yazıp Kaydet butonuna basınız',5000)
+    this.setState({editor:true})
+  }
   ac=(siparis) => {
+    Alert.info('Sipariş detayı açıldı',3000)
     this.setState({
       ac:siparis,
       show:true
     })
   }
   kapat =() => {
+    Alert.info('Önizleme kapatıldı',3000)
     this.setState({show:false})
+  }
+  onizle = () => {
+    Alert.info('Önizlemeye geçildi',5000)
+    this.setState({editor:false})
   }
   siparişSil=(s)=>{
 
@@ -244,7 +285,7 @@ class Siparisler extends Component {
            <Cell>
              {rowData=>(
                <>
-                 {parseInt(rowData.ucret)+(rowData.odeme==='kapıda' ? 10 : 0)} ₺
+                 {parseInt(rowData.ucret)+(rowData.odeme==='kapıda' ? 25 : 0)} ₺
                </>
              )}
            </Cell>
@@ -309,6 +350,10 @@ class Siparisler extends Component {
               siparis={this.state.ac}
               show={this.state.show}
               kapat={this.kapat}
+              guncelle={this.siparisGuncelle}
+              duzenle={this.duzenle}
+              onizle={this.onizle}
+              editor={this.state.editor}
             />
              <OrdersTable/>
          </Panel>

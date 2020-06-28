@@ -34,8 +34,10 @@ class Edit extends React.Component{
       gorsel   : urun.gorsel,
       imgData  : urun.gorsel ? urun.gorsel.data : null
     })
-    this.gorselver(urun.gorsel)
-    console.log('ürün değişti',nextProps)
+    if(urun?.gorsel) {
+      this.gorselver(urun.gorsel)
+    }
+    console.log('ürün değişti',nextProps.urun)
   }
 
   arrayBufferToBase64(buffer) {

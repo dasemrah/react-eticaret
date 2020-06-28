@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Panel, IconButton, Table, Icon, Drawer, Button} from "rsuite";
 import {Label} from "semantic-ui-react";
+import Edit from "./Edit";
 const { Column, HeaderCell, Cell, Pagination } = Table;
+
 const urunView =(urunler)=>(
   <Table
     autoHeight
@@ -43,7 +45,6 @@ const SiparisKart=props=>{
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
-
     window.addEventListener('resize', handleResize);
     console.log('width:-->',windowDimensions)
   },[]);
@@ -60,7 +61,65 @@ const SiparisKart=props=>{
   const setSize = () => (
     windowDimensions.width > 767 ? 'md' : 'sm'
   )
+
+
   const {siparis} = props
+
+
+  const siparisGoster=(
+    <Panel className="siparis_layout" style={{backgroundColor:'white'}} shaded>
+      <div className="detay">
+        <div>Ad Soyad: <span>{siparis.ad}</span></div>
+        <div>Telefon: <span>  <a target="_blank" href={'http://wa.me/'+siparis?.telefon?.substring(1,siparis?.telefon?.length)}>{siparis.telefon} </a> </span></div>
+        <div>Tarih: <span>{siparis?.tarih?.substring(0,10)}</span></div>
+        <div>Ödeme Türü:
+          <span>
+                {
+                  siparis.odeme === 'havale' ?
+                    <Label size='mini' color='teal'>Havale</Label>
+                    :siparis.odeme === 'kapıda' ?
+                    <Label size='mini'>Kapıda {siparis.kapida === 'nakit' ?
+                      <Label size='mini' color='green'>nakit</Label> : <Label color='yellow' size='mini'>kartla</Label>}
+                    </Label>
+                    :null
+                }
+              </span>
+        </div>
+        <div>Toplam Ücret: <span>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 25) }₺</span></div>
+      </div>
+      <div className="orta">
+        <div>
+          <div className="bolum">
+            <h3>Teslimat Adresi</h3>
+            <span>{siparis.adres}</span>
+          </div>
+          {
+            siparis?.detay?.length > 0 ?
+              <div className="bolum">
+                <h4>Sipariş Notu</h4>
+                <span>{siparis.detay}</span>
+              </div>
+              :null
+          }
+
+          <div className="cost">
+            <div>Ara Toplam <div>{siparis.ucret}₺</div></div>
+            {
+              siparis.odeme === 'kapıda' ?
+                <div>Kapıda Ödeme Ücreti <div>+25₺</div></div>
+                :null
+            }
+            <div>Toplam Ücret <div>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 25)}₺</div></div>
+          </div>
+
+        </div>
+      </div>
+      <Panel className="siparis_urun_tablo" header='Ürünler' collapsible>
+        {urunView(siparis.Urunler)}
+      </Panel>
+    </Panel>
+  )
+
   return(
     <Drawer
       className="siparis_kart"
@@ -70,63 +129,37 @@ const SiparisKart=props=>{
     >
       <Drawer.Header>
         <Drawer.Title>
-          Sipariş
+          {
+            !props.editor ?
+              <>
+                Sipariş detayı
+              </>
+              :
+              <>
+                Siparişi düzenle
+              </>
+          }
         </Drawer.Title>
       </Drawer.Header>
       <Drawer.Body>
-        <Panel className="siparis_layout" style={{backgroundColor:'white'}} shaded>
-          <div className="detay">
-            <div>Ad Soyad: <span>{siparis.ad}</span></div>
-            <div>Telefon: <span>  <a target="_blank" href={'http://wa.me/'+siparis?.telefon?.substring(1,siparis?.telefon?.length)}>{siparis.telefon} </a> </span></div>
-            <div>Tarih: <span>{siparis?.tarih?.substring(0,10)}</span></div>
-            <div>Ödeme Türü:
-              <span>
-                {
-              siparis.odeme === 'havale' ?
-                <Label size='mini' color='teal'>Havale</Label>
-                :siparis.odeme === 'kapıda' ?
-                <Label size='mini'>Kapıda {siparis.kapida === 'nakit' ?
-                  <Label size='mini' color='green'>nakit</Label> : <Label color='yellow' size='mini'>kartla</Label>}
-                </Label>
-                :null
-                }
-              </span>
-            </div>
-            <div>Toplam Ücret: <span>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 10) }₺</span></div>
-          </div>
-          <div className="orta">
-            <div>
-              <div className="bolum">
-                <h3>Teslimat Adresi</h3>
-                <span>{siparis.adres}</span>
-              </div>
-              {
-                siparis?.detay?.length > 0 ?
-                  <div className="bolum">
-                    <h4>Sipariş Notu</h4>
-                    <span>{siparis.detay}</span>
-                  </div>
-                  :null
-              }
-
-                  <div className="cost">
-                    <div>Ara Toplam <div>{siparis.ucret}₺</div></div>
-                    {
-                      siparis.odeme === 'kapıda' ?
-                        <div>Kapıda Ödeme Ücreti <div>+10₺</div></div>
-                        :null
-                    }
-                    <div>Toplam Ücret <div>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 10)}₺</div></div>
-                  </div>
-
-            </div>
-          </div>
-          <Panel className="siparis_urun_tablo" header='Ürünler' collapsible>
-            {urunView(siparis.Urunler)}
-          </Panel>
-        </Panel>
+        {
+          props.editor ?
+            <Edit {...props} siparis={siparis}/>
+            :
+            <>
+              {siparisGoster}
+            </>
+        }
       </Drawer.Body>
       <Drawer.Footer>
+            <IconButton color={ !props.editor ? 'orange': 'red'} onClick={!props.editor ? () => props.duzenle() : ()=> props.onizle()}  placement='right' icon={<Icon icon={!props.editor ? 'edit': 'ban'}/>}>
+              {
+                !props.editor ?
+                  <>Düzenle</>
+                  :
+                  <>İptal</>
+              }
+            </IconButton>
         <IconButton onClick={() => props.kapat()} circle color='red' icon={<Icon icon='close'/>} />
       </Drawer.Footer>
     </Drawer>

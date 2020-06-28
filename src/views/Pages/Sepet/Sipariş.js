@@ -30,25 +30,20 @@ const Sipariş =props=>{
   const Ucretlendirme= ()=>(
     <Panel>
       <Message
-        description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. Kargo ücreti alıcıya aittir ve kapıda, kargo tesim alındıktan sonra ödenmektedir.'}
+        description={'Anlaşmalı kargomuz Yurtiçi Kargo’dur. ' +
+        'Kargo ücreti alıcıya aittir ve kapıda, ' +
+        'kargo tesim alındıktan sonra ödenmektedir. '
+
+        }
       />
       <List>
         <List.Header>EFT ve Havalede</List.Header>
-        <List.Item>1-5 kg arası 19₺</List.Item>
-        <List.Item>6-10 kg arası 25₺</List.Item>
-        <List.Item>11-15 kg arası 31₺</List.Item>
-        <List.Item>16-20 kg arası 34₺</List.Item>
-        <List.Item>21-25 kg arası 41₺</List.Item>
-        <List.Item>26-30 kg arası 48₺</List.Item>
+        <List.Item>1-10 kg arası 15₺</List.Item>
+        <List.Item>10 kg ve üstü 25₺</List.Item>
       </List>
       <List>
         <List.Header>Kapıda Ödemede</List.Header>
-        <List.Item>1-5 kg arası 19+10 = 29₺</List.Item>
-        <List.Item>6-10 kg arası 25+10 = 35₺</List.Item>
-        <List.Item>11-15 kg arası 31+10 = 45₺</List.Item>
-        <List.Item>16-20 kg arası 34+10 = 44₺</List.Item>
-        <List.Item>21-25 kg arası 41+10 = 51₺</List.Item>
-        <List.Item>26-30 kg arası 48+10 = 58₺</List.Item>
+        <List.Item>Kargo ücreti dahil 25₺</List.Item>
       </List>
     </Panel>
   )
@@ -204,30 +199,25 @@ const Sipariş =props=>{
             </div>
             {
               ödendi ?
-                <div className="siparis_ucret_eleman">
-                  <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
-                  <span className="siparis_ucret_eleman_icerik">
-                {
-                  paket ? <>Ücretsiz</>
-                    :  <> Alıcı Ödemeli</>
-                }
-              </span>
-                </div>
-                :
-                paket ?
-                <div className="siparis_ucret_eleman">
-                  <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
-                  <span className="siparis_ucret_eleman_icerik">Ücretsiz</span>
-                </div>
-                  :null
+                <>
+                  {
+                    siparis.odeme==='havale' ?
+                      <div className="siparis_ucret_eleman">
+                        <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
+                        <span className="siparis_ucret_eleman_icerik">Alıcı Ödemeli</span>
+                      </div>
+                      : null
+                  }
+                </>
+                :null
 
             }
             {
               ödendi ?
                 siparis.odeme === 'kapıda' ?
                   <div className="siparis_ucret_eleman">
-                    <span className="siparis_ucret_eleman_baslik">Kapıda Ödeme Ücreti</span>
-                    <span className="siparis_ucret_eleman_icerik">+10 ₺</span>
+                    <span className="siparis_ucret_eleman_baslik">Kapıda Ödeme Ücreti (Kargo Ücreti Dahil)</span>
+                    <span className="siparis_ucret_eleman_icerik">+25 ₺</span>
                   </div>
                   :null
                 :null
@@ -238,7 +228,7 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 10 : 0) + parseInt(siparis.ucret)} ₺
+                      {(siparis.odeme==='kapıda' ? 25 : 0) + parseInt(siparis.ucret)} ₺
                     </>
                     :
                     <>

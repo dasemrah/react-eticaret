@@ -1963,3 +1963,29 @@ html{
   width: 100%;
  margin-left: 5%;
 }
+.edit_bolgesi{
+  display: flex;
+  flex-direction: row;
+}
+.edit_bolgesi > div {
+  width: 100%;
+  padding-bottom: 150px;
+  margin-top: 20px;
+}
+.edit_bolgesi > div > input{
+  margin-bottom: 10px;
+}
+.edit_bolgesi > div > .seciciler {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.edit_bolgesi > div > .seciciler > div {
+  margin-top: 10px;
+
+}
+.siparis_kart  > div > div{
+  background-color: whitesmoke !important;
+}
+.siparis_layout {
+  background-color: whitesmoke !important;
+}

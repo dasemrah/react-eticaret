@@ -71,7 +71,7 @@ export default class Arama extends Component {
         <Grid.Column width={16}>
 
           <Search
-            input={{ icon: 'search', iconPosition: 'left' ,placeholder:'Ne aramıştınız?'}}
+            input={{ icon: 'search', iconPosition: 'left' ,placeholder:'Müşteri adı ile ara'}}
             loading={isLoading}
             onResultSelect={this.handleResultSelect}
             onSearchChange={_.debounce(this.handleSearchChange, 500, {

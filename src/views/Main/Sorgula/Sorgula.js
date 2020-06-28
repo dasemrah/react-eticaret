@@ -126,24 +126,15 @@ class Sorgula extends Component{
        }
        const Ucretlendirme= ()=>(
          <>
-            <List>
-              <List.Header>EFT ve Havalede</List.Header>
-              <List.Item>1-5 kg arası 19₺</List.Item>
-              <List.Item>6-10 kg arası 25₺</List.Item>
-              <List.Item>11-15 kg arası 31₺</List.Item>
-              <List.Item>16-20 kg arası 34₺</List.Item>
-              <List.Item>21-25 kg arası 41₺</List.Item>
-              <List.Item>26-30 kg arası 48₺</List.Item>
-            </List>
-            <List>
-              <List.Header>Kapıda Ödemede</List.Header>
-              <List.Item>1-5 kg arası 19+10 = 29₺</List.Item>
-              <List.Item>6-10 kg arası 25+10 = 35₺</List.Item>
-              <List.Item>11-15 kg arası 31+10 = 45₺</List.Item>
-              <List.Item>16-20 kg arası 34+10 = 44₺</List.Item>
-              <List.Item>21-25 kg arası 41+10 = 51₺</List.Item>
-              <List.Item>26-30 kg arası 48+10 = 58₺</List.Item>
-            </List>
+           <List>
+             <List.Header>EFT ve Havalede</List.Header>
+             <List.Item>1-10 kg arası 15₺</List.Item>
+             <List.Item>10 kg ve üstü 25₺</List.Item>
+           </List>
+           <List>
+             <List.Header>Kapıda Ödemede</List.Header>
+             <List.Item>Kargo ücreti dahil 25₺</List.Item>
+           </List>
 
          </>
        )
@@ -226,7 +217,7 @@ class Sorgula extends Component{
                    <div>Sipariş Tarihi:<span>{e?.tarih?.substring(0,10)}</span></div>
                    <div>Ad soyad: <span>{e.ad}</span></div>
                    <div>Telefon: <span>{e.telefon}</span></div>
-                   <div>Toplam Ücret: <span>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 10) }₺</span></div>
+                   <div>Toplam Ücret: <span>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 25) }₺</span></div>
                  </div>
                  <div className="detay_orta">
                    <div className="adres">
@@ -237,7 +228,7 @@ class Sorgula extends Component{
                      <div className="eleman">Ara Toplam  <div>{e.ucret}₺</div></div>
                      {
                        e.odeme === 'kapıda' ?
-                         <div className="eleman">Kapıda Ödeme Ücreti <div>+10₺</div></div>
+                         <div className="eleman">Kapıda Ödeme Ücreti (Kargo ücreti dahil) <div>+25₺</div></div>
                          :null
                      }
                      <div className="eleman">Kargo Ücreti (Yurtiçi Kargo)  <div>Alıcı ödemeli</div></div>
@@ -255,7 +246,7 @@ class Sorgula extends Component{
                          }
                        </div>
                      </div>
-                     <div style={{color:' rgb(13, 17, 54)'}} className="eleman">Toplam  <div>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 10)} ₺</div></div>
+                     <div style={{color:' rgb(13, 17, 54)'}} className="eleman">Toplam  <div>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 25)} ₺</div></div>
                    </div>
                    <div className="step">
                      <Adımlar siparis={e} durum={e.durum}/>

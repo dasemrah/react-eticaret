@@ -14,7 +14,7 @@ class Urunler extends Component {
       kategoriAdı:'',
       urunler:[],
       edit:false,
-      duzenle_urun:[]
+      duzenle_urun:{}
     }
   }
 
@@ -26,9 +26,6 @@ class Urunler extends Component {
         kategori    : foundUrun[0],
         kategoriAdı : foundUrun[0].ad,
         urunler     : foundUrun[0].urunler
-      })
-      this.state.urunler.map(e=>{
-        this.gorselver(e.gorsel,e._id)
       })
       console.log(this.state.kategoriler)
     }).catch((err)=>console.log(err));
@@ -54,9 +51,6 @@ class Urunler extends Component {
       kategori    : kategori,
       kategoriAdı : kategori.ad,
       urunler     : kategori.urunler,
-    })
-    this.state.urunler.map(e=>{
-      this.gorselver(e.urun,e._id)
     })
   }
   stok=(e)=>{
