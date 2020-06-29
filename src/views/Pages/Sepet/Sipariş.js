@@ -38,8 +38,8 @@ const Sipariş =props=>{
       />
       <List>
         <List.Header>EFT ve Havalede</List.Header>
-        <List.Item>1-10 kg arası 15₺</List.Item>
-        <List.Item>10 kg ve üstü 25₺</List.Item>
+        <List.Item>15₺</List.Item>
+
       </List>
       <List>
         <List.Header>Kapıda Ödemede</List.Header>
@@ -204,7 +204,7 @@ const Sipariş =props=>{
                     siparis.odeme==='havale' ?
                       <div className="siparis_ucret_eleman">
                         <span className="siparis_ucret_eleman_baslik">Kargo Ücreti</span>
-                        <span className="siparis_ucret_eleman_icerik">Alıcı Ödemeli</span>
+                        <span className="siparis_ucret_eleman_icerik">+15 ₺</span>
                       </div>
                       : null
                   }
@@ -228,7 +228,7 @@ const Sipariş =props=>{
                 {
                   ödendi ?
                     <>
-                      {(siparis.odeme==='kapıda' ? 25 : 0) + parseInt(siparis.ucret)} ₺
+                      {(siparis.odeme==='kapıda' ? 25 : 15) + parseInt(siparis.ucret)} ₺
                     </>
                     :
                     <>

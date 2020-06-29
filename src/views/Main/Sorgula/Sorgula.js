@@ -128,8 +128,7 @@ class Sorgula extends Component{
          <>
            <List>
              <List.Header>EFT ve Havalede</List.Header>
-             <List.Item>1-10 kg arası 15₺</List.Item>
-             <List.Item>10 kg ve üstü 25₺</List.Item>
+             <List.Item> 15₺</List.Item>
            </List>
            <List>
              <List.Header>Kapıda Ödemede</List.Header>
@@ -217,7 +216,7 @@ class Sorgula extends Component{
                    <div>Sipariş Tarihi:<span>{e?.tarih?.substring(0,10)}</span></div>
                    <div>Ad soyad: <span>{e.ad}</span></div>
                    <div>Telefon: <span>{e.telefon}</span></div>
-                   <div>Toplam Ücret: <span>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 25) }₺</span></div>
+                   <div>Toplam Ücret: <span>{parseInt(e.ucret)+(e.odeme==='havale' ? 15 : 25) }₺</span></div>
                  </div>
                  <div className="detay_orta">
                    <div className="adres">
@@ -229,9 +228,10 @@ class Sorgula extends Component{
                      {
                        e.odeme === 'kapıda' ?
                          <div className="eleman">Kapıda Ödeme Ücreti (Kargo ücreti dahil) <div>+25₺</div></div>
-                         :null
+                         :
+                         <div className="eleman">Kargo Ücreti (Yurtiçi Kargo)  <div> +15₺ </div></div>
                      }
-                     <div className="eleman">Kargo Ücreti (Yurtiçi Kargo)  <div>Alıcı ödemeli</div></div>
+
                      <div className="eleman">
                        Ödeme Türü
                        <div>
@@ -246,7 +246,7 @@ class Sorgula extends Component{
                          }
                        </div>
                      </div>
-                     <div style={{color:' rgb(13, 17, 54)'}} className="eleman">Toplam  <div>{parseInt(e.ucret)+(e.odeme==='havale' ? 0 : 25)} ₺</div></div>
+                     <div style={{color:' rgb(13, 17, 54)'}} className="eleman">Toplam  <div>{parseInt(e.ucret)+(e.odeme==='havale' ? 15 : 25)} ₺</div></div>
                    </div>
                    <div className="step">
                      <Adımlar siparis={e} durum={e.durum}/>

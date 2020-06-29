@@ -285,7 +285,7 @@ class Siparisler extends Component {
            <Cell>
              {rowData=>(
                <>
-                 {parseInt(rowData.ucret)+(rowData.odeme==='kapıda' ? 25 : 0)} ₺
+                 {parseInt(rowData.ucret)+(rowData.odeme==='kapıda' ? 25 : 15)} ₺
                </>
              )}
            </Cell>

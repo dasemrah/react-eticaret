@@ -85,7 +85,7 @@ const SiparisKart=props=>{
                 }
               </span>
         </div>
-        <div>Toplam Ücret: <span>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 25) }₺</span></div>
+        <div>Toplam Ücret: <span>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 15 : 25) }₺</span></div>
       </div>
       <div className="orta">
         <div>
@@ -107,9 +107,9 @@ const SiparisKart=props=>{
             {
               siparis.odeme === 'kapıda' ?
                 <div>Kapıda Ödeme Ücreti <div>+25₺</div></div>
-                :null
+                :<div>kargo Ücreti <div>+15₺</div></div>
             }
-            <div>Toplam Ücret <div>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 0 : 25)}₺</div></div>
+            <div>Toplam Ücret <div>{parseInt(siparis.ucret)+(siparis.odeme==='havale' ? 15 : 25)}₺</div></div>
           </div>
 
         </div>
