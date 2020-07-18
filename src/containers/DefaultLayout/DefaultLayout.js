@@ -76,13 +76,14 @@ class DefaultLayout extends Component {
     })
 
     istek.get('/urunler').then((ynt)=>{
+      const rastgele = Math.floor(Math.random() * 5) + 1;
       this.setState({
         kategoriler:ynt.data.foundUrun,
         olay:1,
-        urunler:ynt.data.foundUrun[4].urunler,
-        kategori:ynt.data.foundUrun[4].ad
+        urunler:ynt.data.foundUrun[rastgele].urunler,
+        kategori:ynt.data.foundUrun[rastgele].ad
       })
-     this.gorselAl(ynt.data.foundUrun[4]._id)
+     this.gorselAl(ynt.data.foundUrun[rastgele]._id)
     }).catch((err)=>console.log(err));
 
   }

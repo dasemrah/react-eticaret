@@ -2,7 +2,7 @@ import React from 'react'
 
 import {Row,Col} from "reactstrap";
 import {List} from "semantic-ui-react";
-import {Nav} from 'rsuite'
+import {Nav, Icon} from 'rsuite'
 import Urunler from "../../Main/Urunler";
 
 class Kategoriler extends React.Component{
@@ -57,6 +57,7 @@ class Kategoriler extends React.Component{
     };
     const MobileNav =()=>(
       <div className="mobile_kategoriler">
+
      <List horizontal relaxed='very' className="kategori_listesi">
        {
          this.props.kategoriler.map(e=>
