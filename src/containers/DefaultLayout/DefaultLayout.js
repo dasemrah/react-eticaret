@@ -161,7 +161,7 @@ class DefaultLayout extends Component {
     istek.get('/signout').then(ynt=>{
       console.log(ynt.data.user,ynt.data.msg)
     })
-    this.props.history.push('/login')
+    this.props.history.push('/yonetim')
   }
   sorgula=()=>{
     this.setState({
@@ -364,9 +364,9 @@ class DefaultLayout extends Component {
                 >
                   <Drawer.Header  className="yan_menu_baslik">
                     <Drawer.Title className="yan_menu_baslik_ic">
-                      <button onClick={()=>this.sayfa('login')} className="yan_menu_giris_butonu">
+                      <button onClick={()=>this.sayfa('sorgula')} className="yan_menu_giris_butonu">
                         <span style={{paddingLeft:'4px',paddingRight:'4px',whiteSpace:'nowrap'}}>
-                          Giriş Yap
+                          Siparişlerim
                         </span>
                       </button>
                     </Drawer.Title>
@@ -377,11 +377,6 @@ class DefaultLayout extends Component {
                         <span>
                           Ana Sayfa
                         </span>
-                      </a>
-                    </div>
-                    <div className="eleman">
-                      <a  className={'link '+(this.state.listeAktif===this.props.history.location ? 'aktif': null)} onClick={()=>this.sayfa('sorgula')}>
-                        <span>Siparişlerim</span>
                       </a>
                     </div>
                     <div className="eleman">

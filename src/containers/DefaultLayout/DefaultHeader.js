@@ -62,10 +62,7 @@ class DefaultHeader extends Component {
               <a className="nav-link" href="#/">Ana Sayfa <span className="sr-only">(current)</span></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#/sorgula">Sipariş Sorgula</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link " href="#/login">Giriş</a>
+              <a className="nav-link" href="#/sorgula">Siparişlerim</a>
             </li>
 
           </ul>
