@@ -1305,7 +1305,9 @@ html{
 .kateori_dış_iskelet{
   margin-top: 10px;
 }
-
+.kateori_dış_iskelet> div {
+  height: 100%;
+}
 @media only screen and (max-width: 767px) {
   .sol_menu_buton{
     width: 26px;

@@ -2,7 +2,7 @@ import React from 'react'
 
 import {Row,Col} from "reactstrap";
 import {List} from "semantic-ui-react";
-import {Nav, Icon} from 'rsuite'
+import {Nav, Icon, Affix} from 'rsuite'
 import Urunler from "../../Main/Urunler";
 
 class Kategoriler extends React.Component{
@@ -11,7 +11,7 @@ class Kategoriler extends React.Component{
     this.state={
       kategori:[],
       urunler:[],
-      acitive:''
+      active:''
     }
   }
 
@@ -20,7 +20,8 @@ class Kategoriler extends React.Component{
 
     this.setState({
       urunler:this.props.urunler,
-      kategori:this.props.kategori
+      kategori:this.props.kategori,
+      active:this.props.kategori
     })
   }
 
@@ -76,9 +77,9 @@ class Kategoriler extends React.Component{
        <MobileNav/>
      </Col>
       <Col xs='12' md='2' lg='2'>
-       <div className="kateori_dış_iskelet">
-         <CustomNav active={active} onSelect={this.handleSelect} />
-       </div>
+        <Affix top={100} className="kateori_dış_iskelet">
+          <CustomNav active={active} onSelect={this.handleSelect} />
+        </Affix>
       </Col>
       <Col xs="12" lg='10' md='10'>
       <div className="kateori_kapsam">

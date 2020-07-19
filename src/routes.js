@@ -24,7 +24,7 @@ const routes      = [
   { path: '/paketleme',     name: 'Nasıl Paketleme Yapıyoruz?',         component:  Paketleme},
   { path: '/hikaye',        name: 'Hikayemiz',                          component:  Hikaye},
   { path: '/gizlilik',      name: 'Gizlilik ve Sözlleşme',              component:  Gizlilik},
-  { path: '/begen',        name: 'Beğendiklerim',                      component:  BegeniSayfası},
+  { path: '/begen',        name: 'Beğendiklerim',                      component:  BegeniSayfası}
 ];
 
 export default routes;
