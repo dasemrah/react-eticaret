@@ -49,7 +49,6 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
-    delete Disk.kullanıcı
     if(Disk.musteri === undefined || Disk.musteri === null){
       Disk.musteri = {
         ad:'',
@@ -72,6 +71,7 @@ class DefaultLayout extends Component {
     if(Disk.kullanıcı  === undefined){
       Disk.kullanıcı = null
     }
+    console.log('layout user-->',Disk.kullanıcı)
     this.setState({
       user:Disk.kullanıcı
     })
