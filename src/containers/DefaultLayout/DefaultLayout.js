@@ -49,6 +49,7 @@ class DefaultLayout extends Component {
 
 
   componentDidMount() {
+    delete Disk.kullanıcı
     if(Disk.musteri === undefined || Disk.musteri === null){
       Disk.musteri = {
         ad:'',
