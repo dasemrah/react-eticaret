@@ -103,7 +103,7 @@ class Main extends React.Component{
            <div className="tek_urun">
             <Row>
               <Col xs='12' lg='6' md='6'>
-                <Magnifier src={this.props.seciliUrun.gorsel?.data} width={500} />
+                <Magnifier src={this.props.seciliUrun.img} width={500} />
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">

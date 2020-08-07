@@ -39,20 +39,8 @@ const Urunler =props=>{
       <Panel className="urun_card" >
         <Grid>
           <Grid.Column width={16}>
-            {gorsel.length ===0  ?
-              <Placeholder.Graph active/> :
-              <>
-              <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={gorsel} style={{width: '100%'}}
+              <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width: '100%'}}
                      rounded size='small'/>
-                { /*
-                  <Slide timeout={5000} onExited={()=>Goster(true)} className={(goster ? 'kayan_gorsel_gizli' : 'devam_ediyor')+' '+(animasyon)} in={goster} placement={'bottom'}>
-                    {(props, ref) =><Image {...props} ref={ref} src={gorsel} />}
-                  </Slide>
-                  */
-                }
-
-              </>
-            }
             {
               props.urun.indirimde ?  <span className="indirim">İndirimde</span> : null
             }

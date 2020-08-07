@@ -22,7 +22,7 @@ const Sepet = props=>{
               <span>{e.miktar}</span>
               <Icon className='sepet_count' icon='plus'  onClick={()=>props.miktarDeğiştir(1,e)} />
             </div>
-            <Image onClick={()=>props.urunAç(e)} size='mini' src={e.gorsel?.data} className="sepet_gorsel" alt=""/>
+            <Image onClick={()=>props.urunAç(e)} size='mini' src={e.img} className="sepet_gorsel" alt=""/>
             <div className="sepet_detay">
                           <span className="sepet_urun_ad">
                             {e.ad}

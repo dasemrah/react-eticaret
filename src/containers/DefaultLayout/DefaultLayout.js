@@ -84,7 +84,7 @@ class DefaultLayout extends Component {
         urunler:ynt.data.foundUrun[rastgele].urunler,
         kategori:ynt.data.foundUrun[rastgele].ad
       })
-     this.gorselAl(ynt.data.foundUrun[rastgele]._id)
+
     }).catch((err)=>console.log(err));
 
   }
@@ -118,7 +118,7 @@ class DefaultLayout extends Component {
       urunler:secim.urunler,
       yanMenu:false
     })
-    this.gorselAl(secim._id)
+
   }
 
   sayfa=(e)=>{
