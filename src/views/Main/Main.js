@@ -86,7 +86,7 @@ class Main extends React.Component{
   render() {
 
     const { Paragraph } = Placeholder;
-    const YerTutucu = ()=><Paragraph style={{ marginTop: 30 }} rows={5} graph="image" active />
+    const Yertut =()=> <Placeholder.Grid rows={10} columns={4} active={this.props.urunler.length === 0} />;
     return(
 
       <div className="ana_sayfa">
@@ -221,7 +221,13 @@ class Main extends React.Component{
              </Col>
 
               <Col xs="12">
-                <Kategoriler {...this.props}/>
+                {
+                  this.props.urunler.length > 0
+                    ?
+                    <Kategoriler {...this.props}/>
+                    :
+                    <Yertut/>
+                }
               </Col>
          </Row>
       </div>
