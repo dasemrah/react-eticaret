@@ -14,7 +14,7 @@ const DefaultFooter = props => {
             icon={<Icon icon='instagram' />}
           />
         </a>
-        <a target="_blank" href="https://wa.me/+905432196263">
+        <a target="_blank" href="https://wa.me/+905528096263">
           <IconButton
             color="cyan"
             circle

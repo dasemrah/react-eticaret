@@ -51,7 +51,9 @@ class Main extends React.Component{
   }
   etiketBul(kategori_ID){
     let index = this.props.kategoriler.findIndex(p=>p._id === kategori_ID)
-    this.setState({etiket:this.state.kategoriler[index].ad})
+    if(index>-1){
+      this.setState({etiket:this.state.kategoriler[index].ad})
+    }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
