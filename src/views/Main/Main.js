@@ -57,6 +57,12 @@ class Main extends React.Component{
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    api
+      .post('gorselver',{gorselID:this.props.seciliUrun.gorsel})
+      .then(cvp=>{
+        console.log('gelen_gorsel',cvp.data.img)
+        this.setState({seciliGorsel:cvp.data.img})
+      })
 
     var toplam=0
     nextProps.sepet.map(urun=>toplam+=(urun.miktar*urun.fiyat))
@@ -105,7 +111,7 @@ class Main extends React.Component{
            <div className="tek_urun">
             <Row>
               <Col xs='12' lg='6' md='6'>
-                <Magnifier src={this.props.seciliUrun.img} width={500} />
+                <Magnifier src={this.state.seciliGorsel.data} width={500} />
               </Col>
               <Col xs='12' lg='6' md='6'>
                 <div className="tek_urun_alt">

@@ -39,8 +39,13 @@ const Urunler =props=>{
       <Panel className="urun_card" >
         <Grid>
           <Grid.Column width={16}>
-              <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={props.urun.img} style={{width: '100%'}}
-                     rounded size='small'/>
+            {
+                gorsel.length>0
+                  ?
+              <Image onClick={() => props.urunAç(props.urun)} className="urun_img" src={gorsel} style={{width: '100%'}}
+              rounded size='small'/>
+              :<Placeholder.Graph active/>
+            }
             {
               props.urun.indirimde ?  <span className="indirim">İndirimde</span> : null
             }
